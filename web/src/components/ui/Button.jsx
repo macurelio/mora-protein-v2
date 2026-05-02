@@ -35,7 +35,7 @@ export default function Button({
   return (
     <Tag
       className={[
-        'inline-flex items-center justify-center font-heading font-700 rounded-xl',
+        'inline-flex items-center justify-center font-heading font-bold rounded-xl',
         'transition-all duration-200 ease-out cursor-pointer select-none',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:pointer-events-none',
