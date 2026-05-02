@@ -6,6 +6,7 @@ import { CartContext } from '../context/CartContext';
 import HeroCarousel from '../components/HeroCarousel';
 import FeaturedProductsCarousel from '../components/FeaturedProductsCarousel';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
+import BrandsCarousel from '../components/BrandsCarousel';
 
 export default function HomeScreen({ navigation }) {
   const { addToCart, getCartCount } = useContext(CartContext);
@@ -112,7 +113,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
-        source={require('../../assets/barras-fondo-snacks.png')}
+        source={require('../../assets/barras-ilustacion.png')}
         style={styles.backgroundImage}
         imageStyle={styles.imageOpacity}
         resizeMode="cover"
@@ -176,6 +177,9 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.carouselSection}>
               <TestimonialsCarousel />
             </View>
+
+            {/* Carousel D – Brands */}
+            <BrandsCarousel />
 
             <View style={styles.divider} />
 

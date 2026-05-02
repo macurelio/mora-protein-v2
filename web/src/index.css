@@ -5,10 +5,32 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Prevent CLS from scrollbar appearing */
+    scrollbar-gutter: stable;
   }
 
   body {
     @apply bg-cream font-body text-charcoal antialiased;
+    /* Fondo de catálogo sutil */
+    background-image: url('/images/catalogo-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* Oscurecer un poco para contraste */
+    background-blend-mode: multiply;
+    /* Puedes ajustar el color base para más oscuridad si lo deseas */
+  }
+
+  /* Overlay opcional para oscurecer más el fondo en toda la app */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: rgba(26,26,26,0.55); /* Charcoal con opacidad */
+    /* Puedes ajustar la opacidad según el contraste deseado */
   }
 
   h1,
@@ -18,6 +40,11 @@
   h5,
   h6 {
     @apply font-heading;
+  }
+
+  /* Prevent layout shift on images */
+  img {
+    @apply block;
   }
 }
 
@@ -31,13 +58,129 @@
     display: none;
   }
 
-  /* Carousel slide track */
-  .carousel-track {
-    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Glassmorphism helper */
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* Fade animation used by testimonials */
-  .fade-enter {
-    animation: fadeIn 0.5s ease-in forwards;
+  /* Prevent Framer Motion drag from selecting text */
+  .drag-none {
+    user-select: none;
+    -webkit-user-select: none;
   }
+
+  /* Infinite marquee ticker */
+  .ticker-track {
+    animation: ticker 28s linear infinite;
+  }
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Overlay decorativo estilo catálogo */
+.catalog-bg-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+.catalog-corner {
+  position: absolute;
+  border-color: #D7CFC2;
+  border-style: solid;
+  width: 90px;
+  height: 90px;
+}
+.catalog-corner.tl {
+  top: 32px;
+  left: 32px;
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-bottom-width: 0;
+  border-right-width: 0;
+}
+.catalog-corner.tr {
+  top: 32px;
+  right: 32px;
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-bottom-width: 0;
+  border-left-width: 0;
+}
+.catalog-corner.bl {
+  bottom: 32px;
+  left: 32px;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-top-width: 0;
+  border-right-width: 0;
+}
+.catalog-corner.br {
+  bottom: 32px;
+  right: 32px;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+  border-top-width: 0;
+  border-left-width: 0;
+}
+.catalog-label {
+  position: absolute;
+  color: #D7CFC2;
+  font-family: 'Inter', 'sans-serif';
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.catalog-label.snacks {
+  top: 38px;
+  left: 44px;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  text-align: left;
+}
+.catalog-label.catalogo {
+  bottom: 38px;
+  right: 44px;
+  font-size: 1.05rem;
+  text-align: right;
+}
+.catalog-label.saludables {
+  top: 68px;
+  left: 44px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: none;
+}
+.catalog-label.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-align: center;
+  line-height: 1.1;
+  opacity: 0.13;
+  pointer-events: none;
+}
+.catalog-label.center2 {
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-align: center;
+  line-height: 1.1;
+  opacity: 0.13;
+  pointer-events: none;
 }

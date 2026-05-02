@@ -16,7 +16,7 @@ const SLIDES = [
     subtitle: 'Barras artesanales con 15g de proteína.\nSin azúcar, 100% sabor.',
     cta: 'Ver Barras',
     ctaCategory: 'Barras Proteicas',
-    image: require('../../assets/barras-fondo-snacks.png'),
+    image: require('../../assets/barras-ilustacion.png'),
     overlayColor: 'rgba(26, 20, 12, 0.52)',
   },
   {
