@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Linking, I
 import { products } from '../data/products';
 import { ShoppingCart, Instagram } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
+import HeroCarousel from '../components/HeroCarousel';
+import FeaturedProductsCarousel from '../components/FeaturedProductsCarousel';
+import TestimonialsCarousel from '../components/TestimonialsCarousel';
 
 export default function HomeScreen({ navigation }) {
   const { addToCart, getCartCount } = useContext(CartContext);
@@ -159,6 +162,23 @@ export default function HomeScreen({ navigation }) {
             showsVerticalScrollIndicator={true}
             contentContainerStyle={styles.scrollContent}
           >
+            {/* Carousel A – Hero / Promotions */}
+            <HeroCarousel onCategoryPress={scrollToSection} />
+
+            {/* Carousel B – Featured Products */}
+            <View style={styles.carouselSection}>
+              <FeaturedProductsCarousel
+                onProductPress={(product) => navigation.navigate('ProductDetail', { product })}
+              />
+            </View>
+
+            {/* Carousel C – Testimonials */}
+            <View style={styles.carouselSection}>
+              <TestimonialsCarousel />
+            </View>
+
+            <View style={styles.divider} />
+
             <View style={styles.titleContainer}>
               <Text style={styles.mainTitle}>Nuestro Menú</Text>
               <Text style={styles.subtitle}>Descubre todos nuestros snacks separadas por categoría.</Text>
@@ -297,6 +317,16 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 40,
+  },
+  carouselSection: {
+    marginTop: 28,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: 'rgba(26, 26, 26, 0.08)',
+    marginHorizontal: 20,
+    marginBottom: 10,
+    marginTop: 4,
   },
   titleContainer: {
     marginHorizontal: 20,
