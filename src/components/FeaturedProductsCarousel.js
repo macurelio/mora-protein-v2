@@ -12,7 +12,6 @@ import { ShoppingCart } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 
-// Pick representative products per category as "featured" — static, computed once at module level
 const FEATURED = [
   ...products.filter((p) => p.category === 'Barras Proteicas'),
   ...products.filter((p) => p.category === 'Galletones'),
@@ -23,7 +22,6 @@ export default function FeaturedProductsCarousel({ onProductPress }) {
   const { addToCart } = useContext(CartContext);
   const { width } = useWindowDimensions();
 
-  // Card width: ~72% of screen so the next card peeks in
   const CARD_WIDTH = Math.min(width * 0.72, 260);
   const CARD_MARGIN = 12;
 
@@ -63,7 +61,7 @@ export default function FeaturedProductsCarousel({ onProductPress }) {
           onPress={() => handleAdd(item)}
           activeOpacity={0.85}
         >
-          <ShoppingCart color="#fff" size={14} />
+          <ShoppingCart color="#0A0A0A" size={14} />
           <Text style={styles.addButtonText}>Añadir al carrito</Text>
         </TouchableOpacity>
       </View>
@@ -109,35 +107,35 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 10,
     fontWeight: '800',
-    letterSpacing: 2,
-    color: '#A09385',
+    letterSpacing: 2.5,
+    color: '#C9A96E',
     marginBottom: 2,
   },
   sectionTitle: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#1A1A1A',
+    color: '#FFFFFF',
     letterSpacing: -0.5,
   },
   listContent: {
     paddingBottom: 4,
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1E1E1E',
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#4A3C2F',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.10,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    elevation: 6,
     borderWidth: 1,
-    borderColor: 'rgba(215, 207, 194, 0.35)',
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   imageWrapper: {
     position: 'relative',
     height: 160,
-    backgroundColor: '#F7F4F0',
+    backgroundColor: '#2A2A2A',
   },
   productImage: {
     width: '100%',
@@ -147,13 +145,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    backgroundColor: 'rgba(26, 26, 26, 0.82)',
+    backgroundColor: 'rgba(10,10,10,0.85)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.4)',
   },
   priceBadgeText: {
-    color: '#FFFFFF',
+    color: '#C9A96E',
     fontSize: 13,
     fontWeight: '700',
   },
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   categoryTag: {
-    backgroundColor: '#F0E6D7',
-    color: '#4A3C2F',
+    backgroundColor: 'rgba(201,169,110,0.12)',
+    color: '#C9A96E',
     fontSize: 9,
     fontWeight: '800',
     paddingHorizontal: 7,
@@ -172,22 +172,24 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     alignSelf: 'flex-start',
     marginBottom: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.25)',
   },
   productName: {
-    color: '#1A1A1A',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '900',
     marginBottom: 4,
     letterSpacing: -0.3,
   },
   productDesc: {
-    color: '#888',
+    color: '#666666',
     fontSize: 11,
     lineHeight: 16,
     marginBottom: 12,
   },
   addButton: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#C9A96E',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -196,8 +198,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   addButtonText: {
-    color: '#FFFFFF',
+    color: '#0A0A0A',
     fontSize: 12,
-    fontWeight: '800',
+    fontWeight: '900',
   },
 });

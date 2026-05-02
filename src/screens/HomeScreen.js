@@ -22,21 +22,17 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  // Categorías extraídas automáticamente
-  // Categorías extraídas automáticamente y ordenadas (Barras Proteicas primero)
   const categories = [...new Set(products.map((p) => p.category))].sort((a, b) => {
     if (a === 'Barras Proteicas') return -1;
     if (b === 'Barras Proteicas') return 1;
     return a.localeCompare(b);
   });
 
-  // Hacer el diseño adaptable (responsive) con una lógica de columnas más robusta
   let columns = 1;
   if (width > 1200) columns = 4;
   else if (width > 800) columns = 3;
   else if (width > 500) columns = 2;
 
-  // Cálculo Dinámico de Espaciado
   const outerPadding = 20;
   const gap = 16;
   const totalGapWidth = gap * (columns - 1);
@@ -67,7 +63,7 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.cardHeader}>
             <Text style={styles.categoryTag}>{item.category}</Text>
           </View>
-          
+
           <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
           <Text style={styles.productDescription} numberOfLines={2}>{item.description}</Text>
 
@@ -98,7 +94,7 @@ export default function HomeScreen({ navigation }) {
               alert(`Agregado: ${item.name}${coverage ? ` (${coverage})` : ''}`);
             }}
           >
-            <ShoppingCart color="#fff" size={16} />
+            <ShoppingCart color="#0A0A0A" size={16} />
             <Text style={styles.addToCartText}>Agregar</Text>
           </TouchableOpacity>
         </View>
@@ -112,112 +108,118 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.mainContainer}>
-      <ImageBackground
-        source={require('../../assets/barras-ilustacion.png')}
-        style={styles.backgroundImage}
-        imageStyle={styles.imageOpacity}
-        resizeMode="cover"
-      >
-        <View style={styles.overlayContainer}>
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
-              <View style={styles.logoContainer}>
-                <Text style={styles.brandMora}>Mora<Text style={styles.brandProtein}>Protein</Text></Text>
-              </View>
-              <View style={styles.headerIcons}>
-                <TouchableOpacity onPress={openInstagram} style={styles.iconButton}>
-                  <Instagram color="#1A1A1A" size={24} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.iconButton}>
-                  <View>
-                    <ShoppingCart color="#1A1A1A" size={24} />
-                    {getCartCount() > 0 && (
-                      <View style={styles.badgeContainer}>
-                        <Text style={styles.badgeText}>{getCartCount()}</Text>
-                      </View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <ScrollView 
-              horizontal 
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.categoryNav}
-            >
-              {categories.map(cat => (
-                <TouchableOpacity 
-                  key={`nav-${cat}`} 
-                  style={styles.navButton}
-                  onPress={() => scrollToSection(cat)}
-                >
-                  <Text style={styles.navButtonText}>{cat}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+      {/* Header oscuro fijo */}
+      <View style={styles.header}>
+        <View style={styles.headerTop}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.brandMora}>Mora<Text style={styles.brandProtein}>Protein</Text></Text>
           </View>
-
-          <ScrollView
-            ref={scrollRef}
-            showsVerticalScrollIndicator={true}
-            contentContainerStyle={styles.scrollContent}
-          >
-            {/* Carousel A – Hero / Promotions */}
-            <HeroCarousel onCategoryPress={scrollToSection} />
-
-            {/* Carousel B – Featured Products */}
-            <View style={styles.carouselSection}>
-              <FeaturedProductsCarousel
-                onProductPress={(product) => navigation.navigate('ProductDetail', { product })}
-              />
-            </View>
-
-            {/* Carousel C – Testimonials */}
-            <View style={styles.carouselSection}>
-              <TestimonialsCarousel />
-            </View>
-
-            {/* Carousel D – Brands */}
-            <BrandsCarousel />
-
-            <View style={styles.divider} />
-
-            <View style={styles.titleContainer}>
-              <Text style={styles.mainTitle}>Nuestro Menú</Text>
-              <Text style={styles.subtitle}>Descubre todos nuestros snacks separadas por categoría.</Text>
-            </View>
-
-            {categories.map((category) => {
-              const categoryProducts = products.filter(p => p.category === category);
-              return (
-                <View 
-                  key={category} 
-                  style={styles.categorySection}
-                  onLayout={(event) => {
-                    const { y } = event.nativeEvent.layout;
-                    sectionPositions.current[category] = y;
-                  }}
-                >
-                  <View style={styles.categoryHeader}>
-                    <View style={styles.categoryTitleContainer}>
-                      <Text style={styles.categoryTitle}>{category}</Text>
-                      <View style={styles.categoryBadge}>
-                        <Text style={styles.categoryBadgeText}>{categoryProducts.length}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.categoryLine} />
+          <View style={styles.headerIcons}>
+            <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.cartButton}>
+              <Text style={styles.cartButtonText}>VER PRODUCTOS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openInstagram} style={styles.iconButton}>
+              <Instagram color="#FFFFFF" size={22} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.iconButton}>
+              <View>
+                <ShoppingCart color="#FFFFFF" size={22} />
+                {getCartCount() > 0 && (
+                  <View style={styles.badgeContainer}>
+                    <Text style={styles.badgeText}>{getCartCount()}</Text>
                   </View>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-                  <View style={styles.productsGrid}>
-                    {categoryProducts.map(product => renderProduct(product))}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryNav}
+        >
+          {categories.map(cat => (
+            <TouchableOpacity
+              key={`nav-${cat}`}
+              style={styles.navButton}
+              onPress={() => scrollToSection(cat)}
+            >
+              <Text style={styles.navButtonText}>{cat}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      <ScrollView
+        ref={scrollRef}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+        style={styles.scrollView}
+      >
+        {/* Hero Carousel */}
+        <HeroCarousel onCategoryPress={scrollToSection} />
+
+        {/* Featured Products */}
+        <View style={styles.carouselSection}>
+          <FeaturedProductsCarousel
+            onProductPress={(product) => navigation.navigate('ProductDetail', { product })}
+          />
+        </View>
+
+        {/* Testimonials */}
+        <View style={styles.carouselSection}>
+          <TestimonialsCarousel />
+        </View>
+
+        {/* Brands */}
+        <BrandsCarousel />
+
+        <View style={styles.divider} />
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.mainTitle}>Nuestro Menú</Text>
+          <Text style={styles.subtitle}>Descubre todos nuestros snacks separadas por categoría.</Text>
+        </View>
+
+        {categories.map((category) => {
+          const categoryProducts = products.filter(p => p.category === category);
+          return (
+            <View
+              key={category}
+              style={styles.categorySection}
+              onLayout={(event) => {
+                const { y } = event.nativeEvent.layout;
+                sectionPositions.current[category] = y;
+              }}
+            >
+              <View style={styles.categoryHeader}>
+                <View style={styles.categoryTitleContainer}>
+                  <Text style={styles.categoryTitle}>{category}</Text>
+                  <View style={styles.categoryBadge}>
+                    <Text style={styles.categoryBadgeText}>{categoryProducts.length}</Text>
                   </View>
                 </View>
-              );
-            })}
-          </ScrollView>
+                <View style={styles.categoryLine} />
+              </View>
+
+              <View style={styles.productsGrid}>
+                {categoryProducts.map(product => renderProduct(product))}
+              </View>
+            </View>
+          );
+        })}
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.footerBrand}>Mora<Text style={styles.footerBrandAccent}>Protein</Text></Text>
+          <Text style={styles.footerText}>Snacks artesanales con proteína real. Sin azúcar añadida.</Text>
+          <TouchableOpacity onPress={openInstagram} style={styles.footerInstagram}>
+            <Instagram color="#C9A96E" size={18} />
+            <Text style={styles.footerInstagramText}>@mora.protein</Text>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </ScrollView>
     </View>
   );
 }
@@ -225,25 +227,19 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#F9F8F6', // Color crema unificado como base
+    backgroundColor: '#0A0A0A',
   },
-  backgroundImage: {
+  scrollView: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    backgroundColor: '#0A0A0A',
   },
-  imageOpacity: {
-    opacity: 0.55, // Aumentamos la opacidad para mayor nitidez
-  },
-  overlayContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(249, 248, 246, 0.4)', // Velo crema claro para no perder la lectura de las tarjetas
-  },
+
+  // ── HEADER ──
   header: {
     paddingTop: 50,
-    backgroundColor: 'rgba(249, 248, 246, 0.95)',
+    backgroundColor: '#111111',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(235, 235, 235, 0.5)',
+    borderBottomColor: 'rgba(255,255,255,0.06)',
     zIndex: 10,
   },
   headerTop: {
@@ -251,94 +247,112 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 15,
-  },
-  categoryNav: {
-    paddingHorizontal: 20,
-    paddingBottom: 15,
-    gap: 10,
-  },
-  navButton: {
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#E8E2D9',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  navButtonText: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: '#1A1A1A',
-    textTransform: 'uppercase',
+    marginBottom: 14,
   },
   logoContainer: {
-    backgroundColor: '#D7CFC2',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
+    backgroundColor: '#1E1E1E',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.3)',
   },
   brandMora: {
-    color: '#000000',
-    fontWeight: '900',
-    fontSize: 26,
-    letterSpacing: -1,
-  },
-  brandProtein: {
     color: '#FFFFFF',
     fontWeight: '900',
-    fontSize: 26,
-    letterSpacing: -1,
+    fontSize: 22,
+    letterSpacing: -0.5,
+  },
+  brandProtein: {
+    color: '#C9A96E',
+    fontWeight: '900',
+    fontSize: 22,
+    letterSpacing: -0.5,
   },
   headerIcons: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
+  },
+  cartButton: {
+    borderWidth: 1,
+    borderColor: '#C9A96E',
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    marginRight: 4,
+  },
+  cartButtonText: {
+    color: '#C9A96E',
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.8,
   },
   iconButton: {
-    marginLeft: 20,
     padding: 8,
   },
   badgeContainer: {
     position: 'absolute',
-    right: -8,
-    top: -8,
-    backgroundColor: '#000000',
+    right: -6,
+    top: -6,
+    backgroundColor: '#C9A96E',
     borderRadius: 10,
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },
   badgeText: {
-    color: '#D7CFC2',
-    fontSize: 12,
-    fontWeight: 'bold',
+    color: '#0A0A0A',
+    fontSize: 10,
+    fontWeight: '900',
   },
+  categoryNav: {
+    paddingHorizontal: 20,
+    paddingBottom: 14,
+    gap: 8,
+  },
+  navButton: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: 16,
+    paddingVertical: 7,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+  },
+  navButtonText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+
+  // ── SCROLL CONTENT ──
   scrollContent: {
     paddingBottom: 40,
   },
   carouselSection: {
     marginTop: 28,
   },
+
+  // ── DIVIDER ──
   divider: {
     height: 1,
-    backgroundColor: 'rgba(26, 26, 26, 0.08)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
     marginHorizontal: 20,
     marginBottom: 10,
     marginTop: 4,
   },
+
+  // ── MENU TITLE ──
   titleContainer: {
     marginHorizontal: 20,
     marginTop: 25,
     marginBottom: 20,
   },
   mainTitle: {
-    color: '#1A1A1A',
+    color: '#FFFFFF',
     fontSize: 28,
     fontWeight: '900',
     marginBottom: 5,
@@ -347,12 +361,16 @@ const styles = StyleSheet.create({
     color: '#666666',
     fontSize: 14,
   },
+
+  // ── CATEGORY SECTION ──
   categorySection: {
     marginBottom: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)', // Suave contenedor por sección
+    backgroundColor: '#141414',
     paddingVertical: 20,
-    borderRadius: 24,
-    marginHorizontal: 10,
+    borderRadius: 20,
+    marginHorizontal: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.05)',
   },
   categoryHeader: {
     flexDirection: 'row',
@@ -367,53 +385,58 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   categoryTitle: {
-    color: '#1A1A1A',
-    fontSize: 22,
+    color: '#C9A96E',
+    fontSize: 20,
     fontWeight: '900',
     textTransform: 'uppercase',
     letterSpacing: 1.5,
   },
   categoryBadge: {
-    backgroundColor: '#D7CFC2',
+    backgroundColor: 'rgba(201,169,110,0.15)',
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.3)',
   },
   categoryBadgeText: {
     fontSize: 12,
     fontWeight: '800',
-    color: '#1A1A1A',
+    color: '#C9A96E',
   },
   categoryLine: {
     flex: 1,
-    height: 2,
-    backgroundColor: '#1A1A1A',
-    opacity: 0.1,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.08)',
   },
+
+  // ── PRODUCTS GRID ──
   productsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     justifyContent: 'flex-start',
-    gap: 16, // Usar gap para espaciado uniforme
+    gap: 16,
   },
+
+  // ── PRODUCT CARD ──
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    backgroundColor: '#1E1E1E',
+    borderRadius: 18,
     marginBottom: 10,
-    shadowColor: '#4a3c2f',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.1,
-    shadowRadius: 15,
-    elevation: 5,
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 8,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(215, 207, 194, 0.3)',
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   imageContainer: {
     position: 'relative',
     height: 180,
-    backgroundColor: '#F7F7F7',
+    backgroundColor: '#2A2A2A',
   },
   productImage: {
     width: '100%',
@@ -423,14 +446,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 12,
-    backgroundColor: 'rgba(26, 26, 26, 0.85)',
+    backgroundColor: 'rgba(10,10,10,0.85)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
-    backdropFilter: 'blur(4px)', // Solo funciona en web pero es un buen detalle
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.4)',
   },
   priceBadgeText: {
-    color: '#FFFFFF',
+    color: '#C9A96E',
     fontSize: 14,
     fontWeight: '700',
   },
@@ -443,22 +467,22 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   productName: {
-    color: '#1A1A1A',
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '900',
     marginBottom: 6,
     letterSpacing: -0.5,
   },
   productDescription: {
-    color: '#666666',
+    color: '#888888',
     fontSize: 12,
     lineHeight: 18,
     marginBottom: 16,
     minHeight: 36,
   },
   categoryTag: {
-    backgroundColor: '#F0E6D7',
-    color: '#4A3C2F',
+    backgroundColor: 'rgba(201,169,110,0.12)',
+    color: '#C9A96E',
     fontSize: 10,
     fontWeight: '800',
     paddingHorizontal: 8,
@@ -466,13 +490,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.25)',
   },
   coverageContainer: {
     marginBottom: 16,
   },
   optionsLabel: {
     fontSize: 11,
-    color: '#999',
+    color: '#666',
     fontWeight: '700',
     marginBottom: 6,
     textTransform: 'uppercase',
@@ -483,27 +509,27 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   coverageOption: {
-    borderWidth: 1.5,
-    borderColor: '#E8E2D9',
-    backgroundColor: '#FDFDFD',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: '#2A2A2A',
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   coverageSelected: {
-    backgroundColor: '#1A1A1A',
-    borderColor: '#1A1A1A',
+    backgroundColor: '#C9A96E',
+    borderColor: '#C9A96E',
   },
   coverageText: {
-    color: '#666',
+    color: '#999',
     fontSize: 11,
     fontWeight: '700',
   },
   coverageTextSelected: {
-    color: '#FFF',
+    color: '#0A0A0A',
   },
   addToCartButton: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#C9A96E',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -512,8 +538,48 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   addToCartText: {
-    color: '#FFFFFF',
+    color: '#0A0A0A',
     fontSize: 14,
-    fontWeight: '800',
+    fontWeight: '900',
+  },
+
+  // ── FOOTER ──
+  footer: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 28,
+    backgroundColor: '#141414',
+    borderRadius: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
+    marginBottom: 20,
+  },
+  footerBrand: {
+    color: '#FFFFFF',
+    fontWeight: '900',
+    fontSize: 24,
+    letterSpacing: -0.5,
+    marginBottom: 8,
+  },
+  footerBrandAccent: {
+    color: '#C9A96E',
+  },
+  footerText: {
+    color: '#555555',
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  footerInstagram: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  footerInstagramText: {
+    color: '#C9A96E',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });
