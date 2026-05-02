@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import { ShoppingCart } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 
-// Pick one representative product per category as "featured"
+// Pick representative products per category as "featured" — static, computed once at module level
 const FEATURED = [
   ...products.filter((p) => p.category === 'Barras Proteicas'),
   ...products.filter((p) => p.category === 'Galletones'),

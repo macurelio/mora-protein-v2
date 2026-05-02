@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -52,7 +52,7 @@ export default function HeroCarousel({ onCategoryPress }) {
     setActiveIndex(index);
   };
 
-  const startAutoScroll = () => {
+  const startAutoScroll = useCallback(() => {
     timerRef.current = setInterval(() => {
       setActiveIndex((prev) => {
         const next = (prev + 1) % SLIDES.length;
@@ -60,12 +60,12 @@ export default function HeroCarousel({ onCategoryPress }) {
         return next;
       });
     }, AUTO_SCROLL_INTERVAL);
-  };
+  }, [width]);
 
   useEffect(() => {
     startAutoScroll();
     return () => clearInterval(timerRef.current);
-  }, [width]);
+  }, [startAutoScroll]);
 
   const handleScrollEnd = (e) => {
     const index = Math.round(e.nativeEvent.contentOffset.x / width);
