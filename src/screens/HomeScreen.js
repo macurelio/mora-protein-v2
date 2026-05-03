@@ -7,10 +7,13 @@ import HeroCarousel from '../components/HeroCarousel';
 import FeaturedProductsCarousel from '../components/FeaturedProductsCarousel';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import BrandsCarousel from '../components/BrandsCarousel';
+import PromoDetailModal from '../components/PromoDetailModal';
+import { comboPromotions } from '../data/combos';
 
 export default function HomeScreen({ navigation }) {
   const { addToCart, getCartCount } = useContext(CartContext);
   const [selectedCoverage, setSelectedCoverage] = useState({});
+  const [activeModal, setActiveModal] = useState(null);
   const { width } = useWindowDimensions();
   const scrollRef = useRef(null);
   const sectionPositions = useRef({});
@@ -67,6 +70,14 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
           <Text style={styles.productDescription} numberOfLines={2}>{item.description}</Text>
 
+          <TouchableOpacity
+            style={styles.detailButton}
+            onPress={() => setActiveModal(buildProductModal(item))}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.detailButtonText}>Ver descripción e imagen</Text>
+          </TouchableOpacity>
+
           {item.coverageOptions?.length > 0 && (
             <View style={styles.coverageContainer}>
               <Text style={styles.optionsLabel}>Cobertura:</Text>
@@ -101,6 +112,72 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
     );
   };
+
+  const buildProductModal = (product) => {
+    const categoryDescriptions = {
+      Galletones: `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || 'casero'}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
+      'Barras Proteicas': `Una barra proteica de perfil indulgente con ${product.description.toLowerCase()}, ideal para antes o después de entrenar y fácil de llevar.`,
+      Bombones: `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || 'intenso'}.`,
+    };
+
+    const bullets = [
+      product.description,
+      product.flavor ? `Sabor: ${product.flavor}` : null,
+      product.coverageOptions?.length ? `Coberturas disponibles: ${product.coverageOptions.join(' y ')}` : null,
+    ].filter(Boolean);
+
+    return {
+      id: `product-${product.id}`,
+      type: 'product',
+      badge: product.category.toUpperCase(),
+      title: product.name,
+      subtitle: product.flavor || 'Snack artesanal',
+      description: categoryDescriptions[product.category] || product.description,
+      priceLabel: `Desde $${product.price.toLocaleString()}`,
+      image: product.image,
+      bullets,
+      primaryLabel: 'Ver producto',
+      product,
+    };
+  };
+
+  const handleModalAction = () => {
+    if (!activeModal) return;
+
+    if (activeModal.type === 'product' && activeModal.product) {
+      const product = activeModal.product;
+      setActiveModal(null);
+      navigation.navigate('ProductDetail', { product });
+      return;
+    }
+
+    if (activeModal.targetCategory) {
+      const category = activeModal.targetCategory;
+      setActiveModal(null);
+      scrollToSection(category);
+      return;
+    }
+
+    setActiveModal(null);
+  };
+
+  const renderComboBanner = (combo) => (
+    <TouchableOpacity
+      key={combo.id}
+      style={styles.comboBanner}
+      activeOpacity={0.88}
+      onPress={() => setActiveModal({ ...combo, type: 'combo' })}
+    >
+      <ImageBackground source={combo.image} style={styles.comboBannerImage} imageStyle={styles.comboBannerImageStyle}>
+        <View style={styles.comboBannerOverlay}>
+          <Text style={styles.comboBadge}>{combo.badge}</Text>
+          <Text style={styles.comboTitle}>{combo.title}</Text>
+          <Text style={styles.comboSubtitle}>{combo.subtitle}</Text>
+          <Text style={styles.comboCta}>Toca para ver el detalle</Text>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
+  );
 
   const openInstagram = () => {
     Linking.openURL('https://www.instagram.com/mora.protein');
@@ -159,6 +236,24 @@ export default function HomeScreen({ navigation }) {
       >
         {/* Hero Carousel */}
         <HeroCarousel onCategoryPress={scrollToSection} />
+
+        <View style={styles.comboSection}>
+          <View style={styles.comboSectionHeader}>
+            <View>
+              <Text style={styles.comboSectionLabel}>PROMOS</Text>
+              <Text style={styles.comboSectionTitle}>Banners de combos</Text>
+            </View>
+            <Text style={styles.comboSectionHint}>Toca para abrir el modal</Text>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.comboScrollContent}
+          >
+            {comboPromotions.map(renderComboBanner)}
+          </ScrollView>
+        </View>
 
         {/* Featured Products */}
         <View style={styles.carouselSection}>
@@ -220,6 +315,13 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <PromoDetailModal
+        visible={!!activeModal}
+        item={activeModal}
+        onClose={() => setActiveModal(null)}
+        onPrimaryAction={handleModalAction}
+      />
     </View>
   );
 }
@@ -334,6 +436,85 @@ const styles = StyleSheet.create({
   },
   carouselSection: {
     marginTop: 28,
+  },
+  comboSection: {
+    marginTop: 28,
+  },
+  comboSectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    marginBottom: 16,
+    gap: 10,
+  },
+  comboSectionLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 2.5,
+    color: '#C9A96E',
+    marginBottom: 4,
+  },
+  comboSectionTitle: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontWeight: '900',
+    letterSpacing: -0.5,
+  },
+  comboSectionHint: {
+    color: '#6B7280',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  comboScrollContent: {
+    paddingHorizontal: 20,
+    gap: 14,
+  },
+  comboBanner: {
+    width: 288,
+    borderRadius: 22,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: '#1A1A1A',
+  },
+  comboBannerImage: {
+    height: 190,
+    justifyContent: 'flex-end',
+  },
+  comboBannerImageStyle: {
+    opacity: 0.95,
+  },
+  comboBannerOverlay: {
+    padding: 18,
+    backgroundColor: 'rgba(10,10,10,0.58)',
+    minHeight: 190,
+    justifyContent: 'flex-end',
+  },
+  comboBadge: {
+    color: '#C9A96E',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 2.2,
+    marginBottom: 8,
+  },
+  comboTitle: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '900',
+    letterSpacing: -0.7,
+    marginBottom: 6,
+  },
+  comboSubtitle: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 14,
+  },
+  comboCta: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '800',
   },
 
   // ── DIVIDER ──
@@ -477,8 +658,23 @@ const styles = StyleSheet.create({
     color: '#888888',
     fontSize: 12,
     lineHeight: 18,
-    marginBottom: 16,
+    marginBottom: 12,
     minHeight: 36,
+  },
+  detailButton: {
+    borderWidth: 1,
+    borderColor: 'rgba(201,169,110,0.35)',
+    backgroundColor: 'rgba(201,169,110,0.08)',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  detailButtonText: {
+    color: '#C9A96E',
+    fontSize: 12,
+    fontWeight: '800',
   },
   categoryTag: {
     backgroundColor: 'rgba(201,169,110,0.12)',
