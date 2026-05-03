@@ -1,3 +1,5 @@
+import { PRODUCT_CATEGORIES } from './categories';
+
 export const comboPromotions = [
   {
     id: 'combo-post-entreno',
@@ -12,7 +14,7 @@ export const comboPromotions = [
       '1 bombón para complementar tu snack',
       'Ideal para colación rápida y saciante',
     ],
-    targetCategory: 'Barras Proteicas',
+    targetCategory: PRODUCT_CATEGORIES.BARS,
     primaryLabel: 'Ver barras',
   },
   {
@@ -28,7 +30,7 @@ export const comboPromotions = [
       '1 barra proteica con cobertura a elección',
       '1 bombón para terminar con algo dulce',
     ],
-    targetCategory: 'Galletones',
+    targetCategory: PRODUCT_CATEGORIES.COOKIES,
     primaryLabel: 'Explorar menú',
   },
   {
@@ -44,7 +46,7 @@ export const comboPromotions = [
       'Presentación ideal para regalo o eventos',
       'Se adapta a distintos gustos en un solo pedido',
     ],
-    targetCategory: 'Bombones',
+    targetCategory: PRODUCT_CATEGORIES.BONBONS,
     primaryLabel: 'Ver bombones',
   },
 ];

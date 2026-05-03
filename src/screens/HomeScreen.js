@@ -9,11 +9,18 @@ import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import BrandsCarousel from '../components/BrandsCarousel';
 import PromoDetailModal from '../components/PromoDetailModal';
 import { comboPromotions } from '../data/combos';
+import { PRODUCT_CATEGORIES } from '../data/categories';
+
+const PRODUCT_COPY_FALLBACKS = {
+  cookieFlavor: 'casero',
+  barDescription: 'proteína real y sabor intenso',
+  bonbonFlavor: 'intenso',
+};
 
 const PRODUCT_CATEGORY_DESCRIPTIONS = {
-  Galletones: (product) => `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || 'casero'}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
-  'Barras Proteicas': (product) => `Una barra proteica de perfil indulgente con ${product.description?.toLowerCase() || 'proteína real y sabor intenso'}, ideal para antes o después de entrenar y fácil de llevar.`,
-  Bombones: (product) => `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || 'intenso'}.`,
+  [PRODUCT_CATEGORIES.COOKIES]: (product) => `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || PRODUCT_COPY_FALLBACKS.cookieFlavor}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
+  [PRODUCT_CATEGORIES.BARS]: (product) => `Una barra proteica de perfil indulgente con ${product.description?.toLowerCase() || PRODUCT_COPY_FALLBACKS.barDescription}, ideal para antes o después de entrenar y fácil de llevar.`,
+  [PRODUCT_CATEGORIES.BONBONS]: (product) => `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || PRODUCT_COPY_FALLBACKS.bonbonFlavor}.`,
 };
 
 export default function HomeScreen({ navigation }) {
@@ -32,8 +39,8 @@ export default function HomeScreen({ navigation }) {
   };
 
   const categories = [...new Set(products.map((p) => p.category))].sort((a, b) => {
-    if (a === 'Barras Proteicas') return -1;
-    if (b === 'Barras Proteicas') return 1;
+    if (a === PRODUCT_CATEGORIES.BARS) return -1;
+    if (b === PRODUCT_CATEGORIES.BARS) return 1;
     return a.localeCompare(b);
   });
 
@@ -121,8 +128,8 @@ export default function HomeScreen({ navigation }) {
 
   const buildProductModal = (product) => {
     const bullets = [
-      product.description,
       product.flavor ? `Sabor: ${product.flavor}` : null,
+      `Perfil: ${product.description}`,
       product.coverageOptions?.length ? `Coberturas disponibles: ${product.coverageOptions.join(' y ')}` : null,
     ].filter(Boolean);
 

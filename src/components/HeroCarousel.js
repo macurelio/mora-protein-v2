@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
   ScrollView,
 } from 'react-native';
+import { PRODUCT_CATEGORIES } from '../data/categories';
 
 const SLIDES = [
   {
@@ -15,7 +16,7 @@ const SLIDES = [
     title: 'Proteína sin culpa',
     subtitle: 'Barras artesanales con 15g de proteína.\nSin azúcar, 100% sabor.',
     cta: 'Ver Barras',
-    ctaCategory: 'Barras Proteicas',
+    ctaCategory: PRODUCT_CATEGORIES.BARS,
     image: require('../../assets/barras-ilustacion.png'),
     overlayColor: 'rgba(10, 8, 4, 0.62)',
   },
@@ -24,7 +25,7 @@ const SLIDES = [
     title: 'Galletones que enamoran',
     subtitle: 'Crujientes, saludables y sin ingredientes artificiales.\nEl snack perfecto.',
     cta: 'Ver Galletones',
-    ctaCategory: 'Galletones',
+    ctaCategory: PRODUCT_CATEGORIES.COOKIES,
     image: require('../../assets/imagen-fondo.jpeg'),
     overlayColor: 'rgba(10, 10, 10, 0.58)',
   },
@@ -33,7 +34,7 @@ const SLIDES = [
     title: 'Bombones únicos',
     subtitle: 'La nueva categoría que llegó para quedarse.\nLujo en cada bocado.',
     cta: 'Ver Bombones',
-    ctaCategory: 'Bombones',
+    ctaCategory: PRODUCT_CATEGORIES.BONBONS,
     image: require('../../assets/bombones.jpg'),
     overlayColor: 'rgba(10, 10, 10, 0.60)',
   },
