@@ -18,7 +18,7 @@ const FEATURED = [
   ...products.filter((p) => p.category === 'Bombones'),
 ].slice(0, 6);
 
-export default function FeaturedProductsCarousel({ onProductPress }) {
+export default function FeaturedProductsCarousel() {
   const { addToCart } = useContext(CartContext);
   const { width } = useWindowDimensions();
 
@@ -33,10 +33,8 @@ export default function FeaturedProductsCarousel({ onProductPress }) {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
+    <View
       style={[styles.card, { width: CARD_WIDTH }]}
-      activeOpacity={0.88}
-      onPress={() => onProductPress && onProductPress(item)}
     >
       {/* Image */}
       <View style={styles.imageWrapper}>
@@ -65,7 +63,7 @@ export default function FeaturedProductsCarousel({ onProductPress }) {
           <Text style={styles.addButtonText}>Añadir al carrito</Text>
         </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
   return (

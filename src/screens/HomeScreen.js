@@ -42,11 +42,9 @@ export default function HomeScreen({ navigation }) {
     const coverage = selectedCoverage[item.id] || item.coverageOptions?.[0];
 
     return (
-      <TouchableOpacity
+      <View
         key={item.id}
-        activeOpacity={0.8}
         style={[styles.card, { width: cardWidth }]}
-        onPress={() => navigation.navigate('ProductDetail', { product: item })}
       >
         <View style={styles.imageContainer}>
           <Image
@@ -98,7 +96,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.addToCartText}>Agregar</Text>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -162,9 +160,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* Featured Products */}
         <View style={styles.carouselSection}>
-          <FeaturedProductsCarousel
-            onProductPress={(product) => navigation.navigate('ProductDetail', { product })}
-          />
+          <FeaturedProductsCarousel />
         </View>
 
         {/* Testimonials */}
