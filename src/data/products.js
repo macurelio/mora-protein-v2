@@ -1,3 +1,5 @@
+import { PRODUCT_CATEGORIES } from './categories';
+
 export const products = [
   {
     id: 'g1',
@@ -6,7 +8,7 @@ export const products = [
     description: '10g Proteína • Sin azúcar',
     price: 900,
     image: require('../../assets/imagen-horizontal-de.png'),
-    category: 'Galletones'
+    category: PRODUCT_CATEGORIES.COOKIES
   },
   {
     id: 'g2',
@@ -15,7 +17,7 @@ export const products = [
     description: '9g Proteína • Sin azúcar',
     price: 950,
     image: require('../../assets/imagen-horizontal-de.png'),
-    category: 'Galletones'
+    category: PRODUCT_CATEGORIES.COOKIES
   },
   {
     id: 'g3',
@@ -24,7 +26,7 @@ export const products = [
     description: '10g Proteína • Sin azúcar',
     price: 950,
     image: require('../../assets/imagen-horizontal-de.png'),
-    category: 'Galletones'
+    category: PRODUCT_CATEGORIES.COOKIES
   },
   {
     id: 'g4',
@@ -33,7 +35,7 @@ export const products = [
     description: '10g Proteína • Sin azúcar',
     price: 980,
     image: require('../../assets/imagen-horizontal-de.png'),
-    category: 'Galletones'
+    category: PRODUCT_CATEGORIES.COOKIES
   },
   {
     id: 'b1',
@@ -42,7 +44,7 @@ export const products = [
     description: '15g Proteína • Sin azúcar',
     price: 1900,
     image: require('../../assets/barras-ilustacion.png'),
-    category: 'Barras Proteicas',
+    category: PRODUCT_CATEGORIES.BARS,
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco']
   },
   {
@@ -52,7 +54,7 @@ export const products = [
     description: '15g Proteína • Sin azúcar',
     price: 1900,
     image: require('../../assets/barras-ilustacion.png'),
-    category: 'Barras Proteicas',
+    category: PRODUCT_CATEGORIES.BARS,
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco']
   },
   {
@@ -62,7 +64,7 @@ export const products = [
     description: '15g Proteína • Sin azúcar',
     price: 1900,
     image: require('../../assets/barras-ilustacion.png'),
-    category: 'Barras Proteicas',
+    category: PRODUCT_CATEGORIES.BARS,
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco']
   },
   {
@@ -72,7 +74,7 @@ export const products = [
     description: '12g Proteína • Sin azúcar',
     price: 1300,
     image: require('../../assets/bombones-ilustracion.png'),
-    category: 'Bombones'
+    category: PRODUCT_CATEGORIES.BONBONS
   },
   {
     id: 'c2',
@@ -81,7 +83,7 @@ export const products = [
     description: '12g Proteína • Sin azúcar',
     price: 1350,
     image: require('../../assets/bombones-ilustracion.png'),
-    category: 'Bombones'
+    category: PRODUCT_CATEGORIES.BONBONS
   },
   {
     id: 'c3',
@@ -90,6 +92,6 @@ export const products = [
     description: '12g Proteína • Sin azúcar',
     price: 1350,
     image: require('../../assets/bombones-ilustracion.png'),
-    category: 'Bombones'
+    category: PRODUCT_CATEGORIES.BONBONS
   }
 ];

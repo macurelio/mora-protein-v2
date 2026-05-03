@@ -11,11 +11,12 @@ import {
 import { ShoppingCart } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
+import { PRODUCT_CATEGORIES } from '../data/categories';
 
 const FEATURED = [
-  ...products.filter((p) => p.category === 'Barras Proteicas'),
-  ...products.filter((p) => p.category === 'Galletones'),
-  ...products.filter((p) => p.category === 'Bombones'),
+  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.BARS),
+  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.COOKIES),
+  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.BONBONS),
 ].slice(0, 6);
 
 export default function FeaturedProductsCarousel({ onProductPress }) {
