@@ -10,6 +10,12 @@ import BrandsCarousel from '../components/BrandsCarousel';
 import PromoDetailModal from '../components/PromoDetailModal';
 import { comboPromotions } from '../data/combos';
 
+const PRODUCT_CATEGORY_DESCRIPTIONS = {
+  Galletones: (product) => `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || 'casero'}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
+  'Barras Proteicas': (product) => `Una barra proteica de perfil indulgente con ${product.description.toLowerCase()}, ideal para antes o después de entrenar y fácil de llevar.`,
+  Bombones: (product) => `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || 'intenso'}.`,
+};
+
 export default function HomeScreen({ navigation }) {
   const { addToCart, getCartCount } = useContext(CartContext);
   const [selectedCoverage, setSelectedCoverage] = useState({});
@@ -75,7 +81,7 @@ export default function HomeScreen({ navigation }) {
             onPress={() => setActiveModal(buildProductModal(item))}
             activeOpacity={0.85}
           >
-            <Text style={styles.detailButtonText}>Ver descripción e imagen</Text>
+            <Text style={styles.detailButtonText}>Ver detalles</Text>
           </TouchableOpacity>
 
           {item.coverageOptions?.length > 0 && (
@@ -114,12 +120,6 @@ export default function HomeScreen({ navigation }) {
   };
 
   const buildProductModal = (product) => {
-    const categoryDescriptions = {
-      Galletones: `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || 'casero'}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
-      'Barras Proteicas': `Una barra proteica de perfil indulgente con ${product.description.toLowerCase()}, ideal para antes o después de entrenar y fácil de llevar.`,
-      Bombones: `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || 'intenso'}.`,
-    };
-
     const bullets = [
       product.description,
       product.flavor ? `Sabor: ${product.flavor}` : null,
@@ -132,7 +132,7 @@ export default function HomeScreen({ navigation }) {
       badge: product.category.toUpperCase(),
       title: product.name,
       subtitle: product.flavor || 'Snack artesanal',
-      description: categoryDescriptions[product.category] || product.description,
+      description: PRODUCT_CATEGORY_DESCRIPTIONS[product.category]?.(product) || product.description,
       priceLabel: `Desde $${product.price.toLocaleString()}`,
       image: product.image,
       bullets,
@@ -243,7 +243,7 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.comboSectionLabel}>PROMOS</Text>
               <Text style={styles.comboSectionTitle}>Banners de combos</Text>
             </View>
-            <Text style={styles.comboSectionHint}>Toca para abrir el modal</Text>
+            <Text style={styles.comboSectionHint}>Toca para ver detalles</Text>
           </View>
 
           <ScrollView
