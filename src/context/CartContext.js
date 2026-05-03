@@ -7,10 +7,9 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product, options = {}) => {
     const cartItemId = `${product.id}:${options.coverage || 'default'}`;
-
     setCart(currentCart => {
-      const existingProduct = currentCart.find(item => item.cartItemId === cartItemId);
-      if (existingProduct) {
+      const existing = currentCart.find(item => item.cartItemId === cartItemId);
+      if (existing) {
         return currentCart.map(item =>
           item.cartItemId === cartItemId ? { ...item, quantity: item.quantity + 1 } : item
         );
@@ -30,7 +29,9 @@ export const CartProvider = ({ children }) => {
   const decrementQuantity = (cartItemId) => {
     setCart(currentCart =>
       currentCart.map(item =>
-        item.cartItemId === cartItemId && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+        item.cartItemId === cartItemId && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
       )
     );
   };
@@ -39,9 +40,11 @@ export const CartProvider = ({ children }) => {
     setCart(currentCart => currentCart.filter(item => item.cartItemId !== cartItemId));
   };
 
-  const getCartCount = () => {
-    return cart.reduce((count, item) => count + item.quantity, 0);
-  };
+  const clearCart = () => setCart([]);
+
+  const getCartCount = () => cart.reduce((count, item) => count + item.quantity, 0);
+
+  const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <CartContext.Provider value={{
@@ -50,7 +53,9 @@ export const CartProvider = ({ children }) => {
       incrementQuantity,
       decrementQuantity,
       removeItem,
-      getCartCount
+      clearCart,
+      getCartCount,
+      getTotalPrice,
     }}>
       {children}
     </CartContext.Provider>

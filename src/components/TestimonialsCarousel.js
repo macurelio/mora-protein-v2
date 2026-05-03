@@ -1,51 +1,65 @@
 import React, { useState, useRef } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  useWindowDimensions,
+  View, Text, StyleSheet, TouchableOpacity,
+  ScrollView, useWindowDimensions, Linking,
 } from 'react-native';
 
 const TESTIMONIALS = [
   {
     id: 't1',
-    quote:
-      '¡Las mejores barras proteicas que he probado en mi vida! Sin azúcar y con un sabor increíble. El tiramisú es mi favorito.',
+    quote: '¡Las mejores barras proteicas que he probado en mi vida! Sin azúcar y con un sabor increíble. El tiramisú es mi favorito.',
     author: 'María G.',
     role: 'Atleta CrossFit',
     rating: 5,
+    initials: 'MG',
+    avatarColor: '#8B5E3C',
+    instagramUrl: 'https://www.instagram.com/mora.protein',
   },
   {
     id: 't2',
-    quote:
-      'Los galletones de almendra son completamente adictivos. Los pido cada semana. Calidad artesanal real.',
+    quote: 'Los galletones de almendra son completamente adictivos. Los pido cada semana. Calidad artesanal real.',
     author: 'Carlos M.',
     role: 'Nutricionista',
     rating: 5,
+    initials: 'CM',
+    avatarColor: '#3C5E8B',
+    instagramUrl: 'https://www.instagram.com/mora.protein',
   },
   {
     id: 't3',
-    quote:
-      'Encontré en Mora Protein el snack perfecto para mis entrenamientos. Los bombones de pistacho son una joya.',
+    quote: 'Encontré en Mora Protein el snack perfecto para mis entrenamientos. Los bombones de pistacho son una joya.',
     author: 'Valentina R.',
     role: 'Entrenadora Personal',
     rating: 5,
+    initials: 'VR',
+    avatarColor: '#5E3C8B',
+    instagramUrl: 'https://www.instagram.com/mora.protein',
   },
   {
     id: 't4',
-    quote:
-      'Calidad premium en cada bocado. Se nota que cada producto es hecho con cuidado. ¡100% recomendados!',
+    quote: 'Calidad premium en cada bocado. Se nota que cada producto es hecho con cuidado. ¡100% recomendados!',
     author: 'Diego S.',
     role: 'Corredor de maratón',
     rating: 5,
+    initials: 'DS',
+    avatarColor: '#3C8B5E',
+    instagramUrl: 'https://www.instagram.com/mora.protein',
+  },
+  {
+    id: 't5',
+    quote: 'Perfectos para mis clientes del gym. Los pido al por mayor y siempre llegan súper frescos. Sabor inigualable.',
+    author: 'Paola T.',
+    role: 'Dueña de Gimnasio',
+    rating: 5,
+    initials: 'PT',
+    avatarColor: '#C9A96E',
+    instagramUrl: 'https://www.instagram.com/mora.protein',
   },
 ];
 
 export default function TestimonialsCarousel() {
   const { width } = useWindowDimensions();
-  const CARD_WIDTH = width - 48; // full-width minus side padding
+  const CARD_WIDTH = width - 48;
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
 
@@ -59,9 +73,12 @@ export default function TestimonialsCarousel() {
     setActiveIndex(index);
   };
 
+  const openInstagram = (url) => {
+    Linking.openURL(url).catch(() => {});
+  };
+
   return (
     <View style={styles.section}>
-      {/* Section header */}
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionLabel}>TESTIMONIOS</Text>
         <Text style={styles.sectionTitle}>Lo que dicen nuestros clientes</Text>
@@ -79,12 +96,20 @@ export default function TestimonialsCarousel() {
         snapToInterval={CARD_WIDTH + 16}
       >
         {TESTIMONIALS.map((item) => (
-          <View key={item.id} style={[styles.card, { width: CARD_WIDTH }]}>
+          <TouchableOpacity
+            key={item.id}
+            style={[styles.card, { width: CARD_WIDTH }]}
+            onPress={() => openInstagram(item.instagramUrl)}
+            activeOpacity={0.88}
+          >
             {/* Stars */}
             <View style={styles.starsRow}>
               {Array.from({ length: item.rating }).map((_, i) => (
                 <Text key={i} style={styles.star}>★</Text>
               ))}
+              <View style={styles.igBadge}>
+                <Text style={styles.igText}>Ver en IG →</Text>
+              </View>
             </View>
 
             {/* Quote */}
@@ -92,15 +117,15 @@ export default function TestimonialsCarousel() {
 
             {/* Author */}
             <View style={styles.authorRow}>
-              <View style={styles.authorAvatar}>
-                <Text style={styles.avatarInitial}>{item.author[0]}</Text>
+              <View style={[styles.authorAvatar, { backgroundColor: item.avatarColor }]}>
+                <Text style={styles.avatarInitial}>{item.initials}</Text>
               </View>
               <View>
                 <Text style={styles.authorName}>{item.author}</Text>
                 <Text style={styles.authorRole}>{item.role}</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
 
@@ -117,109 +142,55 @@ export default function TestimonialsCarousel() {
 }
 
 const styles = StyleSheet.create({
-  section: {
-    marginBottom: 32,
-  },
-  sectionHeader: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
-  },
+  section: { marginBottom: 32 },
+  sectionHeader: { paddingHorizontal: 20, marginBottom: 16 },
   sectionLabel: {
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 2,
-    color: '#A09385',
-    marginBottom: 2,
+    fontSize: 10, fontWeight: '800', letterSpacing: 2, color: '#C9A96E', marginBottom: 2,
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#1A1A1A',
-    letterSpacing: -0.5,
+    fontSize: 22, fontWeight: '900', color: '#FFFFFF', letterSpacing: -0.5,
   },
-  scrollContent: {
-    paddingHorizontal: 20,
-    gap: 16,
-    paddingBottom: 4,
-  },
+  scrollContent: { paddingHorizontal: 20, gap: 16, paddingBottom: 4 },
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 22,
-    shadowColor: '#4A3C2F',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: 'rgba(215, 207, 194, 0.35)',
+    backgroundColor: '#1A1A1A',
+    borderRadius: 20, padding: 22,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25, shadowRadius: 10, elevation: 4,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.07)',
   },
   starsRow: {
-    flexDirection: 'row',
-    marginBottom: 14,
+    flexDirection: 'row', alignItems: 'center', marginBottom: 14,
   },
-  star: {
-    color: '#E8A838',
-    fontSize: 18,
-    marginRight: 2,
+  star: { color: '#E8A838', fontSize: 16, marginRight: 2 },
+  igBadge: {
+    marginLeft: 'auto',
+    backgroundColor: 'rgba(201,169,110,0.12)',
+    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8,
+    borderWidth: 1, borderColor: 'rgba(201,169,110,0.25)',
   },
+  igText: { color: '#C9A96E', fontSize: 10, fontWeight: '700' },
   quote: {
-    color: '#2C2C2C',
-    fontSize: 15,
-    lineHeight: 24,
-    fontStyle: 'italic',
-    marginBottom: 18,
-    fontWeight: '400',
+    color: '#CCCCCC', fontSize: 14, lineHeight: 22,
+    fontStyle: 'italic', marginBottom: 18, fontWeight: '400',
   },
   authorRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#F0EBE3',
-    paddingTop: 14,
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.07)', paddingTop: 14,
   },
   authorAvatar: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: '#D7CFC2',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 40, height: 40, borderRadius: 20,
+    justifyContent: 'center', alignItems: 'center',
   },
-  avatarInitial: {
-    color: '#4A3C2F',
-    fontSize: 16,
-    fontWeight: '900',
-  },
-  authorName: {
-    color: '#1A1A1A',
-    fontSize: 14,
-    fontWeight: '800',
-  },
-  authorRole: {
-    color: '#A09385',
-    fontSize: 11,
-    fontWeight: '500',
-    marginTop: 1,
-  },
+  avatarInitial: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
+  authorName: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
+  authorRole: { color: '#666666', fontSize: 11, fontWeight: '500', marginTop: 1 },
   dotsRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 14,
-    gap: 6,
+    flexDirection: 'row', justifyContent: 'center', marginTop: 14, gap: 6,
   },
-  dotTouchable: {
-    padding: 4,
-  },
+  dotTouchable: { padding: 4 },
   dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#D7CFC2',
+    width: 6, height: 6, borderRadius: 3,
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
-  dotActive: {
-    width: 18,
-    backgroundColor: '#1A1A1A',
-  },
+  dotActive: { width: 18, backgroundColor: '#C9A96E' },
 });
