@@ -46,6 +46,10 @@ export default function HomeScreen({ navigation }) {
     products.reduce((acc, p) => { acc[p.id] = new Animated.Value(1); return acc; }, {})
   ).current;
 
+  const pressAnims = useRef(
+    products.reduce((acc, p) => { acc[p.id] = new Animated.Value(1); return acc; }, {})
+  ).current;
+
   // Per-card entrance animations (Gervis effect)
   const cardAnims = useRef(
     NON_BOMBON_PRODUCTS.reduce((acc, p) => {
@@ -115,12 +119,21 @@ export default function HomeScreen({ navigation }) {
 
   const outerPadding = 20;
   const gap = 16;
-  const cardWidth = (width - outerPadding * 2 - gap * (columns - 1)) / columns;
+  const cardWidth = width > 600 ? 280 : width * 0.75; // Responsive width for horizontal scroll
 
   const renderProduct = (item) => {
     const coverage = selectedCoverage[item.id] || item.coverageOptions?.[0];
     const flipAnim = flipAnims[item.id];
     const entranceAnim = cardAnims[item.id];
+
+    const pressAnim = pressAnims[item.id];
+
+    const handlePressIn = () => {
+      Animated.spring(pressAnim, { toValue: 0.96, useNativeDriver: true }).start();
+    };
+    const handlePressOut = () => {
+      Animated.spring(pressAnim, { toValue: 1, friction: 3, tension: 40, useNativeDriver: true }).start();
+    };
 
     return (
       <Animated.View
@@ -130,10 +143,22 @@ export default function HomeScreen({ navigation }) {
           { width: cardWidth },
           entranceAnim && {
             opacity: entranceAnim.opacity,
-            transform: [{ translateY: entranceAnim.translateY }],
+            transform: [
+              { translateY: entranceAnim.translateY },
+              { scale: pressAnim }
+            ],
           },
         ]}
       >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          onPress={() => {
+            setSelectedProduct(item);
+            setDetailModalVisible(true);
+          }}
+        >
         {/* Image with flip effect — sin precio aquí */}
         <Animated.View
           style={[styles.imageContainer, { transform: [{ scaleX: flipAnim }] }]}
@@ -224,7 +249,7 @@ export default function HomeScreen({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Animated.View>
     );
   };
@@ -346,9 +371,13 @@ export default function HomeScreen({ navigation }) {
                 <View style={styles.categoryLine} />
               </View>
 
-              <View style={styles.productsGrid}>
+              <ScrollView 
+                horizontal 
+                showsHorizontalScrollIndicator={false} 
+                contentContainerStyle={styles.productsHorizontalScroll}
+              >
                 {catProducts.map(product => renderProduct(product))}
-              </View>
+              </ScrollView>
             </View>
           );
         })}
@@ -505,15 +534,16 @@ const styles = StyleSheet.create({
   categoryBadgeText: { fontSize: 12, fontWeight: '800', color: '#C9A96E' },
   categoryLine: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.08)' },
 
-  // Grid
-  productsGrid: {
-    flexDirection: 'row', flexWrap: 'wrap',
-    paddingHorizontal: 15, justifyContent: 'flex-start', gap: 16,
+  // Horizontal scroll
+  productsHorizontalScroll: {
+    paddingHorizontal: 15,
+    gap: 16,
+    paddingBottom: 10,
   },
 
   // Product card
   card: {
-    backgroundColor: '#1E1E1E', borderRadius: 18, marginBottom: 10,
+    backgroundColor: '#1E1E1E', borderRadius: 18,
     shadowColor: '#000', shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4, shadowRadius: 16, elevation: 8,
     overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)',
