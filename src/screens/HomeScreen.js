@@ -12,7 +12,7 @@ import { comboPromotions } from '../data/combos';
 
 const PRODUCT_CATEGORY_DESCRIPTIONS = {
   Galletones: (product) => `Un snack artesanal con sabor ${product.flavor?.toLowerCase() || 'casero'}, textura contundente y un perfil pensado para colaciones o antojos más equilibrados.`,
-  'Barras Proteicas': (product) => `Una barra proteica de perfil indulgente con ${product.description.toLowerCase()}, ideal para antes o después de entrenar y fácil de llevar.`,
+  'Barras Proteicas': (product) => `Una barra proteica de perfil indulgente con ${product.description?.toLowerCase() || 'proteína real y sabor intenso'}, ideal para antes o después de entrenar y fácil de llevar.`,
   Bombones: (product) => `Una opción más premium para darte un gusto con proteína, formato delicado y sabor ${product.flavor?.toLowerCase() || 'intenso'}.`,
 };
 

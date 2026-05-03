@@ -46,8 +46,8 @@ export default function PromoDetailModal({ visible, item, onClose, onPrimaryActi
 
               {item.bullets?.length ? (
                 <View style={styles.listBlock}>
-                  {item.bullets.map((bullet) => (
-                    <View key={`${item.id}-${bullet}`} style={styles.listItem}>
+                  {item.bullets.map((bullet, index) => (
+                    <View key={`${item.id}-bullet-${index}`} style={styles.listItem}>
                       <View style={styles.dot} />
                       <Text style={styles.listText}>{bullet}</Text>
                     </View>
