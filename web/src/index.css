@@ -5,51 +5,50 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Prevent CLS from scrollbar appearing */
     scrollbar-gutter: stable;
   }
 
   body {
     @apply bg-cream font-body text-charcoal antialiased;
-    /* Fondo de catálogo sutil */
     background-image: url('/images/catalogo-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* Oscurecer un poco para contraste */
     background-blend-mode: multiply;
-    /* Puedes ajustar el color base para más oscuridad si lo deseas */
   }
 
-  /* Overlay opcional para oscurecer más el fondo en toda la app */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background: rgba(26,26,26,0.55); /* Charcoal con opacidad */
-    /* Puedes ajustar la opacidad según el contraste deseado */
+    background: rgba(26,26,26,0.55);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
 
-  /* Prevent layout shift on images */
   img {
     @apply block;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-mora ring-offset-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer utilities {
-  /* Hide native scrollbar while keeping scroll functionality */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -58,7 +57,15 @@
     display: none;
   }
 
-  /* Glassmorphism helper */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-start {
+    scroll-snap-align: start;
+  }
+
   .glass {
     background: rgba(255, 255, 255, 0.72);
     backdrop-filter: blur(16px) saturate(160%);
@@ -66,15 +73,26 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* Prevent Framer Motion drag from selecting text */
+  .glass-dark {
+    background: rgba(26, 26, 26, 0.72);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
   .drag-none {
     user-select: none;
     -webkit-user-select: none;
   }
 
-  /* Infinite marquee ticker */
   .ticker-track {
     animation: ticker 28s linear infinite;
+  }
+
+  .gpu {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
   }
 }
 

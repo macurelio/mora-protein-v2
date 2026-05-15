@@ -4,37 +4,25 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductCard from '../ui/ProductCard'
 import type { ProductCarouselProps } from '../../types'
 
-// ─── Animation variants ───────────────────────────────────────────────────────
-
 const EASE_PREMIUM = [0.25, 1, 0.5, 1] as const
 
-/** Stagger container: animates children in cascade */
 const trackVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.07 },
+    transition: { staggerChildren: 0.06 },
   },
 }
 
-/** Individual card: fade-up + scale entrance */
 const cardVariants = {
-  hidden: { opacity: 0, y: 22, scale: 0.97 },
+  hidden: { opacity: 0, y: 24, scale: 0.96 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.42, ease: EASE_PREMIUM },
+    transition: { duration: 0.44, ease: EASE_PREMIUM },
   },
 }
 
-/**
- * Carousel B — Featured Products
- *
- * Responsive horizontal carousel with Framer Motion drag (swipe/click-drag),
- * snap-to-card physics, staggered entrance animations, and keyboard support.
- *
- * Visible cards: 1 (mobile) → 2 (sm) → 3 (lg) → 4 (xl)
- */
 export default function ProductCarousel({ products }: ProductCarouselProps) {
   const [offset, setOffset] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
@@ -44,7 +32,6 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   const controls = useAnimation()
   const GAP = 16
 
-  // ── Responsive visible count ──────────────────────────────────────────────
   const updateLayout = useCallback(() => {
     const w = window.innerWidth
     const newVisible = w >= 1280 ? 4 : w >= 1024 ? 3 : w >= 640 ? 2 : 1
@@ -65,12 +52,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
 
   const maxOffset = Math.max(0, products.length - visibleCount)
 
-  // Clamp offset when products or visibleCount changes
   useEffect(() => {
     setOffset((o) => Math.min(o, maxOffset))
   }, [maxOffset])
 
-  // ── Derived position ──────────────────────────────────────────────────────
   const getTargetX = useCallback(
     (idx: number) => -idx * (cardWidth + GAP),
     [cardWidth],
@@ -88,7 +73,6 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   const prev = useCallback(() => snapTo(offset - 1), [offset, snapTo])
   const next = useCallback(() => snapTo(offset + 1), [offset, snapTo])
 
-  // ── Drag end: snap to nearest card ───────────────────────────────────────
   const handleDragEnd = useCallback(
     (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
       const threshold = cardWidth * 0.25
@@ -105,12 +89,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
     [offset, cardWidth, maxOffset, snapTo],
   )
 
-  // Sync animation when offset changes externally (category filter)
   useEffect(() => {
     controls.start({ x: getTargetX(offset), transition: { type: 'spring', stiffness: 280, damping: 30 } })
   }, [offset, controls, getTargetX])
 
-  // ── Keyboard navigation ───────────────────────────────────────────────────
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') prev()
     if (e.key === 'ArrowRight') next()
@@ -129,12 +111,16 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
     >
       {/* Overflow window */}
       <div ref={containerRef} className="overflow-hidden">
-        {/* Draggable + staggered track */}
         <AnimatePresence mode="wait">
           <motion.div
             key={products.map((p) => p.id).join(',')}
-            className="flex cursor-grab active:cursor-grabbing"
-            style={{ gap: `${GAP}px`, x: dragX }}
+            className="flex cursor-grab active:cursor-grabbing scroll-smooth"
+            style={{
+              gap: `${GAP}px`,
+              x: dragX,
+              scrollSnapType: 'x mandatory',
+              scrollSnapStop: 'always',
+            }}
             drag="x"
             dragConstraints={{ left: getTargetX(maxOffset) - 40, right: 40 }}
             dragElastic={0.08}
@@ -152,7 +138,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
                 key={product.id}
                 variants={cardVariants}
                 className="flex-shrink-0"
-                style={{ width: cardWidth || `calc(${100 / visibleCount}% - ${GAP * (visibleCount - 1) / visibleCount}px)` }}
+                style={{
+                  width: cardWidth || `calc(${100 / visibleCount}% - ${GAP * (visibleCount - 1) / visibleCount}px)`,
+                  scrollSnapAlign: 'start',
+                }}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${i + 1} de ${products.length}: ${product.name}`}
@@ -173,9 +162,11 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
         transition={{ duration: 0.18, ease: EASE_PREMIUM }}
         aria-label="Producto anterior"
         className={[
-          'absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center',
-          'rounded-full bg-white border border-cream-border shadow-md',
-          canGoPrev ? 'text-charcoal' : 'text-cream-border cursor-not-allowed opacity-40',
+          'absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center',
+          'rounded-full bg-white/80 backdrop-blur-sm border border-cream-border shadow-lg',
+          canGoPrev ? 'text-charcoal' : 'text-cream-border cursor-not-allowed opacity-30',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2',
+          'transition-colors duration-200',
         ].join(' ')}
       >
         <ChevronLeft size={18} />
@@ -189,9 +180,11 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
         transition={{ duration: 0.18, ease: EASE_PREMIUM }}
         aria-label="Siguiente producto"
         className={[
-          'absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center',
-          'rounded-full bg-white border border-cream-border shadow-md',
-          canGoNext ? 'text-charcoal' : 'text-cream-border cursor-not-allowed opacity-40',
+          'absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center',
+          'rounded-full bg-white/80 backdrop-blur-sm border border-cream-border shadow-lg',
+          canGoNext ? 'text-charcoal' : 'text-cream-border cursor-not-allowed opacity-30',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2',
+          'transition-colors duration-200',
         ].join(' ')}
       >
         <ChevronRight size={18} />
@@ -211,9 +204,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
             aria-label={`Ir a página ${i + 1}`}
             aria-selected={i === offset}
             animate={{
-              width: i === offset ? 20 : 8,
+              width: i === offset ? 24 : 8,
               backgroundColor: i === offset ? '#1A1A1A' : '#E8E2D9',
             }}
+            whileHover={{ scale: 1.3 }}
             transition={{ duration: 0.28, ease: EASE_PREMIUM }}
             className="h-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora"
           />
