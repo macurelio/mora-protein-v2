@@ -2,6 +2,7 @@ import { CartProvider } from './context/CartContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
+import AboutSection from './components/sections/AboutSection'
 import BrandTicker from './components/sections/BrandTicker'
 import FeaturedProductsSection from './components/sections/FeaturedProductsSection'
 import PromoSection from './components/sections/PromoSection'
@@ -18,6 +19,7 @@ export default function App() {
         <Navbar />
         <main>
           <HeroSection />
+          <AboutSection />
           <BrandTicker />
           <FeaturedProductsSection />
           <PromoSection />

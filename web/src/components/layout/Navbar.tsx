@@ -9,8 +9,9 @@ const BASE = import.meta.env.BASE_URL
 
 const NAV_LINKS = [
   { label: 'Inicio', href: '#inicio' },
+  { label: 'Nosotros', href: '#nosotros' },
   { label: 'Productos', href: '#productos' },
-  { label: 'Testimonios', href: '#testimonios' },
+  { label: 'Mayoristas', href: '#trabaja' },
   { label: 'Contacto', href: '#contacto' },
 ]
 

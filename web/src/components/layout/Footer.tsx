@@ -30,7 +30,7 @@ export default function Footer() {
                 className="h-10 w-10 object-contain rounded-full"
               />
               <span className="font-heading font-black text-2xl text-white leading-none">Mora</span>
-              <span className="font-heading font-black text-2xl leading-none" style={{ color: '#f5c3e4' }}>
+              <span className="font-heading font-black text-2xl leading-none text-mora-light">
                 Protein
               </span>
             </a>
