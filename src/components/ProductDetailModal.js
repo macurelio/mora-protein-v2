@@ -9,7 +9,8 @@ import { CartContext } from '../context/CartContext';
 const fmt = (n) => '$' + Number(n).toLocaleString('es-CL');
 
 export default function ProductDetailModal({ product, visible, onClose, onAddToCart }) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const styles = makeStyles(width, height);
   const [coverage, setCoverage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -197,7 +198,7 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (width, height) => StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.72)',
@@ -206,9 +207,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0, left: 0, right: 0,
     backgroundColor: '#111111',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    maxHeight: '90%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: height < 700 ? '92%' : '82%',
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
     shadowColor: '#000',
@@ -218,38 +219,41 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   handle: {
-    width: 40, height: 4, borderRadius: 2,
+    width: 36, height: 4, borderRadius: 2,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    alignSelf: 'center', marginTop: 12, marginBottom: 4,
+    alignSelf: 'center', marginTop: 10, marginBottom: 2,
   },
   closeBtn: {
-    position: 'absolute', top: 16, right: 16,
-    width: 34, height: 34, borderRadius: 17,
+    position: 'absolute', top: 14, right: 14,
+    width: 32, height: 32, borderRadius: 16,
     backgroundColor: '#1E1E1E',
     justifyContent: 'center', alignItems: 'center',
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)',
     zIndex: 10,
   },
   content: {
-    paddingHorizontal: 22, paddingTop: 8, paddingBottom: 16,
+    paddingHorizontal: width < 380 ? 16 : 20,
+    paddingTop: 6,
+    paddingBottom: 12,
   },
 
   // Image
   imageWrapper: {
-    height: 220, borderRadius: 18, overflow: 'hidden',
-    backgroundColor: '#2A2A2A', marginBottom: 16, position: 'relative',
+    height: Math.min(180, height * 0.22),
+    borderRadius: 16, overflow: 'hidden',
+    backgroundColor: '#2A2A2A', marginBottom: 14, position: 'relative',
   },
   image: { width: '100%', height: '100%' },
   imagePricePill: {
-    position: 'absolute', bottom: 12, right: 12,
+    position: 'absolute', bottom: 10, right: 10,
     backgroundColor: '#C9A96E',
-    paddingHorizontal: 12, paddingVertical: 5,
-    borderRadius: 14,
+    paddingHorizontal: 10, paddingVertical: 4,
+    borderRadius: 12,
   },
-  imagePriceText: { color: '#0A0A0A', fontWeight: '900', fontSize: 14 },
+  imagePriceText: { color: '#0A0A0A', fontWeight: '900', fontSize: 13 },
 
   // Category & name
-  categoryRow: { marginBottom: 8 },
+  categoryRow: { marginBottom: 6 },
   categoryTag: {
     alignSelf: 'flex-start',
     backgroundColor: 'rgba(201,169,110,0.12)',
@@ -259,61 +263,66 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(201,169,110,0.3)',
   },
   productName: {
-    color: '#FFFFFF', fontSize: 24, fontWeight: '900',
-    letterSpacing: -0.5, marginBottom: 4, lineHeight: 30,
+    color: '#FFFFFF',
+    fontSize: width < 380 ? 19 : 21,
+    fontWeight: '900',
+    letterSpacing: -0.5, marginBottom: 3,
+    lineHeight: width < 380 ? 24 : 26,
   },
-  flavorText: { color: '#888888', fontSize: 13, marginBottom: 6 },
-  descText: { color: '#777777', fontSize: 13, lineHeight: 20, marginBottom: 4 },
+  flavorText: { color: '#888888', fontSize: 12, marginBottom: 4 },
+  descText: { color: '#777777', fontSize: 12, lineHeight: 18, marginBottom: 4 },
   divider: {
-    height: 1, backgroundColor: 'rgba(255,255,255,0.07)', marginVertical: 18,
+    height: 1, backgroundColor: 'rgba(255,255,255,0.07)', marginVertical: 14,
   },
 
   // Sections
-  section: { marginBottom: 22 },
+  section: { marginBottom: height < 700 ? 14 : 18 },
   sectionLabel: {
     color: '#555555', fontSize: 10, fontWeight: '900',
-    letterSpacing: 2, marginBottom: 12,
+    letterSpacing: 2, marginBottom: 10,
   },
 
   // Coverage chips
-  coverageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  coverageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: {
     flexDirection: 'row', alignItems: 'center',
     borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.14)',
     backgroundColor: '#1E1E1E', borderRadius: 30,
-    paddingHorizontal: 16, paddingVertical: 9,
+    paddingHorizontal: 14, paddingVertical: 7,
   },
   chipSelected: { backgroundColor: '#C9A96E', borderColor: '#C9A96E' },
-  chipText: { color: '#AAAAAA', fontSize: 13, fontWeight: '700' },
+  chipText: { color: '#AAAAAA', fontSize: 12, fontWeight: '700' },
   chipTextSelected: { color: '#0A0A0A' },
 
   // Quantity
-  qtyRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  qtyRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   qtyBtn: {
-    width: 46, height: 46, borderRadius: 23,
+    width: 42, height: 42, borderRadius: 21,
     backgroundColor: '#1E1E1E',
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)',
     justifyContent: 'center', alignItems: 'center',
   },
   qtyBtnDisabled: { opacity: 0.35 },
-  qtyDisplay: { alignItems: 'center', minWidth: 48 },
-  qtyNumber: { color: '#FFFFFF', fontSize: 28, fontWeight: '900', lineHeight: 32 },
+  qtyDisplay: { alignItems: 'center', minWidth: 40 },
+  qtyNumber: { color: '#FFFFFF', fontSize: 24, fontWeight: '900', lineHeight: 28 },
   qtyUnit: { color: '#555555', fontSize: 10, fontWeight: '600', letterSpacing: 0.5 },
   totalInline: { marginLeft: 'auto', alignItems: 'flex-end' },
   totalLabel: { color: '#555555', fontSize: 10, fontWeight: '700', letterSpacing: 1, textTransform: 'uppercase' },
-  totalValue: { color: '#C9A96E', fontSize: 22, fontWeight: '900', letterSpacing: -0.5 },
+  totalValue: { color: '#C9A96E', fontSize: width < 380 ? 18 : 20, fontWeight: '900', letterSpacing: -0.5 },
 
   // Footer
   footer: {
-    paddingHorizontal: 20, paddingBottom: 32, paddingTop: 12,
+    paddingHorizontal: width < 380 ? 16 : 20,
+    paddingBottom: height < 700 ? 20 : 28,
+    paddingTop: 10,
     borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.07)',
     backgroundColor: '#111111',
   },
   addBtn: {
     backgroundColor: '#C9A96E', flexDirection: 'row',
     alignItems: 'center', justifyContent: 'center',
-    paddingVertical: 16, borderRadius: 16, gap: 10,
+    paddingVertical: 14, borderRadius: 14, gap: 8,
   },
   addBtnDone: { backgroundColor: '#4ADE80' },
-  addBtnText: { color: '#0A0A0A', fontSize: 16, fontWeight: '900', letterSpacing: 0.2 },
+  addBtnText: { color: '#0A0A0A', fontSize: 15, fontWeight: '900', letterSpacing: 0.2 },
 });
