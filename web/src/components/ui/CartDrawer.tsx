@@ -45,17 +45,22 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     return () => window.removeEventListener('keydown', handler)
   }, [open, onClose])
 
-  const whatsappMessage = encodeURIComponent(
-    '¡Hola! Me gustaría hacer un pedido:\n' +
-    cart
-      .map(
-        (item) =>
-          `• ${item.name}${item.coverage ? ` (${coverageShort(item.coverage)})` : ''} x${item.quantity} — ${formatPrice(item.price * item.quantity)}`,
-      )
-      .join('\n') +
-    `\n\nTOTAL: ${formatPrice(total)}`,
-  )
-  const whatsappUrl = `https://wa.me/56912345678?text=${whatsappMessage}`
+  const buildWhatsappText = () => {
+    const lines: string[] = ['¡Hola! Me gustaría hacer un pedido:\n']
+    if (customerName.trim()) lines.push(`👤 ${customerName.trim()}`)
+    if (customerEmail.trim()) lines.push(`📧 ${customerEmail.trim()}`)
+    if (customerPhone.trim()) lines.push(`📱 ${customerPhone.trim()}`)
+    if (customerName.trim() || customerEmail.trim() || customerPhone.trim()) lines.push('')
+    lines.push('🛒 *Productos:*')
+    cart.forEach((item) => {
+      const cov = item.coverage ? ` (${coverageShort(item.coverage)})` : ''
+      lines.push(`• ${item.name}${cov} x${item.quantity} — ${formatPrice(item.price * item.quantity)}`)
+    })
+    lines.push('')
+    lines.push(`💰 *TOTAL: ${formatPrice(total)}*`)
+    return encodeURIComponent(lines.join('\n'))
+  }
+  const whatsappUrl = `https://wa.me/56954099576?text=${buildWhatsappText()}`
 
   const canPay = customerName.trim() && customerEmail.trim() && customerPhone.trim() && cart.length > 0
 
