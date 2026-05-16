@@ -1,6 +1,5 @@
-import React from 'react'
 import { CartProvider } from './context/CartContext'
-// import Navbar from './components/layout/Navbar' // Eliminado header
+import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
 import BrandTicker from './components/sections/BrandTicker'
@@ -13,6 +12,7 @@ export default function App() {
   return (
     <CartProvider>
       <div className="min-h-screen bg-cream">
+        <Navbar />
         <main>
           <HeroSection />
           <BrandTicker />
@@ -26,4 +26,3 @@ export default function App() {
     </CartProvider>
   )
 }
-

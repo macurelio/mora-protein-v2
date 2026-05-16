@@ -1,4 +1,3 @@
-import React from 'react'
 import { Instagram, MessageCircle, Heart } from 'lucide-react'
 
 const FOOTER_LINKS = [
@@ -20,7 +19,6 @@ export default function Footer() {
     <footer className="bg-charcoal text-white/60" aria-label="Pie de página">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-          {/* Brand column */}
           <div className="sm:col-span-1">
             <a href="#inicio" className="inline-flex items-center gap-0.5 mb-3">
               <span className="font-heading font-black text-2xl text-white leading-none">Mora</span>
@@ -33,12 +31,11 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick links */}
           <nav aria-label="Enlaces rápidos">
             <p className="font-heading font-bold text-white text-sm uppercase tracking-widest mb-4">
               Navegación
             </p>
-            <ul className="space-y-2" role="list">
+            <ul className="space-y-2">
               {FOOTER_LINKS.map(({ label, href }) => (
                 <li key={href}>
                   <a
@@ -52,7 +49,6 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Contact / Social */}
           <div>
             <p className="font-heading font-bold text-white text-sm uppercase tracking-widest mb-4">
               Contacto
@@ -80,9 +76,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-          <p>© {year} Mora Protein. Todos los derechos reservados.</p>
+          <p>&copy; {year} Mora Protein. Todos los derechos reservados.</p>
           <p className="flex items-center gap-1">
             Hecho con <Heart size={12} className="fill-mora-light text-mora-light mx-0.5" /> en Chile
           </p>

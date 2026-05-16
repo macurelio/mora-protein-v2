@@ -1,16 +1,11 @@
-/**
- * Product catalogue for Mora Protein.
- * Images are served from /images/ (web/public/images/).
- */
+import type { Product } from '../types'
 
-// Shared product photos per category — use BASE_URL so paths work on GitHub Pages (/mora-protein-v2/)
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
 const IMG_GALLETONES = `${BASE}images/galletones.png`
 const IMG_BOMBONES = `${BASE}images/bombones.jpg`
 
-export const products = [
-  // ── Barras Proteicas ─────────────────────────────────────────────────────
+export const products: Product[] = [
   {
     id: 'b1',
     name: 'Barra Tiramisú',
@@ -56,7 +51,6 @@ export const products = [
     gradientFrom: '#2e1a08',
     gradientTo: '#8b4513',
   },
-  // ── Galletones ────────────────────────────────────────────────────────────
   {
     id: 'g1',
     name: 'Galletón Chips de Chocolate',
@@ -117,7 +111,6 @@ export const products = [
     gradientFrom: '#3d0d18',
     gradientTo: '#a0263d',
   },
-  // ── Bombones ──────────────────────────────────────────────────────────────
   {
     id: 'c1',
     name: 'Bombón Coco',
@@ -165,6 +158,6 @@ export const products = [
   },
 ]
 
-export const featuredProducts = products.filter((p) =>
+export const featuredProducts: Product[] = products.filter((p) =>
   ['b1', 'b2', 'g1', 'g4', 'c2'].includes(p.id),
 )

@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Minus, Plus, Check, Eye } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import type { ProductCardProps } from '../../types'
 
 const EASE = [0.25, 1, 0.5, 1] as const
-const EASE_SPRING = { type: 'spring' as const, stiffness: 280, damping: 25 }
 
 export const cardVariants = {
   hidden: { opacity: 0, y: 24 },

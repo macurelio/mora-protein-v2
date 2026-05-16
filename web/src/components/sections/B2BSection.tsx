@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 
@@ -9,15 +8,9 @@ const WHATSAPP_MSG = encodeURIComponent(
 
 export default function B2BSection() {
   return (
-    <section
-      id="trabaja"
-      aria-label="Trabaja con nosotros"
-      className="py-20 sm:py-28 bg-charcoal"
-    >
+    <section id="trabaja" aria-label="Trabaja con nosotros" className="py-20 sm:py-28 bg-charcoal">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-          {/* Left — CTA */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -49,7 +42,6 @@ export default function B2BSection() {
             </a>
           </motion.div>
 
-          {/* Right — Proposal text */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -68,8 +60,8 @@ export default function B2BSection() {
             </p>
             <p className="text-white/60 font-body text-base leading-relaxed mt-4">
               Mora Protein es una propuesta versátil, pensada para acompañar distintos
-              momentos del día —el café de la mañana, el post-entreno o la pausa de media
-              tarde— aportando valor a la experiencia del cliente.
+              momentos del día &mdash;el café de la mañana, el post-entreno o la pausa de media
+              tarde&mdash; aportando valor a la experiencia del cliente.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4">
@@ -81,7 +73,6 @@ export default function B2BSection() {
               ))}
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

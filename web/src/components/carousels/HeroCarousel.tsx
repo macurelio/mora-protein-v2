@@ -67,7 +67,7 @@ const slideVariants = {
     x: 0,
     opacity: 1,
     transition: {
-      x: { type: 'spring', stiffness: 260, damping: 32 },
+      x: { type: 'spring' as const, stiffness: 260, damping: 32 },
       opacity: { duration: 0.25 },
     },
   },
@@ -75,7 +75,7 @@ const slideVariants = {
     x: dir < 0 ? '100%' : '-100%',
     opacity: 0,
     transition: {
-      x: { type: 'spring', stiffness: 260, damping: 32 },
+      x: { type: 'spring' as const, stiffness: 260, damping: 32 },
       opacity: { duration: 0.2 },
     },
   }),
@@ -192,7 +192,7 @@ export default function HeroCarousel() {
       className="relative w-full overflow-hidden select-none"
       style={{ height: 'min(90vh, 680px)' }}
       onMouseEnter={pause}
-      onMouseLeave={(e) => { resume(); handleMouseLeave(); }}
+      onMouseLeave={() => { resume(); handleMouseLeave(); }}
       onMouseMove={handleMouseMove}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}

@@ -1,11 +1,6 @@
-import React from 'react'
 import TestimonialCarousel from '../carousels/TestimonialCarousel'
 import { Instagram } from 'lucide-react'
 
-/**
- * TestimonialsSection — Social proof powered by Carousel C.
- * Includes an Instagram CTA below the slider.
- */
 export default function TestimonialsSection() {
   return (
     <section
@@ -14,7 +9,6 @@ export default function TestimonialsSection() {
       className="py-16 sm:py-20 bg-charcoal overflow-hidden"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block bg-white/10 text-white/70 text-xs font-heading font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3">
             Lo que dicen nuestros clientes
@@ -27,10 +21,8 @@ export default function TestimonialsSection() {
           </p>
         </div>
 
-        {/* Carousel C */}
         <TestimonialCarousel />
 
-        {/* Instagram CTA */}
         <div className="text-center mt-12">
           <a
             href="https://www.instagram.com/mora.protein"

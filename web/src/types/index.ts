@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 // ─── Product ─────────────────────────────────────────────────────────────────
 
 export type ProductCategory = 'Barras Proteicas' | 'Galletones' | 'Bombones'
@@ -73,4 +75,40 @@ export interface ProductCardProps {
 
 export interface ProductCarouselProps {
   products: Product[]
+}
+
+// ─── Button ───────────────────────────────────────────────────────────────────
+
+export type ButtonSize = 'sm' | 'md' | 'lg'
+
+export interface ButtonProps {
+  children?: ReactNode
+  variant?: ButtonVariant
+  size?: ButtonSize
+  className?: string
+  as?: 'button' | 'a'
+  href?: string
+  target?: string
+  rel?: string
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
+}
+
+// ─── Cart ─────────────────────────────────────────────────────────────────────
+
+export interface CartItem extends Product {
+  cartItemId: string
+  quantity: number
+  coverage?: string
+}
+
+export interface CartContextType {
+  cart: CartItem[]
+  addToCart: (product: Product, options?: { coverage?: string }) => void
+  incrementQuantity: (cartItemId: string) => void
+  decrementQuantity: (cartItemId: string) => void
+  removeItem: (cartItemId: string) => void
+  getCartCount: () => number
+  getCartTotal: () => number
 }

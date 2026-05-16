@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, type ReactNode } from 'react'
+import type { Product, CartItem, CartContextType } from '../types'
 
-export const CartContext = createContext(null)
+const CartContext = createContext<CartContextType | null>(null)
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([])
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [cart, setCart] = useState<CartItem[]>([])
 
-  const addToCart = (product, options = {}) => {
+  const addToCart = (product: Product, options: { coverage?: string } = {}) => {
     const cartItemId = `${product.id}:${options.coverage ?? 'default'}`
     setCart((prev) => {
       const existing = prev.find((i) => i.cartItemId === cartItemId)
@@ -14,18 +15,18 @@ export function CartProvider({ children }) {
           i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + 1 } : i,
         )
       }
-      return [...prev, { ...product, ...options, cartItemId, quantity: 1 }]
+      return [...prev, { ...product, coverage: options.coverage, cartItemId, quantity: 1 } as CartItem]
     })
   }
 
-  const incrementQuantity = (cartItemId) =>
+  const incrementQuantity = (cartItemId: string) =>
     setCart((prev) =>
       prev.map((i) =>
         i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + 1 } : i,
       ),
     )
 
-  const decrementQuantity = (cartItemId) =>
+  const decrementQuantity = (cartItemId: string) =>
     setCart((prev) =>
       prev.map((i) =>
         i.cartItemId === cartItemId && i.quantity > 1
@@ -34,7 +35,7 @@ export function CartProvider({ children }) {
       ),
     )
 
-  const removeItem = (cartItemId) =>
+  const removeItem = (cartItemId: string) =>
     setCart((prev) => prev.filter((i) => i.cartItemId !== cartItemId))
 
   const getCartCount = () => cart.reduce((sum, i) => sum + i.quantity, 0)
@@ -59,7 +60,7 @@ export function CartProvider({ children }) {
   )
 }
 
-export function useCart() {
+export function useCart(): CartContextType {
   const ctx = useContext(CartContext)
   if (!ctx) throw new Error('useCart must be used inside <CartProvider>')
   return ctx

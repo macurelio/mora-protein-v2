@@ -1,12 +1,15 @@
-export const testimonials = [
+import type { Testimonial } from '../types'
+
+export const testimonials: Testimonial[] = [
   {
     id: 1,
     name: 'María Fernanda R.',
     handle: '@mafe_fit',
-    text: '¡Encontré mi snack favorito! Las barras de Tiramisú son una locura de sabor y no me siento culpable porque tienen 15g de proteína. Las pido cada semana. 🙌',
+    text: '¡Encontré mi snack favorito! Las barras de Tiramisú son una locura de sabor y no me siento culpable porque tienen 15g de proteína. Las pido cada semana.',
     rating: 5,
     initials: 'MF',
     color: '#93326e',
+    product: 'Barras Proteicas',
   },
   {
     id: 2,
@@ -16,6 +19,7 @@ export const testimonials = [
     rating: 5,
     initials: 'TV',
     color: '#4A3C2F',
+    product: 'Galletones',
   },
   {
     id: 3,
@@ -25,6 +29,7 @@ export const testimonials = [
     rating: 5,
     initials: 'VC',
     color: '#3d6b22',
+    product: 'Bombones',
   },
   {
     id: 4,
@@ -34,6 +39,7 @@ export const testimonials = [
     rating: 5,
     initials: 'FA',
     color: '#a0263d',
+    product: 'Galletones',
   },
   {
     id: 5,
@@ -43,5 +49,6 @@ export const testimonials = [
     rating: 5,
     initials: 'CM',
     color: '#c45c1a',
+    product: 'Barras Proteicas',
   },
 ]

@@ -1,16 +1,10 @@
-import React from 'react'
 import { motion } from 'framer-motion'
-import ProductCard, { cardVariants } from '../ui/ProductCard'
+import ProductCarousel from '../carousels/ProductCarousel'
 import { products } from '../../data/products'
 
-const CATEGORIES = ['Barras Proteicas', 'Bombones', 'Galletones']
+const CATEGORIES = ['Barras Proteicas', 'Bombones', 'Galletones'] as const
 
-const EASE = [0.25, 1, 0.5, 1]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
+const EASE = [0.25, 1, 0.5, 1] as const
 
 const headerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -32,14 +26,8 @@ const categoryTitleVariants = {
 
 export default function FeaturedProductsSection() {
   return (
-    <section
-      id="productos"
-      aria-label="Productos"
-      className="py-20 sm:py-28 bg-cream"
-    >
+    <section id="productos" aria-label="Productos" className="py-20 sm:py-28 bg-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Section header */}
         <motion.div
           className="text-center mb-16"
           initial="hidden"
@@ -55,14 +43,12 @@ export default function FeaturedProductsSection() {
           </p>
         </motion.div>
 
-        {/* One section per category */}
         <div className="space-y-20">
           {CATEGORIES.map((category, catIdx) => {
             const items = products.filter((p) => p.category === category)
             if (!items.length) return null
             return (
               <div key={category}>
-                {/* Category heading */}
                 <motion.div
                   className="flex items-center gap-4 mb-8"
                   initial="hidden"
@@ -79,20 +65,7 @@ export default function FeaturedProductsSection() {
                   <div className="flex-1 h-px bg-gradient-to-r from-cream-border to-transparent" />
                 </motion.div>
 
-                {/* Grid */}
-                <motion.div
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5"
-                  variants={containerVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-60px' }}
-                >
-                  {items.map((product) => (
-                    <motion.div key={product.id} variants={cardVariants}>
-                      <ProductCard product={product} />
-                    </motion.div>
-                  ))}
-                </motion.div>
+                <ProductCarousel products={items} />
               </div>
             )
           })}

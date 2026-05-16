@@ -1,6 +1,6 @@
-import React from 'react'
+import type { ButtonProps, ButtonVariant, ButtonSize } from '../../types'
 
-const VARIANTS = {
+const VARIANTS: Record<ButtonVariant, string> = {
   primary:
     'bg-charcoal text-white hover:bg-cocoa active:bg-cocoa/90 shadow-md hover:shadow-lg',
   secondary:
@@ -12,18 +12,12 @@ const VARIANTS = {
     'bg-[#25D366] text-white hover:bg-[#1da851] active:bg-[#189a4a] shadow-md hover:shadow-lg',
 }
 
-const SIZES = {
+const SIZES: Record<ButtonSize, string> = {
   sm: 'px-4 py-2 text-sm gap-1.5',
   md: 'px-6 py-3 text-base gap-2',
   lg: 'px-8 py-4 text-lg gap-2.5',
 }
 
-/**
- * Reusable button component.
- *
- * @param {'primary'|'secondary'|'outline'|'ghost'|'whatsapp'} variant
- * @param {'sm'|'md'|'lg'} size
- */
 export default function Button({
   children,
   variant = 'primary',
@@ -31,7 +25,7 @@ export default function Button({
   className = '',
   as: Tag = 'button',
   ...props
-}) {
+}: ButtonProps) {
   return (
     <Tag
       className={[
@@ -39,12 +33,10 @@ export default function Button({
         'transition-all duration-200 ease-out cursor-pointer select-none',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:pointer-events-none',
-        VARIANTS[variant] ?? VARIANTS.primary,
-        SIZES[size] ?? SIZES.md,
+        VARIANTS[variant],
+        SIZES[size],
         className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      ].join(' ')}
       {...props}
     >
       {children}

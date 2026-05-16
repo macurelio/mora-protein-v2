@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { ShoppingCart, Instagram, Menu, X } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 
@@ -9,10 +9,6 @@ const NAV_LINKS = [
   { label: 'Contacto', href: '#contacto' },
 ]
 
-/**
- * Navbar — fixed, blur-glass header.
- * Becomes opaque after scrolling 60px. Includes mobile hamburger menu.
- */
 export default function Navbar() {
   const { getCartCount } = useCart()
   const [scrolled, setScrolled] = useState(false)
@@ -24,7 +20,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => { if (window.innerWidth >= 768) setMenuOpen(false) }
     window.addEventListener('resize', handleResize)
@@ -46,13 +41,17 @@ export default function Navbar() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
         aria-label="Navegación principal"
       >
-        {/* Logo */}
         <a
           href="#inicio"
           className="flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2 rounded"
           aria-label="Mora Protein — volver al inicio"
         >
-          <span className="font-heading font-black text-xl sm:text-2xl text-charcoal leading-none">
+          <span
+            className={[
+              'font-heading font-black text-xl sm:text-2xl leading-none transition-colors duration-300',
+              scrolled ? 'text-charcoal' : 'text-white',
+            ].join(' ')}
+          >
             Mora
           </span>
           <span
@@ -63,13 +62,18 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-1" role="list">
+        <ul className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map(({ label, href }) => (
             <li key={href}>
               <a
                 href={href}
-                className="px-4 py-2 rounded-lg text-sm font-heading font-bold text-charcoal hover:bg-cream-warm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora"
+                className={[
+                  'px-4 py-2 rounded-lg text-sm font-heading font-bold transition-colors duration-150',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora',
+                  scrolled
+                    ? 'text-charcoal hover:bg-cream-warm'
+                    : 'text-white/80 hover:text-white hover:bg-white/10',
+                ].join(' ')}
               >
                 {label}
               </a>
@@ -77,23 +81,33 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right actions */}
         <div className="flex items-center gap-2">
           <a
             href="https://www.instagram.com/mora.protein"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram de Mora Protein"
-            className="p-2 rounded-lg text-charcoal hover:bg-cream-warm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora"
+            className={[
+              'p-2 rounded-lg transition-colors duration-150',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora',
+              scrolled
+                ? 'text-charcoal hover:bg-cream-warm'
+                : 'text-white/80 hover:text-white hover:bg-white/10',
+            ].join(' ')}
           >
             <Instagram size={20} />
           </a>
 
-          {/* Cart icon (visual only on landing page — links to order CTA) */}
           <a
             href="#contacto"
             aria-label={`Carrito${cartCount > 0 ? `, ${cartCount} producto${cartCount !== 1 ? 's' : ''}` : ''}`}
-            className="relative p-2 rounded-lg text-charcoal hover:bg-cream-warm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora"
+            className={[
+              'relative p-2 rounded-lg transition-colors duration-150',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora',
+              scrolled
+                ? 'text-charcoal hover:bg-cream-warm'
+                : 'text-white/80 hover:text-white hover:bg-white/10',
+            ].join(' ')}
           >
             <ShoppingCart size={20} />
             {cartCount > 0 && (
@@ -103,26 +117,30 @@ export default function Navbar() {
             )}
           </a>
 
-          {/* Hamburger — mobile only */}
           <button
             onClick={() => setMenuOpen((o) => !o)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            className="md:hidden p-2 rounded-lg text-charcoal hover:bg-cream-warm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora"
+            className={[
+              'md:hidden p-2 rounded-lg transition-colors duration-150',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora',
+              scrolled
+                ? 'text-charcoal hover:bg-cream-warm'
+                : 'text-white/80 hover:text-white hover:bg-white/10',
+            ].join(' ')}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile drawer */}
       {menuOpen && (
         <div
           id="mobile-menu"
           className="md:hidden bg-cream/98 backdrop-blur-md border-t border-cream-border px-4 pb-4"
         >
-          <ul className="flex flex-col gap-1 pt-2" role="list">
+          <ul className="flex flex-col gap-1 pt-2">
             {NAV_LINKS.map(({ label, href }) => (
               <li key={href}>
                 <a

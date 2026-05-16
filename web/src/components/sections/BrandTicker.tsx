@@ -1,5 +1,3 @@
-import React from 'react'
-
 const PARTNERS = [
   'Sin Gluten',
   'Sin Azúcar',
@@ -13,16 +11,9 @@ const PARTNERS = [
   'Alta Proteína',
 ]
 
-/**
- * BrandTicker — infinite CSS marquee strip between hero and products.
- * Matches the reference site's scrolling brand/tag bar.
- */
 export default function BrandTicker() {
   return (
-    <div
-      className="bg-charcoal border-y border-white/10 py-4 overflow-hidden"
-      aria-hidden
-    >
+    <div className="bg-charcoal border-y border-white/10 py-4 overflow-hidden" aria-hidden>
       <div className="ticker-track flex items-center gap-10 w-max">
         {[...PARTNERS, ...PARTNERS].map((label, i) => (
           <span
