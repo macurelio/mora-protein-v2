@@ -1,0 +1,472 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - navigation "Navegación principal" [ref=e5]:
+      - link "Mora Protein — volver al inicio" [ref=e6] [cursor=pointer]:
+        - /url: "#inicio"
+        - img [ref=e7]
+        - generic [ref=e8]: Mora
+        - generic [ref=e9]: Protein
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Inicio" [ref=e12] [cursor=pointer]:
+            - /url: "#inicio"
+        - listitem [ref=e13]:
+          - link "Productos" [ref=e14] [cursor=pointer]:
+            - /url: "#productos"
+        - listitem [ref=e15]:
+          - link "Testimonios" [ref=e16] [cursor=pointer]:
+            - /url: "#testimonios"
+        - listitem [ref=e17]:
+          - link "Contacto" [ref=e18] [cursor=pointer]:
+            - /url: "#contacto"
+      - generic [ref=e19]:
+        - link "Instagram de Mora Protein" [ref=e20] [cursor=pointer]:
+          - /url: https://www.instagram.com/mora.protein
+          - img [ref=e21]
+        - link "Carrito" [ref=e24] [cursor=pointer]:
+          - /url: "#contacto"
+          - img [ref=e25]
+  - main [ref=e29]:
+    - region "Sección principal" [ref=e30]:
+      - generic "Promociones destacadas" [ref=e31]:
+        - generic "Diapositiva 1 de 3" [ref=e32]:
+          - generic: Mora
+          - generic [ref=e33]:
+            - generic [ref=e34]: Artesanal & Premium
+            - heading "Proteína que sabe increíble." [level=1] [ref=e35]
+            - paragraph [ref=e36]: Barras y galletones proteicos elaborados con ingredientes naturales. Sin azúcar, sin compromisos.
+            - link "Descubrir Productos" [ref=e38] [cursor=pointer]:
+              - /url: "#productos"
+        - button "Diapositiva anterior" [ref=e39] [cursor=pointer]:
+          - img [ref=e40]
+        - button "Siguiente diapositiva" [ref=e42] [cursor=pointer]:
+          - img [ref=e43]
+        - tablist "Diapositivas" [ref=e45]:
+          - tab "Ir a la diapositiva 1" [selected]
+          - tab "Ir a la diapositiva 2"
+          - tab "Ir a la diapositiva 3"
+      - img [ref=e48]
+    - generic [ref=e51]:
+      - generic [ref=e52]: Sin Gluten
+      - generic [ref=e54]: Sin Azúcar
+      - generic [ref=e56]: 100% Natural
+      - generic [ref=e58]: Hecho a Mano
+      - generic [ref=e60]: Alta Proteína
+      - generic [ref=e62]: Sin Gluten
+      - generic [ref=e64]: Sin Azúcar
+      - generic [ref=e66]: 100% Natural
+      - generic [ref=e68]: Hecho a Mano
+      - generic [ref=e70]: Alta Proteína
+      - generic [ref=e72]: Sin Gluten
+      - generic [ref=e74]: Sin Azúcar
+      - generic [ref=e76]: 100% Natural
+      - generic [ref=e78]: Hecho a Mano
+      - generic [ref=e80]: Alta Proteína
+      - generic [ref=e82]: Sin Gluten
+      - generic [ref=e84]: Sin Azúcar
+      - generic [ref=e86]: 100% Natural
+      - generic [ref=e88]: Hecho a Mano
+      - generic [ref=e90]: Alta Proteína
+    - region "Productos" [ref=e92]:
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Nuestros Productos" [level=2] [ref=e95]
+          - paragraph [ref=e96]: Snacks proteicos artesanales. Sin azúcar, sin compromisos.
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]: "01"
+              - heading "Barras Proteicas" [level=3] [ref=e101]
+            - region "Carrusel de productos destacados" [ref=e103]:
+              - generic [ref=e105]:
+                - 'group "1 de 3: Barra Tiramisú" [ref=e106]':
+                  - group "Barra Tiramisú" [ref=e107]:
+                    - generic [ref=e108]:
+                      - img "Barra Tiramisú" [ref=e109]
+                      - generic [ref=e110]: Más Popular
+                      - button "Vista rápida de Barra Tiramisú" [ref=e112] [cursor=pointer]:
+                        - img [ref=e113]
+                        - text: Vista Rápida
+                    - generic [ref=e116]:
+                      - generic [ref=e117]:
+                        - generic [ref=e118]: Barras Proteicas
+                        - generic [ref=e119]: $1.900
+                      - heading "Barra Tiramisú" [level=3] [ref=e120]
+                      - paragraph [ref=e121]: 15g Proteína · Sin Azúcar
+                      - generic [ref=e122]:
+                        - paragraph [ref=e123]: "Cobertura:"
+                        - generic [ref=e124]:
+                          - button "Cobertura Negro" [pressed] [ref=e125] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e126] [cursor=pointer]: Blanco
+                      - generic [ref=e127]:
+                        - generic [ref=e128]:
+                          - button "Reducir cantidad" [ref=e129] [cursor=pointer]:
+                            - img [ref=e130]
+                          - 'generic "Cantidad: 1" [ref=e131]': "1"
+                          - button "Aumentar cantidad" [ref=e132] [cursor=pointer]:
+                            - img [ref=e133]
+                        - button "Agregar al carrito" [ref=e134] [cursor=pointer]: Agregar
+                - 'group "2 de 3: Barra Chocolate Naranja" [ref=e135]':
+                  - group "Barra Chocolate Naranja" [ref=e136]:
+                    - generic [ref=e137]:
+                      - img "Barra Chocolate Naranja" [ref=e138]
+                      - button "Vista rápida de Barra Chocolate Naranja" [ref=e140] [cursor=pointer]:
+                        - img [ref=e141]
+                        - text: Vista Rápida
+                    - generic [ref=e144]:
+                      - generic [ref=e145]:
+                        - generic [ref=e146]: Barras Proteicas
+                        - generic [ref=e147]: $1.900
+                      - heading "Barra Chocolate Naranja" [level=3] [ref=e148]
+                      - paragraph [ref=e149]: 15g Proteína · Sin Azúcar
+                      - generic [ref=e150]:
+                        - paragraph [ref=e151]: "Cobertura:"
+                        - generic [ref=e152]:
+                          - button "Cobertura Negro" [pressed] [ref=e153] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e154] [cursor=pointer]: Blanco
+                      - generic [ref=e155]:
+                        - generic [ref=e156]:
+                          - button "Reducir cantidad" [ref=e157] [cursor=pointer]:
+                            - img [ref=e158]
+                          - 'generic "Cantidad: 1" [ref=e159]': "1"
+                          - button "Aumentar cantidad" [ref=e160] [cursor=pointer]:
+                            - img [ref=e161]
+                        - button "Agregar al carrito" [ref=e162] [cursor=pointer]: Agregar
+                - 'group "3 de 3: Barra Chocolate Cinnamon" [ref=e163]':
+                  - group "Barra Chocolate Cinnamon" [ref=e164]:
+                    - generic [ref=e165]:
+                      - img "Barra Chocolate Cinnamon" [ref=e166]
+                      - button "Vista rápida de Barra Chocolate Cinnamon" [ref=e168] [cursor=pointer]:
+                        - img [ref=e169]
+                        - text: Vista Rápida
+                    - generic [ref=e172]:
+                      - generic [ref=e173]:
+                        - generic [ref=e174]: Barras Proteicas
+                        - generic [ref=e175]: $1.900
+                      - heading "Barra Chocolate Cinnamon" [level=3] [ref=e176]
+                      - paragraph [ref=e177]: 15g Proteína · Sin Azúcar
+                      - generic [ref=e178]:
+                        - paragraph [ref=e179]: "Cobertura:"
+                        - generic [ref=e180]:
+                          - button "Cobertura Negro" [pressed] [ref=e181] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e182] [cursor=pointer]: Blanco
+                      - generic [ref=e183]:
+                        - generic [ref=e184]:
+                          - button "Reducir cantidad" [ref=e185] [cursor=pointer]:
+                            - img [ref=e186]
+                          - 'generic "Cantidad: 1" [ref=e187]': "1"
+                          - button "Aumentar cantidad" [ref=e188] [cursor=pointer]:
+                            - img [ref=e189]
+                        - button "Agregar al carrito" [ref=e190] [cursor=pointer]: Agregar
+              - button "Producto anterior" [disabled] [ref=e191]:
+                - img [ref=e192]
+              - button "Siguiente producto" [disabled] [ref=e194]:
+                - img [ref=e195]
+              - tablist "Páginas del carrusel" [ref=e197]:
+                - tab "Ir a página 1" [selected]
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - generic [ref=e200]: "02"
+              - heading "Bombones" [level=3] [ref=e201]
+            - region "Carrusel de productos destacados" [ref=e203]:
+              - generic [ref=e205]:
+                - 'group "1 de 3: Bombón Coco" [ref=e206]':
+                  - group "Bombón Coco" [ref=e207]:
+                    - generic [ref=e208]:
+                      - img "Bombón Coco" [ref=e209]
+                      - button "Vista rápida de Bombón Coco" [ref=e211] [cursor=pointer]:
+                        - img [ref=e212]
+                        - text: Vista Rápida
+                    - generic [ref=e215]:
+                      - generic [ref=e216]:
+                        - generic [ref=e217]: Bombones
+                        - generic [ref=e218]: $1.300
+                      - heading "Bombón Coco" [level=3] [ref=e219]
+                      - paragraph [ref=e220]: 12g Proteína · Sin Azúcar
+                      - generic [ref=e221]:
+                        - paragraph [ref=e222]: "Cobertura:"
+                        - generic [ref=e223]:
+                          - button "Cobertura Negro" [pressed] [ref=e224] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e225] [cursor=pointer]: Blanco
+                      - generic [ref=e226]:
+                        - generic [ref=e227]:
+                          - button "Reducir cantidad" [ref=e228] [cursor=pointer]:
+                            - img [ref=e229]
+                          - 'generic "Cantidad: 1" [ref=e230]': "1"
+                          - button "Aumentar cantidad" [ref=e231] [cursor=pointer]:
+                            - img [ref=e232]
+                        - button "Agregar al carrito" [ref=e233] [cursor=pointer]: Agregar
+                - 'group "2 de 3: Bombón Pistacho" [ref=e234]':
+                  - group "Bombón Pistacho" [ref=e235]:
+                    - generic [ref=e236]:
+                      - img "Bombón Pistacho" [ref=e237]
+                      - generic [ref=e238]: Nuevo
+                      - button "Vista rápida de Bombón Pistacho" [ref=e240] [cursor=pointer]:
+                        - img [ref=e241]
+                        - text: Vista Rápida
+                    - generic [ref=e244]:
+                      - generic [ref=e245]:
+                        - generic [ref=e246]: Bombones
+                        - generic [ref=e247]: $1.300
+                      - heading "Bombón Pistacho" [level=3] [ref=e248]
+                      - paragraph [ref=e249]: 12g Proteína · Sin Azúcar
+                      - generic [ref=e250]:
+                        - paragraph [ref=e251]: "Cobertura:"
+                        - generic [ref=e252]:
+                          - button "Cobertura Negro" [pressed] [ref=e253] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e254] [cursor=pointer]: Blanco
+                      - generic [ref=e255]:
+                        - generic [ref=e256]:
+                          - button "Reducir cantidad" [ref=e257] [cursor=pointer]:
+                            - img [ref=e258]
+                          - 'generic "Cantidad: 1" [ref=e259]': "1"
+                          - button "Aumentar cantidad" [ref=e260] [cursor=pointer]:
+                            - img [ref=e261]
+                        - button "Agregar al carrito" [ref=e262] [cursor=pointer]: Agregar
+                - 'group "3 de 3: Bombón Almendra" [ref=e263]':
+                  - group "Bombón Almendra" [ref=e264]:
+                    - generic [ref=e265]:
+                      - img "Bombón Almendra" [ref=e266]
+                      - button "Vista rápida de Bombón Almendra" [ref=e268] [cursor=pointer]:
+                        - img [ref=e269]
+                        - text: Vista Rápida
+                    - generic [ref=e272]:
+                      - generic [ref=e273]:
+                        - generic [ref=e274]: Bombones
+                        - generic [ref=e275]: $1.300
+                      - heading "Bombón Almendra" [level=3] [ref=e276]
+                      - paragraph [ref=e277]: 12g Proteína · Sin Azúcar
+                      - generic [ref=e278]:
+                        - paragraph [ref=e279]: "Cobertura:"
+                        - generic [ref=e280]:
+                          - button "Cobertura Negro" [pressed] [ref=e281] [cursor=pointer]: Negro
+                          - button "Cobertura Blanco" [ref=e282] [cursor=pointer]: Blanco
+                      - generic [ref=e283]:
+                        - generic [ref=e284]:
+                          - button "Reducir cantidad" [ref=e285] [cursor=pointer]:
+                            - img [ref=e286]
+                          - 'generic "Cantidad: 1" [ref=e287]': "1"
+                          - button "Aumentar cantidad" [ref=e288] [cursor=pointer]:
+                            - img [ref=e289]
+                        - button "Agregar al carrito" [ref=e290] [cursor=pointer]: Agregar
+              - button "Producto anterior" [disabled] [ref=e291]:
+                - img [ref=e292]
+              - button "Siguiente producto" [disabled] [ref=e294]:
+                - img [ref=e295]
+              - tablist "Páginas del carrusel" [ref=e297]:
+                - tab "Ir a página 1" [selected]
+          - generic [ref=e298]:
+            - generic [ref=e299]:
+              - generic [ref=e300]: "03"
+              - heading "Galletones" [level=3] [ref=e301]
+            - region "Carrusel de productos destacados" [ref=e303]:
+              - generic [ref=e305]:
+                - 'group "1 de 4: Galletón Chips de Chocolate" [ref=e306]':
+                  - group "Galletón Chips de Chocolate" [ref=e307]:
+                    - generic [ref=e308]:
+                      - img "Galletón Chips de Chocolate" [ref=e309]
+                      - button "Vista rápida de Galletón Chips de Chocolate" [ref=e311] [cursor=pointer]:
+                        - img [ref=e312]
+                        - text: Vista Rápida
+                    - generic [ref=e315]:
+                      - generic [ref=e316]:
+                        - generic [ref=e317]: Galletones
+                        - generic [ref=e318]: $900
+                      - heading "Galletón Chips de Chocolate" [level=3] [ref=e319]
+                      - paragraph [ref=e320]: 10g Proteína · Sin Azúcar
+                      - generic [ref=e321]:
+                        - generic [ref=e322]:
+                          - button "Reducir cantidad" [ref=e323] [cursor=pointer]:
+                            - img [ref=e324]
+                          - 'generic "Cantidad: 1" [ref=e325]': "1"
+                          - button "Aumentar cantidad" [ref=e326] [cursor=pointer]:
+                            - img [ref=e327]
+                        - button "Agregar al carrito" [ref=e328] [cursor=pointer]: Agregar
+                - 'group "2 de 4: Galletón Almendra" [ref=e329]':
+                  - group "Galletón Almendra" [ref=e330]:
+                    - generic [ref=e331]:
+                      - img "Galletón Almendra" [ref=e332]
+                      - button "Vista rápida de Galletón Almendra" [ref=e334] [cursor=pointer]:
+                        - img [ref=e335]
+                        - text: Vista Rápida
+                    - generic [ref=e338]:
+                      - generic [ref=e339]:
+                        - generic [ref=e340]: Galletones
+                        - generic [ref=e341]: $900
+                      - heading "Galletón Almendra" [level=3] [ref=e342]
+                      - paragraph [ref=e343]: 9g Proteína · Sin Azúcar
+                      - generic [ref=e344]:
+                        - generic [ref=e345]:
+                          - button "Reducir cantidad" [ref=e346] [cursor=pointer]:
+                            - img [ref=e347]
+                          - 'generic "Cantidad: 1" [ref=e348]': "1"
+                          - button "Aumentar cantidad" [ref=e349] [cursor=pointer]:
+                            - img [ref=e350]
+                        - button "Agregar al carrito" [ref=e351] [cursor=pointer]: Agregar
+                - 'group "3 de 4: Galletón Nuez" [ref=e352]':
+                  - group "Galletón Nuez" [ref=e353]:
+                    - generic [ref=e354]:
+                      - img "Galletón Nuez" [ref=e355]
+                      - button "Vista rápida de Galletón Nuez" [ref=e357] [cursor=pointer]:
+                        - img [ref=e358]
+                        - text: Vista Rápida
+                    - generic [ref=e361]:
+                      - generic [ref=e362]:
+                        - generic [ref=e363]: Galletones
+                        - generic [ref=e364]: $900
+                      - heading "Galletón Nuez" [level=3] [ref=e365]
+                      - paragraph [ref=e366]: 10g Proteína · Sin Azúcar
+                      - generic [ref=e367]:
+                        - generic [ref=e368]:
+                          - button "Reducir cantidad" [ref=e369] [cursor=pointer]:
+                            - img [ref=e370]
+                          - 'generic "Cantidad: 1" [ref=e371]': "1"
+                          - button "Aumentar cantidad" [ref=e372] [cursor=pointer]:
+                            - img [ref=e373]
+                        - button "Agregar al carrito" [ref=e374] [cursor=pointer]: Agregar
+                - 'group "4 de 4: Galletón Cranberry" [ref=e375]':
+                  - group "Galletón Cranberry" [ref=e376]:
+                    - generic [ref=e377]:
+                      - img "Galletón Cranberry" [ref=e378]
+                      - generic [ref=e379]: Edición Especial
+                      - button "Vista rápida de Galletón Cranberry" [ref=e381] [cursor=pointer]:
+                        - img [ref=e382]
+                        - text: Vista Rápida
+                    - generic [ref=e385]:
+                      - generic [ref=e386]:
+                        - generic [ref=e387]: Galletones
+                        - generic [ref=e388]: $900
+                      - heading "Galletón Cranberry" [level=3] [ref=e389]
+                      - paragraph [ref=e390]: 10g Proteína · Sin Azúcar
+                      - generic [ref=e391]:
+                        - generic [ref=e392]:
+                          - button "Reducir cantidad" [ref=e393] [cursor=pointer]:
+                            - img [ref=e394]
+                          - 'generic "Cantidad: 1" [ref=e395]': "1"
+                          - button "Aumentar cantidad" [ref=e396] [cursor=pointer]:
+                            - img [ref=e397]
+                        - button "Agregar al carrito" [ref=e398] [cursor=pointer]: Agregar
+              - button "Producto anterior" [disabled] [ref=e399]:
+                - img [ref=e400]
+              - button "Siguiente producto" [ref=e402] [cursor=pointer]:
+                - img [ref=e403]
+              - tablist "Páginas del carrusel" [ref=e405]:
+                - tab "Ir a página 1" [selected]
+                - tab "Ir a página 2"
+    - region "Testimonios de clientes" [ref=e406]:
+      - generic [ref=e407]:
+        - generic [ref=e408]:
+          - generic [ref=e409]: Lo que dicen nuestros clientes
+          - heading "La comunidad habla 💬" [level=2] [ref=e410]
+          - paragraph [ref=e411]: Miles de personas ya hacen de Mora Protein su snack de confianza.
+        - region "Testimonios de clientes" [ref=e412]:
+          - generic [ref=e413]:
+            - img [ref=e414]
+            - generic [ref=e417]:
+              - img [ref=e419]
+              - img [ref=e422]
+              - img [ref=e425]
+              - img [ref=e428]
+              - img [ref=e431]
+            - blockquote [ref=e433]: "\"¡Encontré mi snack favorito! Las barras de Tiramisú son una locura de sabor y no me siento culpable porque tienen 15g de proteína. Las pido cada semana.\""
+            - generic [ref=e434]:
+              - generic [ref=e435]: MF
+              - generic [ref=e436]:
+                - paragraph [ref=e437]: María Fernanda R.
+                - paragraph [ref=e438]: "@mafe_fit"
+          - button "Testimonio anterior" [ref=e439] [cursor=pointer]:
+            - img [ref=e440]
+          - button "Siguiente testimonio" [ref=e442] [cursor=pointer]:
+            - img [ref=e443]
+          - tablist "Testimonios" [ref=e445]:
+            - tab "Ir al testimonio 1" [selected]
+            - tab "Ir al testimonio 2"
+            - tab "Ir al testimonio 3"
+            - tab "Ir al testimonio 4"
+            - tab "Ir al testimonio 5"
+        - link "Síguenos en Instagram @mora.protein" [ref=e447] [cursor=pointer]:
+          - /url: https://www.instagram.com/mora.protein
+          - img [ref=e448]
+          - text: Síguenos en Instagram @mora.protein
+    - region "Trabaja con nosotros" [ref=e451]:
+      - generic [ref=e453]:
+        - generic [ref=e454]:
+          - generic [ref=e455]: Para locales y gimnasios
+          - heading "Trabaja con Nosotros" [level=2] [ref=e456]
+          - paragraph [ref=e457]: ¿Quieres distribuir Mora Protein en tu local o gimnasio? Conversemos.
+          - link "Contactar por WhatsApp" [ref=e458] [cursor=pointer]:
+            - /url: https://wa.me/56954099576?text=%C2%A1Hola!%20Quiero%20distribuir%20Mora%20Protein%20en%20mi%20local%20%F0%9F%8D%AB
+            - img [ref=e459]
+            - text: Contactar por WhatsApp
+        - generic [ref=e461]:
+          - paragraph [ref=e462]: La Propuesta
+          - paragraph [ref=e463]: Incorporar Mora Protein en su vitrina permite sumar una alternativa saludable que dialoga de forma natural con el mundo del chocolate y el café. Es una propuesta que eleva la oferta saludable del local y ofrece una alternativa real frente a las barras industriales.
+          - paragraph [ref=e464]: Mora Protein es una propuesta versátil, pensada para acompañar distintos momentos del día —el café de la mañana, el post-entreno o la pausa de media tarde— aportando valor a la experiencia del cliente.
+          - generic [ref=e465]:
+            - generic [ref=e466]: 100% Natural
+            - generic [ref=e468]: Sin Azúcar
+            - generic [ref=e470]: Alta Proteína
+            - generic [ref=e472]: Hecho a Mano
+    - region "Sección de contacto y pedidos" [ref=e474]:
+      - generic:
+        - generic: Mora
+      - generic [ref=e475]:
+        - generic [ref=e476]: ¿Listo para probar?
+        - heading "Haz tu pedido ahora 🚀" [level=2] [ref=e477]
+        - paragraph [ref=e478]: Envíamos a todo Chile. Pedidos mínimos, respuesta inmediata. Escríbenos y te asesoramos en segundos.
+        - generic [ref=e479]:
+          - link "Pedir por WhatsApp" [ref=e480] [cursor=pointer]:
+            - /url: whatsapp://send?text=%C2%A1Hola!%20Quiero%20hacer%20un%20pedido%20de%20Mora%20Protein%20%F0%9F%8D%AB%F0%9F%92%AA&phone=+56954099576
+            - img [ref=e481]
+            - text: Pedir por WhatsApp
+          - link "Ver Instagram" [ref=e483] [cursor=pointer]:
+            - /url: https://www.instagram.com/mora.protein
+            - img [ref=e484]
+            - text: Ver Instagram
+            - img [ref=e487]
+        - generic [ref=e489]:
+          - generic [ref=e490]: ✓ Envío a todo Chile
+          - generic [ref=e491]: ✓ Sin azúcar
+          - generic [ref=e492]: ✓ Artesanal
+          - generic [ref=e493]: ✓ Alta proteína
+  - contentinfo "Pie de página" [ref=e494]:
+    - generic [ref=e495]:
+      - generic [ref=e496]:
+        - generic [ref=e497]:
+          - link "Mora Protein" [ref=e498] [cursor=pointer]:
+            - /url: "#inicio"
+            - generic [ref=e499]: Mora
+            - generic [ref=e500]: Protein
+          - paragraph [ref=e501]: Snacks proteicos artesanales. Sin azúcar, con sabor real. Elaborados con amor y los mejores ingredientes.
+        - navigation "Enlaces rápidos" [ref=e502]:
+          - paragraph [ref=e503]: Navegación
+          - list [ref=e504]:
+            - listitem [ref=e505]:
+              - link "Inicio" [ref=e506] [cursor=pointer]:
+                - /url: "#inicio"
+            - listitem [ref=e507]:
+              - link "Productos" [ref=e508] [cursor=pointer]:
+                - /url: "#productos"
+            - listitem [ref=e509]:
+              - link "Testimonios" [ref=e510] [cursor=pointer]:
+                - /url: "#testimonios"
+            - listitem [ref=e511]:
+              - link "Contacto" [ref=e512] [cursor=pointer]:
+                - /url: "#contacto"
+        - generic [ref=e513]:
+          - paragraph [ref=e514]: Contacto
+          - generic [ref=e515]:
+            - link "Pedir por WhatsApp" [ref=e516] [cursor=pointer]:
+              - /url: whatsapp://send?text=%C2%A1Hola!%20Quiero%20hacer%20un%20pedido%20de%20Mora%20Protein%20%F0%9F%8D%AB%F0%9F%92%AA&phone=+56954099576
+              - img [ref=e517]
+              - text: Pedir por WhatsApp
+            - link "Instagram Mora Protein" [ref=e519] [cursor=pointer]:
+              - /url: https://www.instagram.com/mora.protein
+              - img [ref=e520]
+              - text: "@mora.protein"
+      - generic [ref=e523]:
+        - paragraph [ref=e524]: © 2026 Mora Protein. Todos los derechos reservados.
+        - paragraph [ref=e525]:
+          - text: Hecho con
+          - img [ref=e526]
+          - text: en Chile

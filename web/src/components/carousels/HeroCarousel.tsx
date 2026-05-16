@@ -11,6 +11,8 @@ import { useCarousel } from '../../hooks/useCarousel'
 import Button from '../ui/Button'
 import type { HeroSlide } from '../../types'
 
+const BASE = import.meta.env.BASE_URL
+
 const slides: HeroSlide[] = [
   {
     id: 1,
@@ -24,6 +26,8 @@ const slides: HeroSlide[] = [
     bg: 'linear-gradient(135deg, #1a0e0a 0%, #2d1a0e 50%, #3d2017 100%)',
     accent: '#D7CFC2',
     subtitleColor: '#a09385',
+    image: `${BASE}images/barras-ilustracion.png`,
+    imageAlt: 'Barras proteicas artesanales Mora Protein',
   },
   {
     id: 2,
@@ -37,19 +41,8 @@ const slides: HeroSlide[] = [
     bg: 'linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 40%, #2d1a0e 100%)',
     accent: '#f5c3e4',
     subtitleColor: '#a09385',
-  },
-  {
-    id: 3,
-    badge: 'Fit · Delicioso · Artesanal',
-    title: 'Galletones que\nno te arrepentirás.',
-    subtitle:
-      'Chips de Chocolate, Almendra, Nuez, Cranberry. Cuatro sabores únicos para elevar tu día.',
-    cta: 'Pedir por WhatsApp',
-    ctaHref: '#contacto',
-    ctaVariant: 'whatsapp',
-    bg: 'linear-gradient(135deg, #1a1a1a 0%, #2e1f14 60%, #4A3C2F 100%)',
-    accent: '#F9F8F6',
-    subtitleColor: '#a09385',
+    image: `${BASE}images/bombones-ilustracion.png`,
+    imageAlt: 'Bombones de chocolate artesanales Mora Protein',
   },
 ]
 
@@ -231,50 +224,69 @@ export default function HeroCarousel() {
 
           {/* Staggered content */}
           <motion.div
-            className="relative z-10 max-w-3xl w-full text-left px-6 sm:px-16 lg:px-28 h-full flex flex-col justify-center"
+            className="relative z-10 w-full h-full flex items-center"
             style={{ x: contentX, y: contentY }}
             variants={contentVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            {/* Badge */}
-            <motion.span
-              variants={itemVariants}
-              className="inline-block w-fit mb-4 text-xs font-heading font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border"
-              style={{ color: slide.accent, borderColor: `${slide.accent}40` }}
-            >
-              {slide.badge}
-            </motion.span>
-
-            {/* Title */}
-            <motion.h1
-              variants={itemVariants}
-              className="font-heading font-black text-white text-4xl sm:text-6xl lg:text-7xl leading-none mb-4 whitespace-pre-line"
-            >
-              {slide.title}
-            </motion.h1>
-
-            {/* Subtitle */}
-            <motion.p
-              variants={itemVariants}
-              className="font-body text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
-              style={{ color: slide.subtitleColor }}
-            >
-              {slide.subtitle}
-            </motion.p>
-
-            {/* CTA */}
-            <motion.div variants={itemVariants}>
-              <Button
-                as="a"
-                href={slide.ctaHref}
-                variant={slide.ctaVariant}
-                size="lg"
+            {/* Left: text content */}
+            <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 sm:px-16 lg:pl-28 lg:pr-8 text-left">
+              {/* Badge */}
+              <motion.span
+                variants={itemVariants}
+                className="inline-block w-fit mb-4 text-xs font-heading font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border"
+                style={{ color: slide.accent, borderColor: `${slide.accent}40` }}
               >
-                {slide.cta}
-              </Button>
-            </motion.div>
+                {slide.badge}
+              </motion.span>
+
+              {/* Title */}
+              <motion.h1
+                variants={itemVariants}
+                className="font-heading font-black text-white text-4xl sm:text-6xl lg:text-7xl leading-none mb-4 whitespace-pre-line"
+              >
+                {slide.title}
+              </motion.h1>
+
+              {/* Subtitle */}
+              <motion.p
+                variants={itemVariants}
+                className="font-body text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
+                style={{ color: slide.subtitleColor }}
+              >
+                {slide.subtitle}
+              </motion.p>
+
+              {/* CTA */}
+              <motion.div variants={itemVariants}>
+                <Button
+                  as="a"
+                  href={slide.ctaHref}
+                  variant={slide.ctaVariant}
+                  size="lg"
+                >
+                  {slide.cta}
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Right: product image — desktop only */}
+            {slide.image && (
+              <motion.div
+                className="hidden lg:flex lg:w-[45%] h-full items-center justify-center pr-16"
+                variants={itemVariants}
+              >
+                <motion.img
+                  src={slide.image}
+                  alt={slide.imageAlt ?? ''}
+                  className="max-h-[72%] w-auto object-contain drop-shadow-2xl"
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              </motion.div>
+            )}
           </motion.div>
         </motion.div>
       </AnimatePresence>

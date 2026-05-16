@@ -3,6 +3,7 @@ import type { Product } from '../types'
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
 const IMG_GALLETONES = `${BASE}images/galletones.png`
+const IMG_GALLETONES_STACK = `${BASE}images/galletones-stack.png`
 const IMG_BOMBONES = `${BASE}images/bombones.jpg`
 
 export const products: Product[] = [
@@ -60,9 +61,9 @@ export const products: Product[] = [
       'Avena integral, harina de avena y proteína vegana. Endulzado con alulosa, fuente de fibra. Crocante y delicioso.',
     protein: '10g',
     price: 900,
-    badge: null,
+    badge: 'Más Popular',
     coverageOptions: [],
-    image: IMG_GALLETONES,
+    image: IMG_GALLETONES_STACK,
     gradientFrom: '#1e1008',
     gradientTo: '#4a2c14',
   },

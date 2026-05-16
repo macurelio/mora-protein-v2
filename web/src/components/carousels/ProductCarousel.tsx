@@ -39,9 +39,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
 
     if (containerRef.current) {
       const containerW = containerRef.current.offsetWidth
-      setCardWidth((containerW - GAP * (newVisible - 1)) / newVisible)
+      const effective = Math.min(newVisible, products.length)
+      setCardWidth((containerW - GAP * (effective - 1)) / effective)
     }
-  }, [])
+  }, [products.length])
 
   useEffect(() => {
     updateLayout()
@@ -139,7 +140,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
                 variants={cardVariants}
                 className="flex-shrink-0"
                 style={{
-                  width: cardWidth || `calc(${100 / visibleCount}% - ${GAP * (visibleCount - 1) / visibleCount}px)`,
+                  width: cardWidth || `calc(${100 / Math.min(visibleCount, products.length)}% - ${GAP * (Math.min(visibleCount, products.length) - 1) / Math.min(visibleCount, products.length)}px)`,
                   scrollSnapAlign: 'start',
                 }}
                 role="group"

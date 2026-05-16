@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Minus, Plus, Check, Eye } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
+import QuickViewModal from './QuickViewModal'
 import type { ProductCardProps } from '../../types'
 
 const EASE = [0.25, 1, 0.5, 1] as const
@@ -19,6 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [quickViewOpen, setQuickViewOpen] = useState(false)
 
   const handleAdd = () => {
     const options = selectedCoverage ? { coverage: selectedCoverage } : {}
@@ -100,6 +102,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
             ].join(' ')}
             tabIndex={isHovered ? 0 : -1}
+            onClick={() => setQuickViewOpen(true)}
           >
             <Eye size={14} aria-hidden="true" />
             Vista Rápida
@@ -205,6 +208,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           </motion.button>
         </div>
       </div>
+      <QuickViewModal
+        product={quickViewOpen ? product : null}
+        onClose={() => setQuickViewOpen(false)}
+      />
     </motion.article>
   )
 }
