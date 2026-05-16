@@ -1,9 +1,20 @@
 const API_BASE = '/api/v1/payments'
 
+export interface CartItemDto {
+  name: string
+  quantity: number
+  unitPrice: number
+  coverage?: string
+}
+
 export interface InitTransactionRequest {
   buyOrder: string
   sessionId: string
   amount: number
+  customerName: string
+  customerEmail: string
+  customerPhone: string
+  items: CartItemDto[]
 }
 
 export interface InitTransactionResponse {
