@@ -23,15 +23,15 @@ const MOMENTS: Moment[] = [
     icon: Dumbbell,
     label: 'Post-entreno',
     description: 'Recupera con proteína de calidad. Sin azúcar, sin rellenos — solo lo que tu cuerpo necesita.',
-    iconClass: 'text-mora-light',
-    bgClass: 'bg-mora-light/10',
+    iconClass: 'text-sand',
+    bgClass: 'bg-sand/10',
   },
   {
     icon: Sun,
     label: 'Pausa de media tarde',
     description: 'Ese momento de antojo sin culpa. Snacks reales que sacian y saben increíble.',
-    iconClass: 'text-mora',
-    bgClass: 'bg-mora/10',
+    iconClass: 'text-cream-warm',
+    bgClass: 'bg-cocoa/20',
   },
 ]
 
@@ -57,7 +57,7 @@ export default function AboutSection() {
       {/* Background accent blob */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full blur-[140px] opacity-[0.07] bg-mora"
+        className="pointer-events-none absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full blur-[140px] opacity-[0.07] bg-cocoa"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,7 +73,7 @@ export default function AboutSection() {
           >
             <motion.span
               variants={itemVariants}
-              className="inline-block text-xs font-heading font-bold uppercase tracking-[0.2em] text-mora/80 mb-5"
+              className="inline-block text-xs font-heading font-bold uppercase tracking-[0.2em] text-sand/70 mb-5"
             >
               Quiénes somos
             </motion.span>

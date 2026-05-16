@@ -119,7 +119,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                 )}
 
                 {product.badge && (
-                  <div className="absolute top-3 left-3 bg-mora text-white text-[10px] font-heading font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm">
+                  <div className="absolute top-3 left-3 bg-cocoa text-sand text-[10px] font-heading font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm">
                     {product.badge}
                   </div>
                 )}
@@ -137,7 +137,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                   <h2 className="font-heading font-black text-charcoal text-2xl leading-tight">
                     {product.name}
                   </h2>
-                  <p className="mt-1 font-heading font-black text-mora text-2xl">
+                  <p className="mt-1 font-heading font-black text-cocoa text-2xl">
                     ${product.price.toLocaleString('es-CL')}
                   </p>
                 </div>

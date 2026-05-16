@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -11,11 +12,16 @@ import BrandsSection from './components/sections/BrandsSection'
 import B2BSection from './components/sections/B2BSection'
 import CTASection from './components/sections/CTASection'
 import WelcomeModal from './components/ui/WelcomeModal'
+import OfferBanner from './components/ui/OfferBanner'
+import OfferModal from './components/ui/OfferModal'
 
 export default function App() {
+  const [offerOpen, setOfferOpen] = useState(false)
+
   return (
     <CartProvider>
       <div className="min-h-screen bg-charcoal">
+        <OfferBanner onOpenOffer={() => setOfferOpen(true)} />
         <Navbar />
         <main>
           <HeroSection />
@@ -30,6 +36,7 @@ export default function App() {
         </main>
         <Footer />
         <WelcomeModal />
+        <OfferModal open={offerOpen} onClose={() => setOfferOpen(false)} />
       </div>
     </CartProvider>
   )

@@ -4,7 +4,7 @@ const VARIANTS: Record<ButtonVariant, string> = {
   primary:
     'bg-charcoal text-white hover:bg-cocoa active:bg-cocoa/90 shadow-md hover:shadow-lg',
   secondary:
-    'bg-mora text-white hover:bg-mora-dark active:bg-mora-dark/90 shadow-md hover:shadow-lg',
+    'bg-cocoa text-white hover:bg-[#3d2e1e] active:bg-[#2e1a08] shadow-md hover:shadow-lg',
   outline:
     'border-2 border-charcoal text-charcoal hover:bg-charcoal hover:text-white',
   ghost: 'text-charcoal hover:bg-cream-warm active:bg-cream-border',

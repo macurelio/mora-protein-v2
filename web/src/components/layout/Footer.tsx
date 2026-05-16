@@ -30,7 +30,7 @@ export default function Footer() {
                 className="h-10 w-10 object-contain rounded-full"
               />
               <span className="font-heading font-black text-2xl text-white leading-none">Mora</span>
-              <span className="font-heading font-black text-2xl leading-none text-mora-light">
+              <span className="font-heading font-black text-2xl leading-none text-sand">
                 Protein
               </span>
             </a>
@@ -77,7 +77,7 @@ export default function Footer() {
                 className="flex items-center gap-2 text-sm hover:text-white transition-colors duration-150"
                 aria-label="Instagram Mora Protein"
               >
-                <Instagram size={16} className="text-mora-light flex-shrink-0" />
+                <Instagram size={16} className="text-sand/60 flex-shrink-0" />
                 @mora.protein
               </a>
             </div>
@@ -89,7 +89,7 @@ export default function Footer() {
             &copy; {year} Mora Protein. Todos los derechos reservados.
           </p>
           <p className="flex items-center gap-1">
-            Hecho con <Heart size={12} className="fill-mora-light text-mora-light mx-0.5" /> en Chile
+            Hecho con <Heart size={12} className="fill-sand text-sand mx-0.5" /> en Chile
           </p>
         </div>
       </div>
