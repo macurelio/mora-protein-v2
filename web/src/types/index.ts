@@ -114,3 +114,15 @@ export interface CartContextType {
   getCartCount: () => number
   getCartTotal: () => number
 }
+
+// ─── Payment ──────────────────────────────────────────────────────────────────
+
+export interface PaymentInitResponse {
+  token: string
+  url: string
+}
+
+export type PaymentResult =
+  | { status: 'success'; order: string }
+  | { status: 'failure'; reason: string }
+  | null

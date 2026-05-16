@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -14,9 +14,31 @@ import CTASection from './components/sections/CTASection'
 import WelcomeModal from './components/ui/WelcomeModal'
 import OfferBanner from './components/ui/OfferBanner'
 import OfferModal from './components/ui/OfferModal'
+import PaymentResultModal from './components/ui/PaymentResultModal'
+import type { PaymentResult } from './types'
+
+function usePaymentResult() {
+  const [result, setResult] = useState<PaymentResult>(null)
+
+  useEffect(() => {
+    const path = window.location.pathname
+    const params = new URLSearchParams(window.location.search)
+
+    if (path.endsWith('/checkout/success')) {
+      setResult({ status: 'success', order: params.get('order') ?? '' })
+      window.history.replaceState({}, '', '/mora-protein-v2/')
+    } else if (path.endsWith('/checkout/failure')) {
+      setResult({ status: 'failure', reason: params.get('reason') ?? 'unknown' })
+      window.history.replaceState({}, '', '/mora-protein-v2/')
+    }
+  }, [])
+
+  return { paymentResult: result, clearResult: () => setResult(null) }
+}
 
 export default function App() {
   const [offerOpen, setOfferOpen] = useState(false)
+  const { paymentResult, clearResult } = usePaymentResult()
 
   return (
     <CartProvider>
@@ -37,6 +59,7 @@ export default function App() {
         <Footer />
         <WelcomeModal />
         <OfferModal open={offerOpen} onClose={() => setOfferOpen(false)} />
+        <PaymentResultModal result={paymentResult} onClose={clearResult} />
       </div>
     </CartProvider>
   )
