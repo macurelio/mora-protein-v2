@@ -3,10 +3,11 @@
  * Images are served from /images/ (web/public/images/).
  */
 
-// Shared product photos per category
-const IMG_BARRAS = '/images/barras.jpg'
-const IMG_GALLETONES = '/images/galletones.png'
-const IMG_BOMBONES = '/images/bombones.jpg'
+// Shared product photos per category — use BASE_URL so paths work on GitHub Pages (/mora-protein-v2/)
+const BASE = import.meta.env.BASE_URL
+const IMG_BARRAS = `${BASE}images/barras.jpg`
+const IMG_GALLETONES = `${BASE}images/galletones.png`
+const IMG_BOMBONES = `${BASE}images/bombones.jpg`
 
 export const products = [
   // ── Barras Proteicas ─────────────────────────────────────────────────────
