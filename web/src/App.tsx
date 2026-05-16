@@ -33,12 +33,12 @@ function usePaymentResult() {
     }
   }, [])
 
-  return result
+  return { paymentResult: result, clearResult: () => setResult(null) }
 }
 
 export default function App() {
   const [offerOpen, setOfferOpen] = useState(false)
-  const paymentResult = usePaymentResult()
+  const { paymentResult, clearResult } = usePaymentResult()
 
   return (
     <CartProvider>
@@ -59,7 +59,7 @@ export default function App() {
         <Footer />
         <WelcomeModal />
         <OfferModal open={offerOpen} onClose={() => setOfferOpen(false)} />
-        <PaymentResultModal result={paymentResult} onClose={() => {}} />
+        <PaymentResultModal result={paymentResult} onClose={clearResult} />
       </div>
     </CartProvider>
   )

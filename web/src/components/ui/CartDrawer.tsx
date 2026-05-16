@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Minus, Plus, Trash2, ShoppingCart, CreditCard } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
-import { initiatePayment, getRedirectUrl } from '../../services/api'
+import { initiatePayment } from '../../services/api'
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
@@ -63,7 +63,16 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
         sessionId,
         amount: total,
       })
-      window.location.href = getRedirectUrl(token, url)
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = url
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = 'token_ws'
+      input.value = token
+      form.appendChild(input)
+      document.body.appendChild(form)
+      form.submit()
     } catch (err) {
       console.error('Error initiating payment:', err)
       alert('Error al conectar con Webpay. Intenta nuevamente.')
