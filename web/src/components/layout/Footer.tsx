@@ -85,7 +85,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-          <p>&copy; {year} Mora Protein. Todos los derechos reservados.</p>
+          <p className="flex items-center gap-2">
+            &copy; {year} Mora Protein. Todos los derechos reservados.
+          </p>
           <p className="flex items-center gap-1">
             Hecho con <Heart size={12} className="fill-mora-light text-mora-light mx-0.5" /> en Chile
           </p>

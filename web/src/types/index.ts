@@ -47,6 +47,8 @@ export interface HeroSlide {
   bg: string
   accent: string
   subtitleColor: string
+  image?: string
+  imageAlt?: string
 }
 
 // ─── Carousel hook ────────────────────────────────────────────────────────────
