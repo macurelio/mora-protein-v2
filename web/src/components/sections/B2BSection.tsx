@@ -42,38 +42,51 @@ export default function B2BSection() {
             </a>
           </motion.div>
 
+          {/* Product image panel */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
-            className="border-l border-white/10 pl-8 sm:pl-10"
+            className="relative rounded-2xl overflow-hidden"
           >
-            <p className="font-heading font-bold text-white/40 text-xs uppercase tracking-[0.2em] mb-5">
-              La Propuesta
-            </p>
-            <p className="text-white/60 font-body text-base leading-relaxed">
-              Incorporar Mora Protein en su vitrina permite sumar una alternativa saludable
-              que dialoga de forma natural con el mundo del chocolate y el café. Es una
-              propuesta que eleva la oferta saludable del local y ofrece una alternativa real
-              frente a las barras industriales.
-            </p>
-            <p className="text-white/60 font-body text-base leading-relaxed mt-4">
-              Mora Protein es una propuesta versátil, pensada para acompañar distintos
-              momentos del día &mdash;el café de la mañana, el post-entreno o la pausa de media
-              tarde&mdash; aportando valor a la experiencia del cliente.
-            </p>
-
-            <div className="mt-8 grid grid-cols-2 gap-4">
+            <img
+              src={`${import.meta.env.BASE_URL}images/barras.jpg`}
+              alt="Barras de proteína Mora Protein"
+              className="w-full h-72 lg:h-96 object-cover object-center"
+              loading="lazy"
+            />
+            {/* Overlay with tags */}
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
               {['100% Natural', 'Sin Azúcar', 'Alta Proteína', 'Hecho a Mano'].map((tag) => (
-                <div key={tag} className="flex items-center gap-2 text-white/50 text-sm font-heading font-bold">
+                <span
+                  key={tag}
+                  className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm text-white/80 text-xs font-heading font-bold px-3 py-1.5 rounded-full border border-white/10"
+                >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D7CFC2] flex-shrink-0" />
                   {tag}
-                </div>
+                </span>
               ))}
             </div>
           </motion.div>
         </div>
+
+        {/* Cuadro informativo */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
+          className="mt-16 rounded-2xl overflow-hidden border border-white/10"
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/imagen-horizontal-de.png`}
+            alt="Cuadro informativo de productos Mora Protein"
+            className="w-full object-cover"
+            loading="lazy"
+          />
+        </motion.div>
       </div>
     </section>
   )

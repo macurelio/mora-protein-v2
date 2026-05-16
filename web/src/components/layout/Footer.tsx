@@ -1,5 +1,7 @@
 import { Instagram, MessageCircle, Heart } from 'lucide-react'
 
+const BASE = import.meta.env.BASE_URL
+
 const FOOTER_LINKS = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Productos', href: '#productos' },
@@ -20,7 +22,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
           <div className="sm:col-span-1">
-            <a href="#inicio" className="inline-flex items-center gap-0.5 mb-3">
+            <a href="#inicio" className="inline-flex items-center gap-2 mb-3">
+              <img
+                src={`${BASE}images/logo-circular.png`}
+                alt=""
+                aria-hidden
+                className="h-10 w-10 object-contain rounded-full"
+              />
               <span className="font-heading font-black text-2xl text-white leading-none">Mora</span>
               <span className="font-heading font-black text-2xl leading-none" style={{ color: '#f5c3e4' }}>
                 Protein

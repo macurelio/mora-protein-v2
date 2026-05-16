@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { ShoppingCart, Instagram, Menu, X } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 
+const BASE = import.meta.env.BASE_URL
+
 const NAV_LINKS = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Productos', href: '#productos' },
@@ -43,9 +45,18 @@ export default function Navbar() {
       >
         <a
           href="#inicio"
-          className="flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2 rounded"
+          className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-2 rounded"
           aria-label="Mora Protein — volver al inicio"
         >
+          <img
+            src={`${BASE}images/logo-circular.png`}
+            alt=""
+            aria-hidden
+            className={[
+              'h-9 w-9 object-contain rounded-full transition-opacity duration-300',
+              scrolled ? 'opacity-100' : 'opacity-0 absolute',
+            ].join(' ')}
+          />
           <span
             className={[
               'font-heading font-black text-xl sm:text-2xl leading-none transition-colors duration-300',
