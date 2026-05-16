@@ -127,7 +127,8 @@ export default function HomeScreen({ navigation }) {
     return a.localeCompare(b);
   });
 
-  const cardWidth = width > 600 ? 280 : width * 0.75;
+  const numCols = width > 600 ? 3 : 2;
+  const cardWidth = Math.floor((width - 24 - (numCols - 1) * 10) / numCols);
 
   const buildProductModal = (product) => {
     const bullets = [
@@ -219,21 +220,24 @@ export default function HomeScreen({ navigation }) {
             setDetailModalVisible(true);
           }}
         >
+          {/* Imagen con overlays */}
           <Animated.View style={[styles.imageContainer, { transform: [{ scaleX: flipAnim }] }]}>
             <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+            <View style={styles.imageBottomGradient} />
+            <View style={styles.imageCategoryTag}>
+              <Text style={styles.imageCategoryText}>{item.category}</Text>
+            </View>
+            <View style={styles.imagePricePill}>
+              <Text style={styles.imagePriceText}>{fmt(item.price)}</Text>
+            </View>
           </Animated.View>
 
           <View style={styles.cardContent}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.categoryTag}>{item.category}</Text>
-              <Text style={styles.cardPrice}>{fmt(item.price)}</Text>
-            </View>
-            <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
-            <Text style={styles.productDescription} numberOfLines={2}>{item.description}</Text>
+            <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
+            <Text style={styles.productDescription} numberOfLines={1}>{item.description}</Text>
 
             {item.coverageOptions?.length > 0 && (
               <View style={styles.coverageContainer}>
-                <Text style={styles.optionsLabel}>Cobertura:</Text>
                 <View style={styles.coverageRow}>
                   {item.coverageOptions.map(opt => (
                     <TouchableOpacity
@@ -250,46 +254,18 @@ export default function HomeScreen({ navigation }) {
               </View>
             )}
 
-            <View style={styles.cardActions}>
-              <TouchableOpacity
-                style={styles.detailBtn}
-                onPress={() => {
-                  setSelectedProduct(item);
-                  setDetailModalVisible(true);
-                }}
-              >
-                <Text style={styles.detailBtnText}>Ver detalle</Text>
-              </TouchableOpacity>
-
-              <View style={styles.qtyAddRow}>
-                <TouchableOpacity
-                  style={styles.qtyMiniBtn}
-                  onPress={() => setSelectedQuantity(prev => ({ ...prev, [item.id]: Math.max(1, (prev[item.id] || 1) - 1) }))}
-                >
-                  <Minus color="#FFFFFF" size={13} />
-                </TouchableOpacity>
-                <Text style={styles.qtyMiniNum}>{selectedQuantity[item.id] || 1}</Text>
-                <TouchableOpacity
-                  style={styles.qtyMiniBtn}
-                  onPress={() => setSelectedQuantity(prev => ({ ...prev, [item.id]: (prev[item.id] || 1) + 1 }))}
-                >
-                  <Plus color="#FFFFFF" size={13} />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.addToCartButton}
-                  onPress={() => {
-                    const qty = selectedQuantity[item.id] || 1;
-                    const opts = item.coverageOptions?.length ? { coverage } : {};
-                    for (let i = 0; i < qty; i++) handleAddToCart(item, opts);
-                    setSelectedQuantity(prev => ({ ...prev, [item.id]: 1 }));
-                  }}
-                >
-                  <ShoppingCart color="#0A0A0A" size={13} />
-                  <Text style={styles.addToCartText}>Agregar</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <TouchableOpacity
+              style={styles.addToCartButton}
+              onPress={() => {
+                const qty = selectedQuantity[item.id] || 1;
+                const opts = item.coverageOptions?.length ? { coverage } : {};
+                for (let i = 0; i < qty; i++) handleAddToCart(item, opts);
+                setSelectedQuantity(prev => ({ ...prev, [item.id]: 1 }));
+              }}
+            >
+              <ShoppingCart color="#0A0A0A" size={13} />
+              <Text style={styles.addToCartText}>Agregar</Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Animated.View>
@@ -404,9 +380,9 @@ export default function HomeScreen({ navigation }) {
                 </View>
                 <View style={styles.categoryLine} />
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsHorizontalScroll}>
+              <View style={styles.productsGrid}>
                 {catProducts.map(product => renderProduct(product))}
-              </ScrollView>
+              </View>
             </View>
           );
         })}
@@ -521,19 +497,25 @@ const styles = StyleSheet.create({
   categoryBadgeText: { fontSize: 12, fontWeight: '800', color: '#C9A96E' },
   categoryLine: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.08)' },
   productsHorizontalScroll: { paddingHorizontal: 15, gap: 16, paddingBottom: 10 },
-  card: { backgroundColor: '#1E1E1E', borderRadius: 18, shadowColor: '#000', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 8, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)' },
-  imageContainer: { position: 'relative', height: 180, backgroundColor: '#2A2A2A' },
+  productsGrid: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 12, gap: 10, paddingBottom: 8 },
+  card: { backgroundColor: '#1E1E1E', borderRadius: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.35, shadowRadius: 12, elevation: 6, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.07)' },
+  imageContainer: { width: '100%', aspectRatio: 1.1, backgroundColor: '#2A2A2A', position: 'relative' },
   productImage: { width: '100%', height: '100%' },
-  cardContent: { padding: 14 },
+  imageBottomGradient: { position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%', backgroundColor: 'rgba(10,10,10,0.52)' },
+  imageCategoryTag: { position: 'absolute', top: 8, left: 8, backgroundColor: 'rgba(10,10,10,0.75)', paddingHorizontal: 7, paddingVertical: 3, borderRadius: 8 },
+  imageCategoryText: { color: '#C9A96E', fontSize: 9, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
+  imagePricePill: { position: 'absolute', bottom: 8, right: 8, backgroundColor: '#C9A96E', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 },
+  imagePriceText: { color: '#0A0A0A', fontWeight: '900', fontSize: 12 },
+  cardContent: { padding: 10 },
   cardHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 },
   cardPrice: { color: '#C9A96E', fontSize: 14, fontWeight: '900' },
-  productName: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', marginBottom: 4, letterSpacing: -0.3 },
-  productDescription: { color: '#888888', fontSize: 12, lineHeight: 18, marginBottom: 12, minHeight: 36 },
+  productName: { color: '#FFFFFF', fontSize: 13, fontWeight: '900', marginBottom: 3, letterSpacing: -0.2, lineHeight: 18 },
+  productDescription: { color: '#777777', fontSize: 11, lineHeight: 15, marginBottom: 10 },
   categoryTag: { backgroundColor: 'rgba(201,169,110,0.12)', color: '#C9A96E', fontSize: 9, fontWeight: '800', paddingHorizontal: 7, paddingVertical: 3, borderRadius: 8, textTransform: 'uppercase', letterSpacing: 0.5, borderWidth: 1, borderColor: 'rgba(201,169,110,0.25)' },
-  coverageContainer: { marginBottom: 12 },
+  coverageContainer: { marginBottom: 8 },
   optionsLabel: { fontSize: 10, color: '#666', fontWeight: '700', marginBottom: 6, textTransform: 'uppercase' },
-  coverageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  coverageOption: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', backgroundColor: '#2A2A2A', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 4 },
+  coverageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
+  coverageOption: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', backgroundColor: '#2A2A2A', borderRadius: 8, paddingHorizontal: 7, paddingVertical: 3 },
   coverageSelected: { backgroundColor: '#C9A96E', borderColor: '#C9A96E' },
   coverageText: { color: '#999', fontSize: 10, fontWeight: '700' },
   coverageTextSelected: { color: '#0A0A0A' },
@@ -543,7 +525,7 @@ const styles = StyleSheet.create({
   qtyMiniNum: { color: '#FFFFFF', fontSize: 14, fontWeight: '900', minWidth: 20, textAlign: 'center' },
   detailBtn: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)', borderRadius: 12, paddingVertical: 10, alignItems: 'center' },
   detailBtnText: { color: '#AAAAAA', fontSize: 12, fontWeight: '700' },
-  addToCartButton: { flex: 1, backgroundColor: '#C9A96E', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: 10, gap: 5 },
+  addToCartButton: { backgroundColor: '#C9A96E', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 9, borderRadius: 10, gap: 5 },
   addToCartText: { color: '#0A0A0A', fontSize: 12, fontWeight: '900' },
   footer: { marginTop: 20, marginHorizontal: 20, padding: 28, backgroundColor: '#141414', borderRadius: 20, alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)', marginBottom: 20 },
   footerBrand: { color: '#FFFFFF', fontWeight: '900', fontSize: 24, letterSpacing: -0.5, marginBottom: 8 },
