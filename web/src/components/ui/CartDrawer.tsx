@@ -27,6 +27,10 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   const total = getCartTotal()
   const [paying, setPaying] = useState(false)
 
+  const [customerName, setCustomerName] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
+  const [customerPhone, setCustomerPhone] = useState('')
+
   useEffect(() => {
     if (!open) return
     const prev = document.body.style.overflow
@@ -53,7 +57,10 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   )
   const whatsappUrl = `https://wa.me/56912345678?text=${whatsappMessage}`
 
+  const canPay = customerName.trim() && customerEmail.trim() && customerPhone.trim() && cart.length > 0
+
   const handleWebpay = async () => {
+    if (!canPay) return
     setPaying(true)
     try {
       const buyOrder = `ORD-${Date.now()}`
@@ -62,6 +69,15 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
         buyOrder,
         sessionId,
         amount: total,
+        customerName: customerName.trim(),
+        customerEmail: customerEmail.trim(),
+        customerPhone: customerPhone.trim(),
+        items: cart.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          coverage: item.coverage,
+        })),
       })
       const form = document.createElement('form')
       form.method = 'POST'
@@ -225,10 +241,34 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                   </span>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2.5">
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      placeholder="Nombre completo"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-500 focus:outline-none transition-colors"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Correo electrónico"
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-500 focus:outline-none transition-colors"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Teléfono (+569XXXXXXXX)"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-500 focus:outline-none transition-colors"
+                    />
+                  </div>
+
                   <button
                     onClick={handleWebpay}
-                    disabled={paying}
+                    disabled={!canPay || paying}
                     className={[
                       'flex items-center justify-center gap-2 w-full py-3 rounded-xl',
                       'bg-blue-600 hover:bg-blue-700 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed',
