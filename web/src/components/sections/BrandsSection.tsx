@@ -25,7 +25,7 @@ export default function BrandsSection() {
 
       {/* Heading */}
       <div className="relative z-10 text-center mb-10">
-        <p className="text-[11px] font-heading font-bold uppercase tracking-[0.25em] text-mora-light/60 mb-2">
+        <p className="text-[11px] font-heading font-bold uppercase tracking-[0.25em] text-sand/60 mb-2">
           Alianzas
         </p>
         <h2 className="font-heading font-black text-white text-2xl sm:text-3xl uppercase tracking-wide">

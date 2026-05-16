@@ -79,7 +79,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Badge */}
         {product.badge && (
-          <div className="absolute top-3 left-3 bg-mora text-white text-[10px] font-heading font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm">
+          <div className="absolute top-3 left-3 bg-cocoa text-sand text-[10px] font-heading font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm">
             {product.badge}
           </div>
         )}
