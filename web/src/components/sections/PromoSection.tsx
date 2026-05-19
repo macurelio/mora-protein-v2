@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Tag, Check, MessageCircle } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Tag, Check, MessageCircle, CreditCard, ChevronDown, Loader2 } from 'lucide-react'
 import { promos, type Promo } from '../../data/promos'
+import { initiatePayment } from '../../services/api'
 
 const WHATSAPP_NUMBER = '56954099576'
 const EASE = [0.25, 1, 0.5, 1] as const
@@ -24,11 +25,50 @@ const cardVariants = {
 
 function PromoCard({ promo, index }: { promo: Promo; index: number }) {
   const [hovered, setHovered] = useState(false)
+  const [showPayForm, setShowPayForm] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [paying, setPaying] = useState(false)
 
   const msg = encodeURIComponent(
     `¡Hola! Quiero pedir la promoción "${promo.title}" a ${formatPrice(promo.promoPrice)} 🍫💪`,
   )
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`
+
+  const canPay = name.trim() && email.trim() && phone.trim()
+
+  const handleWebpay = async () => {
+    if (!canPay) return
+    setPaying(true)
+    try {
+      const buyOrder = `PROMO-${promo.id}-${Date.now()}`
+      const sessionId = `sess-${Date.now()}`
+      const { token, url } = await initiatePayment({
+        buyOrder,
+        sessionId,
+        amount: promo.promoPrice,
+        customerName: name.trim(),
+        customerEmail: email.trim(),
+        customerPhone: phone.trim(),
+        items: [{ name: promo.title, quantity: 1, unitPrice: promo.promoPrice }],
+      })
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = url
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = 'token_ws'
+      input.value = token
+      form.appendChild(input)
+      document.body.appendChild(form)
+      form.submit()
+    } catch (err) {
+      console.error('Error iniciando pago:', err)
+      alert('Error al conectar con Webpay. Intenta nuevamente.')
+      setPaying(false)
+    }
+  }
 
   return (
     <motion.article
@@ -98,21 +138,107 @@ function PromoCard({ promo, index }: { promo: Promo; index: number }) {
           </span>
         </div>
 
-        {/* CTA */}
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={[
-            'mt-1 flex items-center justify-center gap-2 py-3 rounded-xl',
-            'bg-[#25D366] hover:bg-[#20BD5C] active:scale-[0.98]',
-            'text-white font-heading font-black text-sm uppercase tracking-wide',
-            'transition-all duration-150 shadow-md shadow-[#25D366]/20',
-          ].join(' ')}
-        >
-          <MessageCircle size={16} />
-          Pedir por WhatsApp
-        </a>
+        {/* CTA buttons */}
+        <div className="flex flex-col gap-2 mt-1">
+
+          {/* Transbank button */}
+          <button
+            type="button"
+            onClick={() => setShowPayForm((v) => !v)}
+            className={[
+              'flex items-center justify-center gap-2 w-full py-3 rounded-xl',
+              'bg-[#1c4fd8] hover:bg-[#1741bc] active:scale-[0.98]',
+              'text-white font-heading font-black text-sm uppercase tracking-wide',
+              'transition-all duration-150 shadow-lg shadow-blue-700/20',
+            ].join(' ')}
+            aria-expanded={showPayForm}
+          >
+            <CreditCard size={16} />
+            Pagar con Transbank
+            <ChevronDown
+              size={14}
+              className={`transition-transform duration-200 ${showPayForm ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+          {/* Expandable payment form */}
+          <AnimatePresence initial={false}>
+            {showPayForm && (
+              <motion.div
+                key="pay-form"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: EASE }}
+                className="overflow-hidden"
+              >
+                <div className="flex flex-col gap-2 pt-1 pb-1">
+                  <input
+                    type="text"
+                    placeholder="Nombre completo"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-400 focus:outline-none transition-colors"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Correo electrónico"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-400 focus:outline-none transition-colors"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Teléfono (+569XXXXXXXX)"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 text-sand placeholder:text-sand/40 text-sm border border-white/10 focus:border-blue-400 focus:outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleWebpay}
+                    disabled={!canPay || paying}
+                    className={[
+                      'flex items-center justify-center gap-2 w-full py-2.5 rounded-xl mt-1',
+                      'bg-[#1c4fd8] hover:bg-[#1741bc] active:scale-[0.98]',
+                      'disabled:opacity-40 disabled:cursor-not-allowed',
+                      'text-white font-heading font-black text-sm uppercase tracking-wide',
+                      'transition-all duration-150',
+                    ].join(' ')}
+                  >
+                    {paying ? (
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        Conectando...
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard size={15} />
+                        Ir a pagar {formatPrice(promo.promoPrice)}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* WhatsApp CTA */}
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={[
+              'flex items-center justify-center gap-2 w-full py-3 rounded-xl',
+              'bg-[#25D366] hover:bg-[#20BD5C] active:scale-[0.98]',
+              'text-white font-heading font-black text-sm uppercase tracking-wide',
+              'transition-all duration-150 shadow-md shadow-[#25D366]/20',
+            ].join(' ')}
+          >
+            <MessageCircle size={16} />
+            Pedir por WhatsApp
+          </a>
+        </div>
       </div>
     </motion.article>
   )

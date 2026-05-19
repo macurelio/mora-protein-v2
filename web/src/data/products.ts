@@ -2,9 +2,14 @@ import type { Product } from '../types'
 
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
+const IMG_BARRAS_NEGRO = `${BASE}images/barras-negro.png`
+const IMG_BARRAS_BLANCO = `${BASE}images/barras-blanco.png`
 const IMG_GALLETONES = `${BASE}images/galletones.png`
 const IMG_GALLETONES_STACK = `${BASE}images/galletones-stack.png`
 const IMG_BOMBONES = `${BASE}images/bombones.jpg`
+const IMG_BOMBONES_COCO = `${BASE}images/bombones-coco.png`
+const IMG_BOMBONES_PISTACHO = `${BASE}images/bombones-pistacho.png`
+const IMG_BOMBONES_ALMENDRA = `${BASE}images/bombones-almendra.png`
 
 export const products: Product[] = [
   {
@@ -18,7 +23,11 @@ export const products: Product[] = [
     price: 1900,
     badge: 'Más Popular',
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS,
+    image: IMG_BARRAS_NEGRO,
+    imageByCoverage: {
+      'Chocolate Negro': IMG_BARRAS_NEGRO,
+      'Chocolate Blanco': IMG_BARRAS_BLANCO,
+    },
     gradientFrom: '#3d2211',
     gradientTo: '#6b3a1f',
   },
@@ -33,7 +42,11 @@ export const products: Product[] = [
     price: 1900,
     badge: null,
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS,
+    image: IMG_BARRAS_NEGRO,
+    imageByCoverage: {
+      'Chocolate Negro': IMG_BARRAS_NEGRO,
+      'Chocolate Blanco': IMG_BARRAS_BLANCO,
+    },
     gradientFrom: '#3a1a0a',
     gradientTo: '#c45c1a',
   },
@@ -48,7 +61,11 @@ export const products: Product[] = [
     price: 1900,
     badge: null,
     coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS,
+    image: IMG_BARRAS_NEGRO,
+    imageByCoverage: {
+      'Chocolate Negro': IMG_BARRAS_NEGRO,
+      'Chocolate Blanco': IMG_BARRAS_BLANCO,
+    },
     gradientFrom: '#2e1a08',
     gradientTo: '#8b4513',
   },
@@ -123,7 +140,7 @@ export const products: Product[] = [
     price: 1300,
     badge: null,
     coverageOptions: ['Chocolate Negro 72%', 'Chocolate Blanco 35%'],
-    image: IMG_BOMBONES,
+    image: IMG_BOMBONES_COCO,
     gradientFrom: '#1a0e0a',
     gradientTo: '#3d2511',
   },
@@ -138,7 +155,7 @@ export const products: Product[] = [
     price: 1300,
     badge: 'Nuevo',
     coverageOptions: ['Chocolate Negro 72%', 'Chocolate Blanco 35%'],
-    image: IMG_BOMBONES,
+    image: IMG_BOMBONES_PISTACHO,
     gradientFrom: '#1a2a12',
     gradientTo: '#3d6b22',
   },
@@ -153,7 +170,7 @@ export const products: Product[] = [
     price: 1300,
     badge: null,
     coverageOptions: ['Chocolate Negro 72%', 'Chocolate Blanco 35%'],
-    image: IMG_BOMBONES,
+    image: IMG_BOMBONES_ALMENDRA,
     gradientFrom: '#1e1508',
     gradientTo: '#b89a6e',
   },

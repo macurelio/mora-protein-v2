@@ -60,6 +60,12 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
     setTimeout(() => { setAdded(false); setQty(1) }, 1800)
   }
 
+  // Resolve the image to display based on selected coverage
+  const displayImage =
+    product && selectedCoverage && product.imageByCoverage?.[selectedCoverage]
+      ? product.imageByCoverage[selectedCoverage]
+      : product?.image ?? null
+
   return createPortal(
     <AnimatePresence>
       {product && (
@@ -102,16 +108,23 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
 
               {/* Image */}
               <div
-                className="lg:w-[44%] flex-shrink-0 relative h-52 lg:h-auto"
+                className="lg:w-[44%] flex-shrink-0 relative h-52 lg:h-auto overflow-hidden"
                 // eslint-disable-next-line react/forbid-dom-props
-                style={!product.image ? { background: `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)` } : undefined}
+                style={!displayImage ? { background: `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)` } : undefined}
               >
-                {product.image ? (
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover object-center"
-                  />
+                {displayImage ? (
+                  <AnimatePresence mode="crossfade" initial={false}>
+                    <motion.img
+                      key={displayImage}
+                      src={displayImage}
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover object-center"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.38, ease: EASE }}
+                    />
+                  </AnimatePresence>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="text-white/20 font-heading font-black text-6xl select-none">MP</span>

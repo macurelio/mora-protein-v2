@@ -23,11 +23,11 @@ const slides: HeroSlide[] = [
     cta: 'Descubrir Productos',
     ctaHref: '#productos',
     ctaVariant: 'secondary',
-    bg: 'linear-gradient(135deg, #1a0e0a 0%, #2d1a0e 50%, #3d2017 100%)',
+    bg: `url(${BASE}images/galletones-stack.png)`,
     accent: '#D7CFC2',
-    subtitleColor: '#a09385',
-    image: `${BASE}images/barras-ilustracion.png`,
-    imageAlt: 'Barras proteicas artesanales Mora Protein',
+    subtitleColor: '#c5bbb2',
+    image: '',
+    imageAlt: '',
   },
   {
     id: 2,
@@ -37,12 +37,12 @@ const slides: HeroSlide[] = [
       'Cobertura de chocolate artesanal en negro o blanco. Irresistibles desde el primer mordisco.',
     cta: 'Ver Barras Proteicas',
     ctaHref: '#productos',
-    ctaVariant: 'primary',
-    bg: 'linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 40%, #2d1a0e 100%)',
-    accent: '#f5c3e4',
-    subtitleColor: '#a09385',
-    image: `${BASE}images/bombones-ilustracion.png`,
-    imageAlt: 'Bombones de chocolate artesanales Mora Protein',
+    ctaVariant: 'secondary',
+    bg: `url(${BASE}images/barras.jpg)`,
+    accent: '#e8d5c4',
+    subtitleColor: '#c5bbb2',
+    image: '',
+    imageAlt: '',
   },
 ]
 
@@ -123,9 +123,6 @@ export default function HeroCarousel() {
   const springX = useSpring(rawX, { stiffness: 70, damping: 22 })
   const springY = useSpring(rawY, { stiffness: 70, damping: 22 })
 
-  // Watermark moves opposite to cursor (parallax depth)
-  const watermarkX = useTransform(springX, [-700, 700], [24, -24])
-  const watermarkY = useTransform(springY, [-450, 450], [12, -12])
   // Content shifts very subtly WITH cursor
   const contentX = useTransform(springX, [-700, 700], [-7, 7])
   const contentY = useTransform(springY, [-450, 450], [-3.5, 3.5])
@@ -202,25 +199,40 @@ export default function HeroCarousel() {
           animate="center"
           exit="exit"
           className="absolute inset-0"
-          style={{ background: slide.bg }}
+          style={{
+            backgroundImage: slide.bg,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
           aria-roledescription="slide"
           aria-label={`Diapositiva ${current + 1} de ${slides.length}`}
         >
-          {/* Grain texture */}
+          {/* Dark overlay — gradient left-heavy for text readability */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-[0.035]"
-            style={{ backgroundImage: GRAIN_URL }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(10,6,4,0.82) 0%, rgba(10,6,4,0.62) 45%, rgba(10,6,4,0.28) 70%, rgba(10,6,4,0.10) 100%)',
+            }}
             aria-hidden
           />
 
-          {/* Parallax watermark */}
-          <motion.div
-            className="absolute right-[-2%] bottom-[-4%] font-heading font-black leading-none pointer-events-none opacity-[0.04] text-[clamp(80px,18vw,220px)]"
-            style={{ color: slide.accent, x: watermarkX, y: watermarkY }}
+          {/* Subtle bottom vignette */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 40%)',
+            }}
             aria-hidden
-          >
-            Mora
-          </motion.div>
+          />
+
+          {/* Grain texture */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.04]"
+            style={{ backgroundImage: GRAIN_URL }}
+            aria-hidden
+          />
 
           {/* Staggered content */}
           <motion.div
@@ -232,12 +244,12 @@ export default function HeroCarousel() {
             exit="exit"
           >
             {/* Left: text content */}
-            <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 sm:px-16 lg:pl-28 lg:pr-8 text-left">
+            <div className="w-full lg:w-[52%] flex flex-col justify-center px-6 sm:px-14 lg:pl-24 lg:pr-8 text-left">
               {/* Badge */}
               <motion.span
                 variants={itemVariants}
-                className="inline-block w-fit mb-4 text-xs font-heading font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border"
-                style={{ color: slide.accent, borderColor: `${slide.accent}40` }}
+                className="inline-block w-fit mb-5 text-[11px] font-heading font-semibold uppercase tracking-[0.22em]"
+                style={{ color: slide.accent }}
               >
                 {slide.badge}
               </motion.span>
@@ -245,7 +257,8 @@ export default function HeroCarousel() {
               {/* Title */}
               <motion.h1
                 variants={itemVariants}
-                className="font-heading font-black text-white text-4xl sm:text-6xl lg:text-7xl leading-none mb-4 whitespace-pre-line"
+                className="font-heading font-black text-white leading-[0.93] mb-5 whitespace-pre-line"
+                style={{ fontSize: 'clamp(2.8rem, 7vw, 5.5rem)' }}
               >
                 {slide.title}
               </motion.h1>
@@ -253,7 +266,7 @@ export default function HeroCarousel() {
               {/* Subtitle */}
               <motion.p
                 variants={itemVariants}
-                className="font-body text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
+                className="font-body text-base sm:text-[1.05rem] max-w-md mb-9 leading-relaxed"
                 style={{ color: slide.subtitleColor }}
               >
                 {slide.subtitle}
@@ -271,22 +284,21 @@ export default function HeroCarousel() {
                 </Button>
               </motion.div>
             </div>
+          </motion.div>
 
-            {/* Right: product image — desktop only */}
-            {slide.image && (
-              <motion.div
-                className="hidden lg:flex lg:w-[45%] h-full items-center justify-center pr-16"
-                variants={itemVariants}
-              >
-                <motion.img
-                  src={slide.image}
-                  alt={slide.imageAlt ?? ''}
-                  className="max-h-[72%] w-auto object-contain drop-shadow-2xl"
-                  animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              </motion.div>
-            )}
+          {/* Decorative diamond / sparkle — bottom right */}
+          <motion.div
+            className="absolute bottom-12 right-14 z-10 pointer-events-none"
+            animate={{ rotate: [0, 15, 0, -15, 0], scale: [1, 1.08, 1] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            aria-hidden
+          >
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20 0 L22.5 17.5 L40 20 L22.5 22.5 L20 40 L17.5 22.5 L0 20 L17.5 17.5 Z"
+                fill="rgba(215, 207, 194, 0.75)"
+              />
+            </svg>
           </motion.div>
         </motion.div>
       </AnimatePresence>

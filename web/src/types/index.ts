@@ -15,6 +15,8 @@ export interface Product {
   badge: string | null
   coverageOptions: string[]
   image: string | null
+  /** Optional map: coverage option label → image URL for dynamic image switching */
+  imageByCoverage?: Record<string, string>
   gradientFrom: string
   gradientTo: string
 }

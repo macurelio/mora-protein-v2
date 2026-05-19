@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Minus, Plus, Check, Eye } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import QuickViewModal from './QuickViewModal'
@@ -7,7 +7,7 @@ import type { ProductCardProps } from '../../types'
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
-export const cardVariants = {
+const cardVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.44, ease: EASE } },
 }
@@ -35,6 +35,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     return opt
   }
 
+  // Resolve the image to display based on selected coverage
+  const displayImage =
+    selectedCoverage && product.imageByCoverage?.[selectedCoverage]
+      ? product.imageByCoverage[selectedCoverage]
+      : product.image
+
   return (
     <motion.article
       variants={cardVariants}
@@ -57,20 +63,25 @@ export default function ProductCard({ product }: ProductCardProps) {
         className="relative overflow-hidden"
         style={{
           height: '220px',
-          background: !product.image
+          background: !displayImage
             ? `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)`
             : undefined,
         }}
       >
-        {product.image ? (
-          <motion.img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover object-center will-change-transform"
-            loading="lazy"
-            animate={{ scale: isHovered ? 1.05 : 1 }}
-            transition={{ duration: 0.6, ease: EASE }}
-          />
+        {displayImage ? (
+          <AnimatePresence mode="crossfade" initial={false}>
+            <motion.img
+              key={displayImage}
+              src={displayImage}
+              alt={product.name}
+              className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
+              loading="lazy"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, scale: isHovered ? 1.05 : 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.38, ease: EASE }}
+            />
+          </AnimatePresence>
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-white/20 font-heading font-black text-6xl select-none">MP</span>
