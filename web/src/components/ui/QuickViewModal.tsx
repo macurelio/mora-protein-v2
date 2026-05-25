@@ -136,6 +136,18 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                     {product.badge}
                   </div>
                 )}
+
+                {/* Color stripe by coverage */}
+                {selectedCoverage && product.colorByCoverage?.[selectedCoverage] && (
+                  <motion.div
+                    key={selectedCoverage}
+                    className="absolute top-0 inset-x-0 h-[6px] z-10"
+                    style={{ backgroundColor: product.colorByCoverage[selectedCoverage] }}
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ duration: 0.35 }}
+                  />
+                )}
               </div>
 
               {/* Content */}
@@ -174,23 +186,33 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                       Cobertura:
                     </p>
                     <div className="flex gap-2">
-                      {product.coverageOptions.map((opt) => (
-                        <button
-                          key={opt}
-                          onClick={() => setSelectedCoverage(opt)}
-                          className={[
-                            'text-xs font-heading font-bold px-3 py-1.5 rounded-lg border-2 transition-all duration-150',
-                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-1',
-                            selectedCoverage === opt
-                              ? 'bg-charcoal border-charcoal text-white'
-                              : 'bg-white border-cream-border text-muted hover:border-charcoal',
-                          ].join(' ')}
-                          aria-pressed={selectedCoverage === opt ? 'true' : 'false'}
-                          aria-label={`Cobertura ${coverageLabel(opt)}`}
-                        >
-                          {coverageLabel(opt)}
-                        </button>
-                      ))}
+                      {product.coverageOptions.map((opt) => {
+                        const swatchColor = product.colorByCoverage?.[opt]
+                        return (
+                          <button
+                            key={opt}
+                            onClick={() => setSelectedCoverage(opt)}
+                            className={[
+                              'flex items-center gap-1.5 text-xs font-heading font-bold px-3 py-1.5 rounded-lg border-2 transition-all duration-150',
+                              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-1',
+                              selectedCoverage === opt
+                                ? 'bg-charcoal border-charcoal text-white'
+                                : 'bg-white border-cream-border text-muted hover:border-charcoal',
+                            ].join(' ')}
+                            aria-pressed={selectedCoverage === opt ? 'true' : 'false'}
+                            aria-label={`Cobertura ${coverageLabel(opt)}`}
+                          >
+                            {swatchColor && (
+                              <span
+                                className="inline-block w-3 h-3 rounded-full border border-black/10 flex-shrink-0"
+                                style={{ backgroundColor: swatchColor }}
+                                aria-hidden="true"
+                              />
+                            )}
+                            {coverageLabel(opt)}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
                 )}

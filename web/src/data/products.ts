@@ -2,7 +2,7 @@ import type { Product } from '../types'
 
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
-const IMG_BARRAS_NEGRO = `${BASE}images/barrachocolatenegro.png`
+const IMG_BARRAS_NEGRO = `${BASE}images/barrachocolatenegroprofunfo.png`
 const IMG_BARRAS_BLANCO = `${BASE}images/barraChocolateBlanco.jpg`
 const IMG_GALLETONES = `${BASE}images/image.png`
 const IMG_GALLETONES_STACK = `${BASE}images/galletones-stack.png`
@@ -28,6 +28,10 @@ export const products: Product[] = [
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
     },
+    colorByCoverage: {
+      'Chocolate Blanco': '#f4a8b8',
+      'Chocolate Negro': '#8b5e3c',
+    },
     gradientFrom: '#3d2211',
     gradientTo: '#6b3a1f',
   },
@@ -46,6 +50,10 @@ export const products: Product[] = [
     imageByCoverage: {
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
+    },
+    colorByCoverage: {
+      'Chocolate Blanco': '#e87820',
+      'Chocolate Negro': '#c07040',
     },
     gradientFrom: '#3a1a0a',
     gradientTo: '#c45c1a',
@@ -66,8 +74,35 @@ export const products: Product[] = [
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
     },
+    colorByCoverage: {
+      'Chocolate Blanco': '#2d7a46',
+      'Chocolate Negro': '#1a1a1a',
+    },
     gradientFrom: '#2e1a08',
     gradientTo: '#8b4513',
+  },
+  {
+    id: 'b4',
+    name: 'Barra Coco',
+    flavor: 'Coco',
+    category: 'Barras Proteicas',
+    description:
+      'Relleno de coco natural con cobertura de chocolate artesanal. 100% natural, sin azúcar añadida, 15g de proteína por barra.',
+    protein: '15g',
+    price: 1900,
+    badge: null,
+    coverageOptions: ['Chocolate Blanco', 'Chocolate Negro'],
+    image: IMG_BARRAS_BLANCO,
+    imageByCoverage: {
+      'Chocolate Negro': IMG_BARRAS_NEGRO,
+      'Chocolate Blanco': IMG_BARRAS_BLANCO,
+    },
+    colorByCoverage: {
+      'Chocolate Blanco': '#d42b2b',
+      'Chocolate Negro': '#d0d0d0',
+    },
+    gradientFrom: '#0d2a1a',
+    gradientTo: '#1a5c3a',
   },
   {
     id: 'g1',

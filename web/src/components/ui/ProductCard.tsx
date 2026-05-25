@@ -7,6 +7,15 @@ import type { ProductCardProps } from '../../types'
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
+/** Returns true if a hex color is light (so dark text should be used) */
+function isLightColor(hex: string): boolean {
+  const c = hex.replace('#', '')
+  const r = parseInt(c.substring(0, 2), 16)
+  const g = parseInt(c.substring(2, 4), 16)
+  const b = parseInt(c.substring(4, 6), 16)
+  return (r * 299 + g * 587 + b * 114) / 1000 > 140
+}
+
 const cardVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.44, ease: EASE } },
@@ -58,6 +67,18 @@ export default function ProductCard({ product }: ProductCardProps) {
       role="group"
       aria-label={product.name}
     >
+      {/* ── Color stripe top border (by coverage) ── */}
+      {selectedCoverage && product.colorByCoverage?.[selectedCoverage] && (
+        <motion.div
+          key={selectedCoverage}
+          className="h-[5px] w-full rounded-t-2xl"
+          style={{ backgroundColor: product.colorByCoverage[selectedCoverage] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        />
+      )}
+
       {/* ── Image ── */}
       <div
         className="relative overflow-hidden"
@@ -147,27 +168,62 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Coverage selector */}
         {product.coverageOptions?.length > 0 && (
           <div>
+            {/* Color swatch indicator */}
+            {selectedCoverage && product.colorByCoverage?.[selectedCoverage] && (
+              <motion.div
+                key={selectedCoverage}
+                className="flex items-center gap-2 mb-2"
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <span
+                  className="inline-block w-5 h-5 rounded-full border-2 border-white shadow-md flex-shrink-0"
+                  style={{ backgroundColor: product.colorByCoverage[selectedCoverage] }}
+                />
+                <span className="text-[11px] font-heading font-bold text-charcoal/70 uppercase tracking-widest">
+                  Empaque {coverageLabel(selectedCoverage)}
+                </span>
+              </motion.div>
+            )}
+
             <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5">
               Cobertura:
             </p>
             <div className="flex gap-2">
-              {product.coverageOptions.map((opt) => (
-                <button
-                  key={opt}
-                  onClick={() => setSelectedCoverage(opt)}
-                  className={[
-                    'text-xs font-heading font-bold px-3 py-1.5 rounded-lg border-2 transition-all duration-150',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-1',
-                    selectedCoverage === opt
-                      ? 'bg-charcoal border-charcoal text-white'
-                      : 'bg-white border-cream-border text-muted hover:border-charcoal',
-                  ].join(' ')}
-                  aria-pressed={selectedCoverage === opt}
-                  aria-label={`Cobertura ${coverageLabel(opt)}`}
-                >
-                  {coverageLabel(opt)}
-                </button>
-              ))}
+              {product.coverageOptions.map((opt) => {
+                const swatchColor = product.colorByCoverage?.[opt]
+                const isSelected = selectedCoverage === opt
+                return (
+                  <button
+                    key={opt}
+                    onClick={() => setSelectedCoverage(opt)}
+                    style={isSelected && swatchColor ? {
+                      backgroundColor: swatchColor,
+                      borderColor: swatchColor,
+                      color: isLightColor(swatchColor) ? '#1a1a1a' : '#ffffff',
+                    } : undefined}
+                    className={[
+                      'flex items-center gap-1.5 text-xs font-heading font-bold px-3 py-1.5 rounded-lg border-2 transition-all duration-200',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-1',
+                      !isSelected
+                        ? 'bg-white border-cream-border text-muted hover:border-charcoal'
+                        : '',
+                    ].join(' ')}
+                    aria-pressed={isSelected}
+                    aria-label={`Cobertura ${coverageLabel(opt)}`}
+                  >
+                    {swatchColor && (
+                      <span
+                        className="inline-block w-2.5 h-2.5 rounded-full border border-black/20 flex-shrink-0"
+                        style={{ backgroundColor: swatchColor }}
+                        aria-hidden="true"
+                      />
+                    )}
+                    {coverageLabel(opt)}
+                  </button>
+                )
+              })}
             </div>
           </div>
         )}

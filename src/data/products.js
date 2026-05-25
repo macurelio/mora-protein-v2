@@ -39,8 +39,18 @@ export const products = [
   },
   {
     id: 'b1',
-    name: 'Barra Tiramisu',
-    flavor: 'Tiramisú',
+    name: 'Barra Tiramisú · Dulce de Leche',
+    flavor: 'Tiramisú · Dulce de Leche',
+    description: '15g Proteína • Sin azúcar',
+    price: 1900,
+    image: require('../../assets/barras-ilustacion.png'),
+    category: PRODUCT_CATEGORIES.BARS,
+    coverageOptions: ['Chocolate Negro', 'Chocolate Blanco']
+  },
+  {
+    id: 'b4',
+    name: 'Barra Coco',
+    flavor: 'Coco',
     description: '15g Proteína • Sin azúcar',
     price: 1900,
     image: require('../../assets/barras-ilustacion.png'),

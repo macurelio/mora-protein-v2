@@ -17,6 +17,8 @@ export interface Product {
   image: string | null
   /** Optional map: coverage option label → image URL for dynamic image switching */
   imageByCoverage?: Record<string, string>
+  /** Optional map: coverage option label → packaging hex color for visual indicator */
+  colorByCoverage?: Record<string, string>
   gradientFrom: string
   gradientTo: string
 }
