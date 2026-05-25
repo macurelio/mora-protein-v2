@@ -2,7 +2,7 @@ import type { Product } from '../types'
 
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
-const IMG_BARRAS_NEGRO = `${BASE}images/barrachocolatenegro.png`
+const IMG_BARRAS_NEGRO = `${BASE}images/barrachocolatenegroprofunfo.png`
 const IMG_BARRAS_BLANCO = `${BASE}images/barraChocolateBlanco.jpg`
 const IMG_GALLETONES = `${BASE}images/image.png`
 const IMG_GALLETONES_STACK = `${BASE}images/galletones-stack.png`
