@@ -2,14 +2,14 @@ import type { Product } from '../types'
 
 const BASE = import.meta.env.BASE_URL
 const IMG_BARRAS = `${BASE}images/barras.jpg`
-const IMG_BARRAS_NEGRO = `${BASE}images/barras-negro.png`
-const IMG_BARRAS_BLANCO = `${BASE}images/barras-blanco.png`
-const IMG_GALLETONES = `${BASE}images/galletones.png`
+const IMG_BARRAS_NEGRO = `${BASE}images/barrachocolatenegro.png`
+const IMG_BARRAS_BLANCO = `${BASE}images/barraChocolateBlanco.jpg`
+const IMG_GALLETONES = `${BASE}images/image.png`
 const IMG_GALLETONES_STACK = `${BASE}images/galletones-stack.png`
 const IMG_BOMBONES = `${BASE}images/bombones.jpg`
-const IMG_BOMBONES_COCO = `${BASE}images/bombones-coco.png`
-const IMG_BOMBONES_PISTACHO = `${BASE}images/bombones-pistacho.png`
-const IMG_BOMBONES_ALMENDRA = `${BASE}images/bombones-almendra.png`
+const IMG_BOMBONES_COCO = `${BASE}images/bombones.jpeg`
+const IMG_BOMBONES_PISTACHO = `${BASE}images/bombones.jpeg`
+const IMG_BOMBONES_ALMENDRA = `${BASE}images/bombones.jpeg`
 
 export const products: Product[] = [
   {
@@ -22,8 +22,8 @@ export const products: Product[] = [
     protein: '15g',
     price: 1900,
     badge: 'Más Popular',
-    coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS_NEGRO,
+    coverageOptions: ['Chocolate Blanco', 'Chocolate Negro'],
+    image: IMG_BARRAS_BLANCO,
     imageByCoverage: {
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
@@ -41,8 +41,8 @@ export const products: Product[] = [
     protein: '15g',
     price: 1900,
     badge: null,
-    coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS_NEGRO,
+    coverageOptions: ['Chocolate Blanco', 'Chocolate Negro'],
+    image: IMG_BARRAS_BLANCO,
     imageByCoverage: {
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
@@ -60,8 +60,8 @@ export const products: Product[] = [
     protein: '15g',
     price: 1900,
     badge: null,
-    coverageOptions: ['Chocolate Negro', 'Chocolate Blanco'],
-    image: IMG_BARRAS_NEGRO,
+    coverageOptions: ['Chocolate Blanco', 'Chocolate Negro'],
+    image: IMG_BARRAS_BLANCO,
     imageByCoverage: {
       'Chocolate Negro': IMG_BARRAS_NEGRO,
       'Chocolate Blanco': IMG_BARRAS_BLANCO,
