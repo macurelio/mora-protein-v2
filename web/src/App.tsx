@@ -18,7 +18,7 @@ import OfferModal from './components/ui/OfferModal'
 function useSessionRedirects() {
   useEffect(() => {
     if (window.location.pathname.endsWith('/checkout/success')) {
-      window.history.replaceState({}, '', '/mora-protein-v2/')
+      window.history.replaceState({}, '', '/verduleriaBaackFF/')
     }
   }, [])
 }
