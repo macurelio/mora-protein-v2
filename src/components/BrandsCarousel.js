@@ -5,16 +5,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
   useWindowDimensions,
 } from 'react-native';
 
-const BRANDS = [
-  { id: 'b1', name: 'VitaPlus', category: 'Suplementos', logo: require('../../assets/brand-vitaplus.png') },
-  { id: 'b2', name: 'GreenSource', category: 'Ingredientes Orgánicos', logo: require('../../assets/brand-greensource.png') },
-  { id: 'b3', name: 'NutriWell', category: 'Nutrición Natural', logo: require('../../assets/brand-nutriwell.png') },
-  { id: 'b4', name: 'FitLab', category: 'Ciencia Deportiva', logo: require('../../assets/brand-fitlab.png') },
-  { id: 'b5', name: 'Mora Premium', category: 'Producción Artesanal', logo: require('../../assets/logo-cuadrado.png') },
+const PRODUCERS = [
+  { id: 'p1', name: 'Campo Las Vertientes', category: 'Hojas y aromáticas', emoji: '🌱' },
+  { id: 'p2', name: 'Huerto San Pedro', category: 'Tubérculos de campo', emoji: '🥔' },
+  { id: 'p3', name: 'Frutas del Maipo', category: 'Fruta de temporada', emoji: '🍑' },
+  { id: 'p4', name: 'Mora Verduras', category: 'Selección y packing', emoji: '🥬' },
+  { id: 'p5', name: 'Vega Central', category: 'Abastecimiento diario', emoji: '🧺' },
 ];
 
 export default function BrandsCarousel() {
@@ -26,7 +25,7 @@ export default function BrandsCarousel() {
   const GAP = 12;
 
   const goToSlide = (index) => {
-    const clampedIndex = Math.max(0, Math.min(index, BRANDS.length - 1));
+    const clampedIndex = Math.max(0, Math.min(index, PRODUCERS.length - 1));
     scrollRef.current?.scrollTo({ x: clampedIndex * (CARD_WIDTH + GAP), animated: true });
     setActiveIndex(clampedIndex);
   };
@@ -39,8 +38,8 @@ export default function BrandsCarousel() {
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionLabel}>ALIANZAS</Text>
-        <Text style={styles.sectionTitle}>Marcas con las que trabajamos</Text>
+        <Text style={styles.sectionLabel}>ORIGEN</Text>
+        <Text style={styles.sectionTitle}>Productores aliados</Text>
       </View>
 
       <ScrollView
@@ -53,10 +52,10 @@ export default function BrandsCarousel() {
         decelerationRate="fast"
         snapToInterval={CARD_WIDTH + GAP}
       >
-        {BRANDS.map((brand) => (
+        {PRODUCERS.map((brand) => (
           <View key={brand.id} style={[styles.card, { width: CARD_WIDTH }]}>
             <View style={styles.logoWrapper}>
-              <Image source={brand.logo} style={styles.logo} resizeMode="contain" />
+              <Text style={styles.logoEmoji}>{brand.emoji}</Text>
             </View>
             <View style={styles.cardBody}>
               <Text style={styles.categoryTag}>{brand.category}</Text>
@@ -67,7 +66,7 @@ export default function BrandsCarousel() {
       </ScrollView>
 
       <View style={styles.dotsRow}>
-        {BRANDS.map((_, i) => (
+        {PRODUCERS.map((_, i) => (
           <TouchableOpacity key={i} onPress={() => goToSlide(i)} style={styles.dotTouchable}>
             <View style={[styles.dot, i === activeIndex && styles.dotActive]} />
           </TouchableOpacity>
@@ -80,7 +79,7 @@ export default function BrandsCarousel() {
 const styles = StyleSheet.create({
   section: { marginTop: 4, marginBottom: 32 },
   sectionHeader: { paddingHorizontal: 20, marginBottom: 16 },
-  sectionLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 2.5, color: '#C9A96E', marginBottom: 2 },
+  sectionLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 2.5, color: '#7CB342', marginBottom: 2 },
   sectionTitle: { fontSize: 22, fontWeight: '900', color: '#FFFFFF', letterSpacing: -0.5 },
   scrollContent: { paddingHorizontal: 20, gap: 12, paddingBottom: 4 },
   card: {
@@ -100,13 +99,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A2A2A',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
-  logo: { width: '90%', height: '90%' },
+  logoEmoji: { fontSize: 64 },
   cardBody: { padding: 14 },
   categoryTag: {
-    backgroundColor: 'rgba(201,169,110,0.12)',
-    color: '#C9A96E',
+    backgroundColor: 'rgba(124,179,66,0.12)',
+    color: '#7CB342',
     fontSize: 9,
     fontWeight: '800',
     paddingHorizontal: 7,
@@ -117,11 +115,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 6,
     borderWidth: 1,
-    borderColor: 'rgba(201,169,110,0.25)',
+    borderColor: 'rgba(124,179,66,0.25)',
   },
   brandName: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', letterSpacing: -0.3 },
   dotsRow: { flexDirection: 'row', justifyContent: 'center', marginTop: 14, gap: 6 },
   dotTouchable: { padding: 4 },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.2)' },
-  dotActive: { width: 20, backgroundColor: '#C9A96E' },
+  dotActive: { width: 20, backgroundColor: '#7CB342' },
 });

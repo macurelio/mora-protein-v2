@@ -13,7 +13,7 @@ export default function OfferBanner({ onOpenOffer }: OfferBannerProps) {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="relative z-50 bg-gradient-to-r from-[#2e1a08] via-cocoa to-[#2e1a08]"
+          className="relative z-50 bg-gradient-to-r from-[#14532d] via-[#166534] to-[#14532d]"
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
@@ -23,7 +23,7 @@ export default function OfferBanner({ onOpenOffer }: OfferBannerProps) {
             <Zap size={13} className="fill-white text-white flex-shrink-0" />
             <p className="text-white/90 font-body text-center leading-snug">
               <span className="font-heading font-black text-white">⚡ OFERTA DEL DÍA:</span>{' '}
-              Box Mixto Proteico con{' '}
+              Canasta Semanal con{' '}
               <span className="font-heading font-black text-white">$2.500 de descuento</span>
               {' '}· Solo por hoy
             </p>

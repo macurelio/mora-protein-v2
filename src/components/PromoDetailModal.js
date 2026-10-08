@@ -5,13 +5,18 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ScrollView,
   useWindowDimensions,
 } from 'react-native';
-import { X } from 'lucide-react-native';
+import { X, ShoppingCart } from 'lucide-react-native';
 
-export default function PromoDetailModal({ visible, item, onClose, onPrimaryAction }) {
+export default function PromoDetailModal({
+  visible,
+  item,
+  onClose,
+  onPrimaryAction,
+  onAddToCart,
+}) {
   const { width, height } = useWindowDimensions();
 
   if (!item) {
@@ -35,7 +40,9 @@ export default function PromoDetailModal({ visible, item, onClose, onPrimaryActi
           </TouchableOpacity>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Image source={item.image} style={styles.heroImage} resizeMode="cover" />
+            <View style={[styles.hero, { backgroundColor: item.gradientTo || '#1E1E1E' }]}>
+              <Text style={styles.heroEmoji}>{item.emoji || '🥬'}</Text>
+            </View>
 
             <View style={styles.content}>
               {item.badge ? <Text style={styles.badge}>{item.badge}</Text> : null}
@@ -44,12 +51,12 @@ export default function PromoDetailModal({ visible, item, onClose, onPrimaryActi
               {item.priceLabel ? <Text style={styles.priceLabel}>{item.priceLabel}</Text> : null}
               <Text style={styles.description}>{item.description}</Text>
 
-              {item.bullets?.length ? (
+              {item.items?.length ? (
                 <View style={styles.listBlock}>
-                  {item.bullets.map((bullet, index) => (
+                  {item.items.map((line, index) => (
                     <View key={`${item.id}-bullet-${index}`} style={styles.listItem}>
                       <View style={styles.dot} />
-                      <Text style={styles.listText}>{bullet}</Text>
+                      <Text style={styles.listText}>{line}</Text>
                     </View>
                   ))}
                 </View>
@@ -58,9 +65,16 @@ export default function PromoDetailModal({ visible, item, onClose, onPrimaryActi
           </ScrollView>
 
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.secondaryButton} onPress={onClose} activeOpacity={0.85}>
-              <Text style={styles.secondaryButtonText}>Cerrar</Text>
-            </TouchableOpacity>
+            {onAddToCart ? (
+              <TouchableOpacity
+                style={styles.cartButton}
+                onPress={() => onAddToCart(item)}
+                activeOpacity={0.85}
+              >
+                <ShoppingCart color="#0A0A0A" size={18} />
+                <Text style={styles.cartButtonText}>Agregar</Text>
+              </TouchableOpacity>
+            ) : null}
 
             {item.primaryLabel ? (
               <TouchableOpacity style={styles.primaryButton} onPress={onPrimaryAction} activeOpacity={0.85}>
@@ -104,18 +118,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.12)',
   },
-  heroImage: {
+  hero: {
     width: '100%',
-    height: 240,
-    backgroundColor: '#1E1E1E',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  heroEmoji: { fontSize: 96 },
   content: {
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 12,
   },
   badge: {
-    color: '#C9A96E',
+    color: '#7CB342',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 2.2,
@@ -135,7 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   priceLabel: {
-    color: '#C9A96E',
+    color: '#7CB342',
     fontSize: 16,
     fontWeight: '900',
     marginBottom: 14,
@@ -158,7 +174,7 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 3.5,
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     marginTop: 7,
   },
   listText: {
@@ -174,31 +190,33 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: 'rgba(255,255,255,0.08)',
   },
-  secondaryButton: {
-    flex: 1,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.12)',
-    paddingVertical: 13,
+  cartButton: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6,
+    backgroundColor: '#7CB342',
+    borderRadius: 14,
+    paddingHorizontal: 18,
+    paddingVertical: 13,
   },
-  secondaryButtonText: {
-    color: '#FFFFFF',
+  cartButtonText: {
+    color: '#0A0A0A',
     fontSize: 14,
-    fontWeight: '800',
+    fontWeight: '900',
   },
   primaryButton: {
-    flex: 1.2,
-    backgroundColor: '#C9A96E',
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
     borderRadius: 14,
     paddingVertical: 13,
     alignItems: 'center',
     justifyContent: 'center',
   },
   primaryButtonText: {
-    color: '#0A0A0A',
+    color: '#FFFFFF',
     fontSize: 14,
-    fontWeight: '900',
+    fontWeight: '800',
   },
 });

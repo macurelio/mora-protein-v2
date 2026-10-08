@@ -1,16 +1,7 @@
 import { motion } from 'framer-motion'
 import ProductCarousel from '../carousels/ProductCarousel'
 import { products } from '../../data/products'
-
-const BASE = import.meta.env.BASE_URL
-
-const CATEGORIES = ['Barras Proteicas', 'Bombones', 'Galletones'] as const
-
-const CATEGORY_ICONS: Record<string, string> = {
-  'Barras Proteicas': `${BASE}images/icons/barra-icono.png`,
-  'Bombones':         `${BASE}images/bombones-ilustracion.png`,
-  'Galletones':       `${BASE}images/icons/galleta-icono.png`,
-}
+import { CATEGORIES } from '../../data/categories'
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
@@ -44,19 +35,19 @@ export default function FeaturedProductsSection() {
           variants={headerVariants}
         >
           <h2 className="font-heading font-black text-sand text-4xl sm:text-5xl leading-tight">
-            Nuestros Productos
+            Nuestras Verduras
           </h2>
           <p className="mt-4 text-white/50 font-body text-base max-w-md mx-auto">
-            Snacks proteicos artesanales. Sin azúcar, sin compromisos.
+            Producto fresco del día. Precio por unidad de venta, sin sorpresas.
           </p>
         </motion.div>
 
         <div className="space-y-20">
-          {CATEGORIES.map((category) => {
-            const items = products.filter((p) => p.category === category)
+          {CATEGORIES.map(({ name, emoji, blurb }) => {
+            const items = products.filter((p) => p.category === name)
             if (!items.length) return null
             return (
-              <div key={category}>
+              <div key={name}>
                 <motion.div
                   className="flex items-center gap-4 mb-8"
                   initial="hidden"
@@ -64,17 +55,15 @@ export default function FeaturedProductsSection() {
                   viewport={{ once: true, margin: '-40px' }}
                   variants={categoryTitleVariants}
                 >
-                  {CATEGORY_ICONS[category] && (
-                    <img
-                      src={CATEGORY_ICONS[category]}
-                      alt=""
-                      aria-hidden
-                      className="w-14 h-14 object-contain drop-shadow-sm"
-                    />
-                  )}
-                  <h3 className="font-heading font-black text-sand text-2xl sm:text-3xl uppercase tracking-wide">
-                    {category}
-                  </h3>
+                  <span className="w-14 h-14 flex items-center justify-center text-4xl" aria-hidden="true">
+                    {emoji}
+                  </span>
+                  <div>
+                    <h3 className="font-heading font-black text-sand text-2xl sm:text-3xl uppercase tracking-wide">
+                      {name}
+                    </h3>
+                    <p className="text-white/40 font-body text-sm">{blurb}</p>
+                  </div>
                   <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
                 </motion.div>
 

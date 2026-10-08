@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import {
-  Modal, View, Text, StyleSheet, Image, TouchableOpacity,
+  Modal, View, Text, StyleSheet, TouchableOpacity,
   ScrollView, Animated, useWindowDimensions,
 } from 'react-native';
 import { X, ShoppingCart, Plus, Minus, Check } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
+import { UNIT_LABELS } from '../config';
 
 const fmt = (n) => '$' + Number(n).toLocaleString('es-CL');
 
 export default function ProductDetailModal({ product, visible, onClose, onAddToCart }) {
   const { width, height } = useWindowDimensions();
   const styles = makeStyles(width, height);
-  const [coverage, setCoverage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const { addToCart } = useContext(CartContext);
@@ -20,12 +20,8 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
   const slideAnim = useRef(new Animated.Value(600)).current;
   const overlayAnim = useRef(new Animated.Value(0)).current;
 
-  // Flip animation for coverage change
-  const flipAnim = useRef(new Animated.Value(1)).current;
-
   useEffect(() => {
     if (product) {
-      setCoverage(product.coverageOptions?.[0] || '');
       setQuantity(1);
       setAdded(false);
     }
@@ -45,19 +41,10 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
     }
   }, [visible]);
 
-  const handleCoverageChange = (opt) => {
-    setCoverage(opt);
-    Animated.sequence([
-      Animated.timing(flipAnim, { toValue: 0.05, duration: 120, useNativeDriver: true }),
-      Animated.timing(flipAnim, { toValue: 1, duration: 120, useNativeDriver: true }),
-    ]).start();
-  };
-
   const handleAdd = () => {
     if (!product) return;
-    const opts = product.coverageOptions?.length ? { coverage } : {};
     for (let i = 0; i < quantity; i++) {
-      addToCart(product, opts);
+      addToCart(product);
     }
     setAdded(true);
     onAddToCart?.(`${quantity > 1 ? `${quantity}x ` : ''}${product.name}`);
@@ -79,65 +66,35 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
       onRequestClose={onClose}
       statusBarTranslucent
     >
-      {/* Overlay */}
       <Animated.View style={[styles.overlay, { opacity: overlayAnim }]}>
         <TouchableOpacity style={StyleSheet.absoluteFill} onPress={onClose} activeOpacity={1} />
       </Animated.View>
 
-      {/* Bottom sheet */}
       <Animated.View style={[styles.sheet, { transform: [{ translateY: slideAnim }] }]}>
-        {/* Handle */}
         <View style={styles.handle} />
 
-        {/* Close button */}
         <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
           <X color="#FFFFFF" size={18} />
         </TouchableOpacity>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-          {/* Product image with flip */}
-          <Animated.View style={[styles.imageWrapper, { transform: [{ scaleX: flipAnim }] }]}>
-            <Image source={product.image} style={styles.image} resizeMode="cover" />
+          <View style={[styles.imageWrapper, { backgroundColor: product.gradientTo }]}>
+            <Text style={styles.productEmoji}>{product.emoji}</Text>
             <View style={styles.imagePricePill}>
               <Text style={styles.imagePriceText}>{fmt(product.price)} c/u</Text>
             </View>
-          </Animated.View>
+          </View>
 
-          {/* Category tag */}
           <View style={styles.categoryRow}>
             <Text style={styles.categoryTag}>{product.category}</Text>
           </View>
 
-          {/* Name & description */}
           <Text style={styles.productName}>{product.name}</Text>
-          {product.flavor ? <Text style={styles.flavorText}>{product.flavor}</Text> : null}
+          <Text style={styles.unitText}>{UNIT_LABELS[product.unit]}</Text>
           <Text style={styles.descText}>{product.description}</Text>
 
           <View style={styles.divider} />
 
-          {/* Coverage selector */}
-          {product.coverageOptions?.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionLabel}>COBERTURA</Text>
-              <View style={styles.coverageRow}>
-                {product.coverageOptions.map(opt => (
-                  <TouchableOpacity
-                    key={opt}
-                    style={[styles.chip, coverage === opt && styles.chipSelected]}
-                    onPress={() => handleCoverageChange(opt)}
-                    activeOpacity={0.8}
-                  >
-                    {coverage === opt && <Check color="#0A0A0A" size={12} style={{ marginRight: 4 }} />}
-                    <Text style={[styles.chipText, coverage === opt && styles.chipTextSelected]}>
-                      {opt}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-          )}
-
-          {/* Quantity selector */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>CANTIDAD</Text>
             <View style={styles.qtyRow}>
@@ -162,7 +119,6 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
                 <Plus color="#FFFFFF" size={18} />
               </TouchableOpacity>
 
-              {/* Total inline */}
               <View style={styles.totalInline}>
                 <Text style={styles.totalLabel}>Total</Text>
                 <Text style={styles.totalValue}>{fmt(totalPrice)}</Text>
@@ -171,7 +127,6 @@ export default function ProductDetailModal({ product, visible, onClose, onAddToC
           </View>
         </ScrollView>
 
-        {/* Add to cart button */}
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.addBtn, added && styles.addBtnDone]}
@@ -237,30 +192,29 @@ const makeStyles = (width, height) => StyleSheet.create({
     paddingBottom: 12,
   },
 
-  // Image
   imageWrapper: {
     height: Math.min(180, height * 0.22),
     borderRadius: 16, overflow: 'hidden',
-    backgroundColor: '#2A2A2A', marginBottom: 14, position: 'relative',
+    justifyContent: 'center', alignItems: 'center',
+    marginBottom: 14, position: 'relative',
   },
-  image: { width: '100%', height: '100%' },
+  productEmoji: { fontSize: 96 },
   imagePricePill: {
     position: 'absolute', bottom: 10, right: 10,
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     paddingHorizontal: 10, paddingVertical: 4,
     borderRadius: 12,
   },
   imagePriceText: { color: '#0A0A0A', fontWeight: '900', fontSize: 13 },
 
-  // Category & name
   categoryRow: { marginBottom: 6 },
   categoryTag: {
     alignSelf: 'flex-start',
-    backgroundColor: 'rgba(201,169,110,0.12)',
-    color: '#C9A96E', fontSize: 10, fontWeight: '800',
+    backgroundColor: 'rgba(124,179,66,0.12)',
+    color: '#7CB342', fontSize: 10, fontWeight: '800',
     paddingHorizontal: 9, paddingVertical: 4, borderRadius: 8,
     textTransform: 'uppercase', letterSpacing: 1,
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.3)',
+    borderWidth: 1, borderColor: 'rgba(124,179,66,0.3)',
   },
   productName: {
     color: '#FFFFFF',
@@ -269,32 +223,21 @@ const makeStyles = (width, height) => StyleSheet.create({
     letterSpacing: -0.5, marginBottom: 3,
     lineHeight: width < 380 ? 24 : 26,
   },
-  flavorText: { color: '#888888', fontSize: 12, marginBottom: 4 },
+  unitText: {
+    color: '#7CB342', fontSize: 12, fontWeight: '700',
+    textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4,
+  },
   descText: { color: '#777777', fontSize: 12, lineHeight: 18, marginBottom: 4 },
   divider: {
     height: 1, backgroundColor: 'rgba(255,255,255,0.07)', marginVertical: 14,
   },
 
-  // Sections
   section: { marginBottom: height < 700 ? 14 : 18 },
   sectionLabel: {
     color: '#555555', fontSize: 10, fontWeight: '900',
     letterSpacing: 2, marginBottom: 10,
   },
 
-  // Coverage chips
-  coverageRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: {
-    flexDirection: 'row', alignItems: 'center',
-    borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.14)',
-    backgroundColor: '#1E1E1E', borderRadius: 30,
-    paddingHorizontal: 14, paddingVertical: 7,
-  },
-  chipSelected: { backgroundColor: '#C9A96E', borderColor: '#C9A96E' },
-  chipText: { color: '#AAAAAA', fontSize: 12, fontWeight: '700' },
-  chipTextSelected: { color: '#0A0A0A' },
-
-  // Quantity
   qtyRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   qtyBtn: {
     width: 42, height: 42, borderRadius: 21,
@@ -308,9 +251,8 @@ const makeStyles = (width, height) => StyleSheet.create({
   qtyUnit: { color: '#555555', fontSize: 10, fontWeight: '600', letterSpacing: 0.5 },
   totalInline: { marginLeft: 'auto', alignItems: 'flex-end' },
   totalLabel: { color: '#555555', fontSize: 10, fontWeight: '700', letterSpacing: 1, textTransform: 'uppercase' },
-  totalValue: { color: '#C9A96E', fontSize: width < 380 ? 18 : 20, fontWeight: '900', letterSpacing: -0.5 },
+  totalValue: { color: '#7CB342', fontSize: width < 380 ? 18 : 20, fontWeight: '900', letterSpacing: -0.5 },
 
-  // Footer
   footer: {
     paddingHorizontal: width < 380 ? 16 : 20,
     paddingBottom: height < 700 ? 20 : 28,
@@ -319,7 +261,7 @@ const makeStyles = (width, height) => StyleSheet.create({
     backgroundColor: '#111111',
   },
   addBtn: {
-    backgroundColor: '#C9A96E', flexDirection: 'row',
+    backgroundColor: '#7CB342', flexDirection: 'row',
     alignItems: 'center', justifyContent: 'center',
     paddingVertical: 14, borderRadius: 14, gap: 8,
   },

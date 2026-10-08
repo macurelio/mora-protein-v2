@@ -1,59 +1,55 @@
 import React, { useState, useRef } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
-  ScrollView, useWindowDimensions, Linking,
+  ScrollView, useWindowDimensions,
 } from 'react-native';
+import { INSTAGRAM_URL } from '../config';
 
 const TESTIMONIALS = [
   {
     id: 't1',
-    quote: '¡Las mejores barras proteicas que he probado en mi vida! Sin azúcar y con un sabor increíble. El tiramisú es mi favorito.',
-    author: 'María G.',
-    role: 'Atleta CrossFit',
+    quote: 'La verdura llega increíblemente fresca. Pedí la Canasta Semanal y me duró toda la semana sin ir a la feria. Súper recomendado.',
+    author: 'Daniela R.',
+    role: 'Clienta frecuente',
     rating: 5,
-    initials: 'MG',
-    avatarColor: '#8B5E3C',
-    instagramUrl: 'https://www.instagram.com/mora.protein',
+    initials: 'DR',
+    avatarColor: '#2F7A3F',
   },
   {
     id: 't2',
-    quote: 'Los galletones de almendra son completamente adictivos. Los pido cada semana. Calidad artesanal real.',
-    author: 'Carlos M.',
-    role: 'Nutricionista',
+    quote: 'Pedí por WhatsApp a las 10 y me llegó el mismo día en la tarde. Más fácil imposible. Los precios son muy buenos.',
+    author: 'Rodrigo M.',
+    role: 'Santiago Centro',
     rating: 5,
-    initials: 'CM',
-    avatarColor: '#3C5E8B',
-    instagramUrl: 'https://www.instagram.com/mora.protein',
+    initials: 'RM',
+    avatarColor: '#4A3C2F',
   },
   {
     id: 't3',
-    quote: 'Encontré en Mora Protein el snack perfecto para mis entrenamientos. Los bombones de pistacho son una joya.',
-    author: 'Valentina R.',
-    role: 'Entrenadora Personal',
+    quote: 'La rúcula y el cilantro estaban como recién cortados. Se nota que es producto del día. Ya soy clienta fija.',
+    author: 'Camila P.',
+    role: 'Ñuñoa',
     rating: 5,
-    initials: 'VR',
-    avatarColor: '#5E3C8B',
-    instagramUrl: 'https://www.instagram.com/mora.protein',
+    initials: 'CP',
+    avatarColor: '#65a30d',
   },
   {
     id: 't4',
-    quote: 'Calidad premium en cada bocado. Se nota que cada producto es hecho con cuidado. ¡100% recomendados!',
-    author: 'Diego S.',
-    role: 'Corredor de maratón',
+    quote: 'El Pack Ensalada me salvó la semana. Todo fresco, bien presentado y con instrucciones de conservación.',
+    author: 'Felipe A.',
+    role: 'Providencia',
     rating: 5,
-    initials: 'DS',
-    avatarColor: '#3C8B5E',
-    instagramUrl: 'https://www.instagram.com/mora.protein',
+    initials: 'FA',
+    avatarColor: '#a16207',
   },
   {
     id: 't5',
-    quote: 'Perfectos para mis clientes del gym. Los pido al por mayor y siempre llegan súper frescos. Sabor inigualable.',
-    author: 'Paola T.',
-    role: 'Dueña de Gimnasio',
+    quote: 'Las paltas en su punto justo y los tomates como los de la casa de mi abuela. Además pagan contra entrega, súper confiable.',
+    author: 'Catalina M.',
+    role: 'La Florida',
     rating: 5,
-    initials: 'PT',
-    avatarColor: '#C9A96E',
-    instagramUrl: 'https://www.instagram.com/mora.protein',
+    initials: 'CM',
+    avatarColor: '#be123c',
   },
 ];
 
@@ -73,10 +69,6 @@ export default function TestimonialsCarousel() {
     setActiveIndex(index);
   };
 
-  const openInstagram = (url) => {
-    Linking.openURL(url).catch(() => {});
-  };
-
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
@@ -87,7 +79,6 @@ export default function TestimonialsCarousel() {
       <ScrollView
         ref={scrollRef}
         horizontal
-        pagingEnabled={false}
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={handleScrollEnd}
         scrollEventThrottle={16}
@@ -96,26 +87,15 @@ export default function TestimonialsCarousel() {
         snapToInterval={CARD_WIDTH + 16}
       >
         {TESTIMONIALS.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={[styles.card, { width: CARD_WIDTH }]}
-            onPress={() => openInstagram(item.instagramUrl)}
-            activeOpacity={0.88}
-          >
-            {/* Stars */}
+          <View key={item.id} style={[styles.card, { width: CARD_WIDTH }]}>
             <View style={styles.starsRow}>
               {Array.from({ length: item.rating }).map((_, i) => (
                 <Text key={i} style={styles.star}>★</Text>
               ))}
-              <View style={styles.igBadge}>
-                <Text style={styles.igText}>Ver en IG →</Text>
-              </View>
             </View>
 
-            {/* Quote */}
             <Text style={styles.quote}>"{item.quote}"</Text>
 
-            {/* Author */}
             <View style={styles.authorRow}>
               <View style={[styles.authorAvatar, { backgroundColor: item.avatarColor }]}>
                 <Text style={styles.avatarInitial}>{item.initials}</Text>
@@ -124,12 +104,12 @@ export default function TestimonialsCarousel() {
                 <Text style={styles.authorName}>{item.author}</Text>
                 <Text style={styles.authorRole}>{item.role}</Text>
               </View>
+              <Text style={styles.igHandle}>{INSTAGRAM_URL ? '✔ verificado' : ''}</Text>
             </View>
-          </TouchableOpacity>
+          </View>
         ))}
       </ScrollView>
 
-      {/* Dot indicators */}
       <View style={styles.dotsRow}>
         {TESTIMONIALS.map((_, i) => (
           <TouchableOpacity key={i} onPress={() => goToSlide(i)} style={styles.dotTouchable}>
@@ -145,7 +125,7 @@ const styles = StyleSheet.create({
   section: { marginBottom: 32 },
   sectionHeader: { paddingHorizontal: 20, marginBottom: 16 },
   sectionLabel: {
-    fontSize: 10, fontWeight: '800', letterSpacing: 2, color: '#C9A96E', marginBottom: 2,
+    fontSize: 10, fontWeight: '800', letterSpacing: 2, color: '#7CB342', marginBottom: 2,
   },
   sectionTitle: {
     fontSize: 22, fontWeight: '900', color: '#FFFFFF', letterSpacing: -0.5,
@@ -162,13 +142,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', marginBottom: 14,
   },
   star: { color: '#E8A838', fontSize: 16, marginRight: 2 },
-  igBadge: {
-    marginLeft: 'auto',
-    backgroundColor: 'rgba(201,169,110,0.12)',
-    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8,
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.25)',
-  },
-  igText: { color: '#C9A96E', fontSize: 10, fontWeight: '700' },
   quote: {
     color: '#CCCCCC', fontSize: 14, lineHeight: 22,
     fontStyle: 'italic', marginBottom: 18, fontWeight: '400',
@@ -184,6 +157,7 @@ const styles = StyleSheet.create({
   avatarInitial: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
   authorName: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
   authorRole: { color: '#666666', fontSize: 11, fontWeight: '500', marginTop: 1 },
+  igHandle: { color: '#7CB342', fontSize: 11, fontWeight: '700', marginLeft: 'auto' },
   dotsRow: {
     flexDirection: 'row', justifyContent: 'center', marginTop: 14, gap: 6,
   },
@@ -192,5 +166,5 @@ const styles = StyleSheet.create({
     width: 6, height: 6, borderRadius: 3,
     backgroundColor: 'rgba(255,255,255,0.15)',
   },
-  dotActive: { width: 18, backgroundColor: '#C9A96E' },
+  dotActive: { width: 18, backgroundColor: '#7CB342' },
 });

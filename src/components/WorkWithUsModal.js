@@ -1,35 +1,32 @@
 import React from 'react';
 import {
   Modal, View, Text, StyleSheet, TouchableOpacity,
-  Linking, ScrollView, Image,
+  ScrollView,
 } from 'react-native';
 import { X, MessageCircle, Package, TrendingUp, Users } from 'lucide-react-native';
+import { openWhatsApp } from '../config';
 
 const BENEFITS = [
   {
     Icon: Package,
-    title: 'Productos artesanales',
-    desc: 'Barras, galletones y bombones de proteína premium hechos con ingredientes reales.',
+    title: 'Producto fresco del día',
+    desc: 'Verduras y frutas seleccionadas cada mañana, listas para tu negocio.',
   },
   {
     Icon: TrendingUp,
-    title: 'Márgenes atractivos',
-    desc: 'Precios preferenciales y condiciones especiales para distribuidores y partners.',
+    title: 'Precios por volumen',
+    desc: 'Condiciones preferenciales para restaurantes, casinos, juguerías y ferias.',
   },
   {
     Icon: Users,
-    title: 'Comunidad en crecimiento',
-    desc: 'Únete a una red de gimnasios, cafeterías y tiendas wellness en todo Chile.',
+    title: 'Despacho programado',
+    desc: 'Coordina entregas semanales fijas dentro del Gran Santiago.',
   },
 ];
 
 export default function WorkWithUsModal({ visible, onClose }) {
-  const openWhatsApp = () => {
-    const msg = '¡Hola Mora Protein! Quiero saber más sobre cómo distribuir sus productos.';
-    Linking.openURL(`whatsapp://send?text=${encodeURIComponent(msg)}&phone=+56954099576`).catch(
-      () => Linking.openURL(`https://wa.me/56954099576?text=${encodeURIComponent(msg)}`)
-    );
-  };
+  const openContact = () =>
+    openWhatsApp('¡Hola Mora Verduras! Quiero información para comprar al por mayor.');
 
   return (
     <Modal
@@ -39,7 +36,6 @@ export default function WorkWithUsModal({ visible, onClose }) {
       onRequestClose={onClose}
     >
       <View style={styles.container}>
-        {/* Header */}
         <View style={styles.topBar}>
           <View style={styles.handle} />
           <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
@@ -48,22 +44,17 @@ export default function WorkWithUsModal({ visible, onClose }) {
         </View>
 
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          {/* Logo */}
           <View style={styles.logoBadge}>
-            <Image
-              source={require('../../assets/logo-cuadrado.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
+            <Text style={styles.logoEmoji}>🧺</Text>
           </View>
 
-          <Text style={styles.eyebrow}>DISTRIBUIDORES & PARTNERS</Text>
+          <Text style={styles.eyebrow}>MAYORISTAS & NEGOCIOS</Text>
           <Text style={styles.headline}>
-            Lleva el sabor de Mora Protein a tus clientes.
+            Lleva verdura fresca a tus clientes.
           </Text>
           <Text style={styles.body}>
-            Trabajamos con gimnasios, tiendas de bienestar, cafeterías y emprendedores que
-            quieren ofrecer snacks proteicos artesanales de calidad premium a su comunidad.
+            Trabajamos con restaurantes, casinos, juguerías, ferias y almacenes que necesitan
+            abastecimiento fresco, constante y a buen precio en el Gran Santiago.
           </Text>
 
           <View style={styles.divider} />
@@ -71,7 +62,7 @@ export default function WorkWithUsModal({ visible, onClose }) {
           {BENEFITS.map(({ Icon, title, desc }) => (
             <View key={title} style={styles.benefitRow}>
               <View style={styles.benefitIcon}>
-                <Icon color="#C9A96E" size={20} />
+                <Icon color="#7CB342" size={20} />
               </View>
               <View style={styles.benefitText}>
                 <Text style={styles.benefitTitle}>{title}</Text>
@@ -82,12 +73,12 @@ export default function WorkWithUsModal({ visible, onClose }) {
 
           <View style={styles.divider} />
 
-          <TouchableOpacity style={styles.cta} onPress={openWhatsApp} activeOpacity={0.85}>
+          <TouchableOpacity style={styles.cta} onPress={openContact} activeOpacity={0.85}>
             <MessageCircle color="#0A0A0A" size={20} />
             <Text style={styles.ctaText}>Contactar por WhatsApp</Text>
           </TouchableOpacity>
 
-          <Text style={styles.emailNote}>¿Preguntas? mora.protein@gmail.com</Text>
+          <Text style={styles.emailNote}>Pedidos y consultas por WhatsApp</Text>
         </ScrollView>
       </View>
     </Modal>
@@ -115,11 +106,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1A1A1A',
     justifyContent: 'center', alignItems: 'center',
     marginBottom: 24, marginTop: 8,
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.3)',
+    borderWidth: 1, borderColor: 'rgba(124,179,66,0.3)',
   },
-  logo: { width: 62, height: 62 },
+  logoEmoji: { fontSize: 40 },
   eyebrow: {
-    color: '#C9A96E', fontSize: 10, fontWeight: '800',
+    color: '#7CB342', fontSize: 10, fontWeight: '800',
     letterSpacing: 2.5, marginBottom: 10,
   },
   headline: {
@@ -137,9 +128,9 @@ const styles = StyleSheet.create({
   },
   benefitIcon: {
     width: 46, height: 46, borderRadius: 14,
-    backgroundColor: 'rgba(201,169,110,0.1)',
+    backgroundColor: 'rgba(124,179,66,0.1)',
     justifyContent: 'center', alignItems: 'center',
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.2)',
+    borderWidth: 1, borderColor: 'rgba(124,179,66,0.2)',
   },
   benefitText: { flex: 1 },
   benefitTitle: {
@@ -147,7 +138,7 @@ const styles = StyleSheet.create({
   },
   benefitDesc: { color: '#666666', fontSize: 13, lineHeight: 20 },
   cta: {
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
     paddingVertical: 16, borderRadius: 16, gap: 10, marginBottom: 16,
   },

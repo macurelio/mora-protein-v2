@@ -4,20 +4,13 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Image,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
 import { CartContext } from '../context/CartContext';
-import { products } from '../data/products';
-import { PRODUCT_CATEGORIES } from '../data/categories';
-
-const FEATURED = [
-  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.BARS),
-  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.COOKIES),
-  ...products.filter((p) => p.category === PRODUCT_CATEGORIES.BONBONS),
-].slice(0, 6);
+import { featuredProducts } from '../data/products';
+import { UNIT_LABELS } from '../config';
 
 export default function FeaturedProductsCarousel() {
   const { addToCart } = useContext(CartContext);
@@ -27,32 +20,25 @@ export default function FeaturedProductsCarousel() {
   const CARD_MARGIN = 12;
 
   const handleAdd = (item) => {
-    const options = item.coverageOptions?.length
-      ? { coverage: item.coverageOptions[0] }
-      : {};
-    addToCart(item, options);
+    addToCart(item);
   };
 
   const renderItem = ({ item }) => (
-    <View
-      style={[styles.card, { width: CARD_WIDTH }]}
-    >
-      {/* Image */}
-      <View style={styles.imageWrapper}>
-        <Image source={item.image} style={styles.productImage} resizeMode="cover" />
+    <View style={[styles.card, { width: CARD_WIDTH }]}>
+      <View style={[styles.imageWrapper, { backgroundColor: item.gradientTo }]}>
+        <Text style={styles.productEmoji}>{item.emoji}</Text>
         <View style={styles.priceBadge}>
-          <Text style={styles.priceBadgeText}>${item.price}</Text>
+          <Text style={styles.priceBadgeText}>${item.price.toLocaleString('es-CL')}</Text>
         </View>
       </View>
 
-      {/* Info */}
       <View style={styles.cardBody}>
         <Text style={styles.categoryTag}>{item.category}</Text>
         <Text style={styles.productName} numberOfLines={1}>
           {item.name}
         </Text>
         <Text style={styles.productDesc} numberOfLines={2}>
-          {item.description}
+          {UNIT_LABELS[item.unit]}
         </Text>
 
         <TouchableOpacity
@@ -69,7 +55,6 @@ export default function FeaturedProductsCarousel() {
 
   return (
     <View style={styles.section}>
-      {/* Section header */}
       <View style={styles.sectionHeader}>
         <View>
           <Text style={styles.sectionLabel}>DESTACADOS</Text>
@@ -78,7 +63,7 @@ export default function FeaturedProductsCarousel() {
       </View>
 
       <FlatList
-        data={FEATURED}
+        data={featuredProducts}
         keyExtractor={(item) => `featured-${item.id}`}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -107,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 2.5,
-    color: '#C9A96E',
+    color: '#7CB342',
     marginBottom: 2,
   },
   sectionTitle: {
@@ -134,11 +119,11 @@ const styles = StyleSheet.create({
   imageWrapper: {
     position: 'relative',
     height: 160,
-    backgroundColor: '#2A2A2A',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  productImage: {
-    width: '100%',
-    height: '100%',
+  productEmoji: {
+    fontSize: 72,
   },
   priceBadge: {
     position: 'absolute',
@@ -149,10 +134,10 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgba(201,169,110,0.4)',
+    borderColor: 'rgba(124,179,66,0.45)',
   },
   priceBadgeText: {
-    color: '#C9A96E',
+    color: '#7CB342',
     fontSize: 13,
     fontWeight: '700',
   },
@@ -160,8 +145,8 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   categoryTag: {
-    backgroundColor: 'rgba(201,169,110,0.12)',
-    color: '#C9A96E',
+    backgroundColor: 'rgba(124,179,66,0.12)',
+    color: '#7CB342',
     fontSize: 9,
     fontWeight: '800',
     paddingHorizontal: 7,
@@ -172,7 +157,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 6,
     borderWidth: 1,
-    borderColor: 'rgba(201,169,110,0.25)',
+    borderColor: 'rgba(124,179,66,0.25)',
   },
   productName: {
     color: '#FFFFFF',
@@ -186,9 +171,11 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 16,
     marginBottom: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   addButton: {
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

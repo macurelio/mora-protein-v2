@@ -1,6 +1,5 @@
 import { Instagram, MessageCircle, Heart } from 'lucide-react'
-
-const BASE = import.meta.env.BASE_URL
+import { BRAND_NAME, INSTAGRAM_HANDLE, INSTAGRAM_URL, waLink } from '../../config'
 
 const FOOTER_LINKS = [
   { label: 'Inicio', href: '#inicio' },
@@ -9,10 +8,7 @@ const FOOTER_LINKS = [
   { label: 'Contacto', href: '#contacto' },
 ]
 
-const WHATSAPP_NUMBER = '+56954099576'
-const WHATSAPP_MSG = encodeURIComponent(
-  '¡Hola! Quiero hacer un pedido de Mora Protein 🍫💪',
-)
+const WHATSAPP_URL = waLink('¡Hola! Quiero hacer un pedido de verduras 🥬')
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -23,19 +19,22 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
           <div className="sm:col-span-1">
             <a href="#inicio" className="inline-flex items-center gap-2 mb-3">
-              <img
-                src={`${BASE}images/logo-circular.png`}
-                alt=""
-                aria-hidden
-                className="h-10 w-10 object-contain rounded-full"
-              />
-              <span className="font-heading font-black text-2xl text-white leading-none">Mora</span>
+              <span
+                className="h-10 w-10 rounded-full bg-gradient-to-br from-[#14532d] to-[#052e16] flex items-center justify-center text-xl flex-shrink-0"
+                aria-hidden="true"
+              >
+                🥬
+              </span>
+              <span className="font-heading font-black text-2xl text-white leading-none">
+                Mora
+              </span>
               <span className="font-heading font-black text-2xl leading-none text-sand">
-                Protein
+                Verduras
               </span>
             </a>
             <p className="text-sm leading-relaxed max-w-xs">
-              Snacks proteicos artesanales. Sin azúcar, con sabor real. Elaborados con amor y los mejores ingredientes.
+              Verdura fresca del día a domicilio en Gran Santiago. Pide por WhatsApp y
+              paga al recibir.
             </p>
           </div>
 
@@ -63,7 +62,9 @@ export default function Footer() {
             </p>
             <div className="space-y-3">
               <a
-                href={`whatsapp://send?text=${WHATSAPP_MSG}&phone=${WHATSAPP_NUMBER}`}
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm hover:text-white transition-colors duration-150"
                 aria-label="Pedir por WhatsApp"
               >
@@ -71,14 +72,14 @@ export default function Footer() {
                 Pedir por WhatsApp
               </a>
               <a
-                href="https://www.instagram.com/mora.protein"
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm hover:text-white transition-colors duration-150"
-                aria-label="Instagram Mora Protein"
+                aria-label={`Instagram ${BRAND_NAME}`}
               >
                 <Instagram size={16} className="text-sand/60 flex-shrink-0" />
-                @mora.protein
+                {INSTAGRAM_HANDLE}
               </a>
             </div>
           </div>
@@ -86,7 +87,7 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
           <p className="flex items-center gap-2">
-            &copy; {year} Mora Protein. Todos los derechos reservados.
+            &copy; {year} {BRAND_NAME}. Todos los derechos reservados.
           </p>
           <p className="flex items-center gap-1">
             Hecho con <Heart size={12} className="fill-sand text-sand mx-0.5" /> en Chile

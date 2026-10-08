@@ -3,8 +3,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
-const BASE = import.meta.env.BASE_URL
-const STORAGE_KEY = 'mora_welcome_seen'
+const STORAGE_KEY = 'mora_verduras_welcome_seen'
 
 export default function WelcomeModal() {
   const [open, setOpen] = useState(false)
@@ -62,22 +61,17 @@ export default function WelcomeModal() {
             exit={{ opacity: 0, scale: 0.9, y: 32 }}
             transition={{ type: 'spring', stiffness: 280, damping: 24 }}
           >
-            {/* Header image band */}
-            <div className="relative h-44 bg-gradient-to-br from-[#3d2211] to-[#1a0a04] flex items-center justify-center overflow-hidden">
-              <img
-                src={`${BASE}images/barras.jpg`}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover opacity-40"
-              />
+            {/* Header visual band */}
+            <div className="relative h-44 bg-gradient-to-br from-[#14532d] to-[#052e16] flex items-center justify-center overflow-hidden">
+              <span className="absolute -right-6 -bottom-6 text-[8rem] opacity-20" aria-hidden="true">
+                🥬
+              </span>
               <div className="relative flex flex-col items-center gap-2">
-                <img
-                  src={`${BASE}images/logo-cuadrado.png`}
-                  alt="Mora Protein"
-                  className="h-16 w-16 object-contain rounded-xl shadow-lg"
-                />
+                <span className="text-6xl drop-shadow-lg" aria-hidden="true">
+                  🥬
+                </span>
                 <span className="font-heading font-black text-sand text-xl tracking-wide drop-shadow">
-                  Mora Protein
+                  Mora Verduras
                 </span>
               </div>
             </div>
@@ -100,7 +94,8 @@ export default function WelcomeModal() {
                 ¡Bienvenido/a!
               </h2>
               <p className="text-sand/70 font-body text-sm leading-relaxed">
-                Descubre nuestros snacks proteicos artesanales. Sin azúcar, hechos a mano, listos para cuidarte sin sacrificar el sabor.
+                Verdura fresca del día a domicilio en Gran Santiago. Pide en 30
+                segundos y paga al recibir: efectivo, transferencia o contra entrega.
               </p>
 
               <div className="flex flex-col gap-2 w-full mt-1">
@@ -115,7 +110,7 @@ export default function WelcomeModal() {
                     'hover:bg-sand/90 active:scale-[0.98] transition-all duration-150 shadow-md',
                   ].join(' ')}
                 >
-                  Ver productos
+                  Ver verduras
                 </button>
                 <button
                   onClick={close}

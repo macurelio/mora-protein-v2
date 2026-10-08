@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Coffee, Dumbbell, Sun, type LucideIcon } from 'lucide-react'
+import { Salad, Flame, Sunrise, type LucideIcon } from 'lucide-react'
+import { COMUNAS } from '../../config'
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
@@ -13,23 +14,26 @@ interface Moment {
 
 const MOMENTS: Moment[] = [
   {
-    icon: Coffee,
-    label: 'Café de la mañana',
-    description: 'Comienza el día con energía real. Una barra o galletón junto a tu café es el ritual perfecto.',
+    icon: Salad,
+    label: 'Ensalada de la semana',
+    description:
+      'Hojas frescas del día, tomate maduro y palta en su punto. Ensaladas ricas todos los días de la semana.',
     iconClass: 'text-sand',
     bgClass: 'bg-sand/10',
   },
   {
-    icon: Dumbbell,
-    label: 'Post-entreno',
-    description: 'Recupera con proteína de calidad. Sin azúcar, sin rellenos — solo lo que tu cuerpo necesita.',
+    icon: Flame,
+    label: 'La olla de la casa',
+    description:
+      'Cazuelas, sopas y guisos con las raíces y tubérculos del campo chileno. Sabor de siempre, directo del campo.',
     iconClass: 'text-sand',
     bgClass: 'bg-sand/10',
   },
   {
-    icon: Sun,
-    label: 'Pausa de media tarde',
-    description: 'Ese momento de antojo sin culpa. Snacks reales que sacian y saben increíble.',
+    icon: Sunrise,
+    label: 'Desayuno y colación',
+    description:
+      'Fruta madura y lista para comer. Un desayuno completo o una colación saludable sin salir de casa.',
     iconClass: 'text-cream-warm',
     bgClass: 'bg-cocoa/20',
   },
@@ -44,8 +48,6 @@ const itemVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
 }
-
-const BASE = import.meta.env.BASE_URL
 
 export default function AboutSection() {
   return (
@@ -82,24 +84,25 @@ export default function AboutSection() {
               variants={itemVariants}
               className="font-heading font-black text-sand text-4xl sm:text-5xl leading-[1.1] mb-8"
             >
-              Artesanal,<br />
-              <span className="text-white/30">natural</span>{' '}
-              y fresco.
+              Del campo<br />
+              <span className="text-white/30">a tu mesa</span>{' '}
+              en el día.
             </motion.h2>
 
             <motion.p
               variants={itemVariants}
               className="font-body text-white/60 text-lg leading-relaxed max-w-lg mb-10"
             >
-              Desarrollamos productos artesanales, naturales y frescos, pensados para quienes buscan{' '}
-              <span className="text-sand/80">cuidarse sin dejar de disfrutar</span>.
+              Mora Verduras selecciona cada pieza a mano y te la lleva a domicilio{' '}
+              <span className="text-sand/80">sin intermediarios</span>.
             </motion.p>
 
             <motion.p
               variants={itemVariants}
               className="font-body text-white/40 text-base leading-relaxed max-w-lg"
             >
-              Sin azúcar añadida, con opciones veganas y siempre elaborados con los mejores ingredientes. Cada mordisco es intencional.
+              Pedidos por WhatsApp en 30 segundos: eliges tu canasta, el día de entrega y
+              pagas al recibir. Producto fresco o te devolvemos tu dinero.
             </motion.p>
           </motion.div>
 
@@ -140,10 +143,10 @@ export default function AboutSection() {
           transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
         >
           {[
-            { value: '100%', label: 'Artesanal' },
-            { value: '0g', label: 'Azúcar añadida' },
-            { value: '15g', label: 'Proteína / barra' },
-            { value: '3+', label: 'Categorías' },
+            { value: '24h', label: 'Entrega en el día' },
+            { value: '100%', label: 'Producto del día' },
+            { value: `${COMUNAS.length}`, label: 'Comunas con envío' },
+            { value: '4', label: 'Categorías' },
           ].map(({ value, label }) => (
             <div
               key={label}

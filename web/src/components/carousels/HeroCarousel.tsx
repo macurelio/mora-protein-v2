@@ -11,36 +11,36 @@ import { useCarousel } from '../../hooks/useCarousel'
 import Button from '../ui/Button'
 import type { HeroSlide } from '../../types'
 
-const BASE = import.meta.env.BASE_URL
-
 const slides: HeroSlide[] = [
   {
     id: 1,
-    badge: 'Artesanal & Premium',
-    title: 'Proteína que\nsabe increíble.',
+    badge: 'Fresco del campo',
+    title: 'Verdura fresca\na tu puerta.',
     subtitle:
-      'Barras y galletones proteicos elaborados con ingredientes naturales. Sin azúcar, sin compromisos.',
-    cta: 'Descubrir Productos',
+      'Frutas y verduras seleccionadas a mano, directo desde el campo. Pide hoy y recíbelo hoy mismo en Gran Santiago.',
+    cta: 'Ver verduras',
     ctaHref: '#productos',
     ctaVariant: 'secondary',
-    bg: `url(${BASE}images/galletones-stack.png)`,
-    accent: '#D7CFC2',
-    subtitleColor: '#c5bbb2',
+    bg: 'linear-gradient(135deg, #14532d 0%, #052e16 55%, #022c22 100%)',
+    accent: '#86efac',
+    subtitleColor: '#cfe8d5',
+    emoji: '🥬',
     image: '',
     imageAlt: '',
   },
   {
     id: 2,
-    badge: 'Sin Azúcar · 15g Proteína',
-    title: 'El snack que tu\ncuerpo merece.',
+    badge: 'Pedido en 30 segundos',
+    title: 'El pedido que\nahorra tiempo.',
     subtitle:
-      'Cobertura de chocolate artesanal en negro o blanco. Irresistibles desde el primer mordisco.',
-    cta: 'Ver Barras Proteicas',
+      'Arma tu canasta, completa tus datos y envía tu pedido por WhatsApp. Pagas al recibir: efectivo, transferencia o contra entrega.',
+    cta: 'Armar mi canasta',
     ctaHref: '#productos',
     ctaVariant: 'secondary',
-    bg: `url(${BASE}images/barras.jpg)`,
-    accent: '#e8d5c4',
-    subtitleColor: '#c5bbb2',
+    bg: 'linear-gradient(135deg, #3f3f2e 0%, #1c1c14 55%, #141410 100%)',
+    accent: '#fdba74',
+    subtitleColor: '#e8dcc8',
+    emoji: '🧺',
     image: '',
     imageAlt: '',
   },
@@ -284,6 +284,22 @@ export default function HeroCarousel() {
                 </Button>
               </motion.div>
             </div>
+
+            {/* Right: decorative emoji */}
+            {slide.emoji && (
+              <motion.div
+                variants={itemVariants}
+                className="hidden lg:flex flex-1 items-center justify-center"
+                aria-hidden="true"
+              >
+                <span
+                  className="leading-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)]"
+                  style={{ fontSize: 'clamp(9rem, 16vw, 15rem)' }}
+                >
+                  {slide.emoji}
+                </span>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Decorative diamond / sparkle — bottom right */}

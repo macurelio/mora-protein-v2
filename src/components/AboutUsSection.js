@@ -1,44 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Linking, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Instagram, MessageCircle, Heart } from 'lucide-react-native';
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE, COMUNAS, openWhatsApp } from '../config';
 
 const VALUES = [
-  { emoji: '🌾', label: 'Artesanal', desc: 'Hecho a mano' },
-  { emoji: '💪', label: '15g Proteína', desc: 'Por barra' },
-  { emoji: '🚫', label: 'Sin Azúcar', desc: 'Sin culpa' },
+  { emoji: '🌱', label: 'Del día', desc: 'Cosecha fresca' },
+  { emoji: '🚚', label: 'Despacho', desc: 'Gran Santiago' },
+  { emoji: '🧺', label: 'A tu medida', desc: 'Packs y combos' },
 ];
 
 export default function AboutUsSection({ onWorkWithUsPress }) {
-  const openInstagram = () => Linking.openURL('https://www.instagram.com/mora.protein');
-  const openWhatsApp = () => {
-    const msg = '¡Hola! Me gustaría saber más sobre Mora Protein.';
-    Linking.openURL(`whatsapp://send?text=${encodeURIComponent(msg)}&phone=+56954099576`).catch(
-      () => Linking.openURL(`https://wa.me/56954099576`)
-    );
-  };
+  const openContact = () => openWhatsApp('¡Hola! Me gustaría saber más sobre Mora Verduras.');
 
   return (
     <View style={styles.wrapper}>
-      {/* Header */}
       <View style={styles.topRow}>
-        <View>
+        <View style={styles.topText}>
           <Text style={styles.label}>QUIÉNES SOMOS</Text>
-          <Text style={styles.title}>La proteína más{'\n'}sabrosa de Chile.</Text>
+          <Text style={styles.title}>Verduras frescas{'\n'}directo del campo.</Text>
         </View>
-        <Image
-          source={require('../../assets/logo-circular.png')}
-          style={styles.logoCircle}
-          resizeMode="contain"
-        />
+        <View style={styles.logoCircle}>
+          <Text style={styles.logoEmoji}>🥬</Text>
+        </View>
       </View>
 
       <Text style={styles.body}>
-        Mora Protein nació con una misión: demostrarte que comer saludable no tiene que ser
-        aburrido. Elaboramos cada producto de forma artesanal, con ingredientes reales y sin
-        comprometer el sabor.
+        Mora Verduras nació con una misión: acercar el campo a tu cocina. Seleccionamos
+        productos del día y los llevamos a tu casa en {COMUNAS.length} comunas del Gran Santiago,
+        sin intermediarios y con precios justos.
       </Text>
 
-      {/* Values */}
       <View style={styles.valuesRow}>
         {VALUES.map(v => (
           <View key={v.label} style={styles.valueCard}>
@@ -51,20 +42,23 @@ export default function AboutUsSection({ onWorkWithUsPress }) {
 
       <View style={styles.divider} />
 
-      {/* Buttons */}
       <View style={styles.btnsRow}>
-        <TouchableOpacity style={styles.btnSecondary} onPress={openInstagram} activeOpacity={0.8}>
-          <Instagram color="#C9A96E" size={16} />
-          <Text style={styles.btnSecondaryText}>Instagram</Text>
+        <TouchableOpacity
+          style={styles.btnSecondary}
+          onPress={() => Linking.openURL(INSTAGRAM_URL)}
+          activeOpacity={0.8}
+        >
+          <Instagram color="#7CB342" size={16} />
+          <Text style={styles.btnSecondaryText}>{INSTAGRAM_HANDLE}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnSecondary} onPress={openWhatsApp} activeOpacity={0.8}>
-          <MessageCircle color="#C9A96E" size={16} />
+        <TouchableOpacity style={styles.btnSecondary} onPress={openContact} activeOpacity={0.8}>
+          <MessageCircle color="#7CB342" size={16} />
           <Text style={styles.btnSecondaryText}>Contacto</Text>
         </TouchableOpacity>
         {onWorkWithUsPress && (
           <TouchableOpacity style={styles.btnPrimary} onPress={onWorkWithUsPress} activeOpacity={0.85}>
             <Heart color="#0A0A0A" size={16} />
-            <Text style={styles.btnPrimaryText}>Trabaja con nosotros</Text>
+            <Text style={styles.btnPrimaryText}>Mayoristas</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -89,8 +83,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 14,
   },
+  topText: { flex: 1, paddingRight: 12 },
   label: {
-    color: '#C9A96E', fontSize: 10, fontWeight: '800', letterSpacing: 2.5,
+    color: '#7CB342', fontSize: 10, fontWeight: '800', letterSpacing: 2.5,
     marginBottom: 6,
   },
   title: {
@@ -99,8 +94,11 @@ const styles = StyleSheet.create({
   },
   logoCircle: {
     width: 64, height: 64, borderRadius: 32,
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.3)',
+    backgroundColor: '#1E1E1E',
+    justifyContent: 'center', alignItems: 'center',
+    borderWidth: 1, borderColor: 'rgba(124,179,66,0.3)',
   },
+  logoEmoji: { fontSize: 34 },
   body: {
     color: '#666666', fontSize: 14, lineHeight: 22, marginBottom: 20,
   },
@@ -128,15 +126,15 @@ const styles = StyleSheet.create({
   },
   btnSecondary: {
     flexDirection: 'row', alignItems: 'center', gap: 6,
-    borderWidth: 1, borderColor: 'rgba(201,169,110,0.4)',
+    borderWidth: 1, borderColor: 'rgba(124,179,66,0.4)',
     paddingHorizontal: 14, paddingVertical: 9, borderRadius: 20,
   },
   btnSecondaryText: {
-    color: '#C9A96E', fontSize: 13, fontWeight: '700',
+    color: '#7CB342', fontSize: 13, fontWeight: '700',
   },
   btnPrimary: {
     flexDirection: 'row', alignItems: 'center', gap: 6,
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     paddingHorizontal: 14, paddingVertical: 9, borderRadius: 20,
   },
   btnPrimaryText: {

@@ -1,5 +1,6 @@
 import TestimonialCarousel from '../carousels/TestimonialCarousel'
 import { Instagram } from 'lucide-react'
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from '../../config'
 
 export default function TestimonialsSection() {
   return (
@@ -14,10 +15,10 @@ export default function TestimonialsSection() {
             Lo que dicen nuestros clientes
           </span>
           <h2 className="font-heading font-black text-white text-3xl sm:text-4xl lg:text-5xl leading-tight">
-            La comunidad habla 💬
+            Los vecinos hablan 💬
           </h2>
           <p className="mt-3 text-white/50 font-body text-base max-w-lg mx-auto">
-            Miles de personas ya hacen de Mora Protein su snack de confianza.
+            Cada semana más hogares de Santiago piden su verdura con nosotros.
           </p>
         </div>
 
@@ -25,13 +26,13 @@ export default function TestimonialsSection() {
 
         <div className="text-center mt-12">
           <a
-            href="https://www.instagram.com/mora.protein"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm font-heading font-bold transition-colors duration-200 group"
           >
             <Instagram size={18} className="group-hover:scale-110 transition-transform duration-200" />
-            Síguenos en Instagram @mora.protein
+            Síguenos en Instagram {INSTAGRAM_HANDLE}
           </a>
         </div>
       </div>

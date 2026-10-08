@@ -5,10 +5,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import HomeScreen from './src/screens/HomeScreen';
 import CartScreen from './src/screens/CartScreen';
-import ProductDetailScreen from './src/screens/ProductDetailScreen';
-import OrderTrackingScreen from './src/screens/OrderTrackingScreen';
 import { CartProvider } from './src/context/CartContext';
 import SplashBanner from './src/components/SplashBanner';
+import { BRAND_NAME } from './src/config';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,31 +29,17 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ headerShown: false, title: 'Mora Protein' }}
+              options={{ headerShown: false, title: BRAND_NAME }}
             />
             <Stack.Screen
               name="Cart"
               component={CartScreen}
               options={{
-                title: 'Carrito',
+                title: 'Tu pedido',
                 headerStyle: { backgroundColor: '#0A0A0A' },
-                headerTintColor: '#C9A96E',
+                headerTintColor: '#7CB342',
                 headerTitleStyle: { fontWeight: '900', color: '#FFFFFF' },
               }}
-            />
-            <Stack.Screen
-              name="ProductDetail"
-              component={ProductDetailScreen}
-              options={{
-                title: 'Detalle del producto',
-                headerStyle: { backgroundColor: '#0A0A0A' },
-                headerTintColor: '#C9A96E',
-              }}
-            />
-            <Stack.Screen
-              name="OrderTracking"
-              component={OrderTrackingScreen}
-              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -1,10 +1,8 @@
 import { MessageCircle, Instagram, ArrowRight } from 'lucide-react'
 import Button from '../ui/Button'
+import { DELIVERY_ZONE, INSTAGRAM_URL, waLink } from '../../config'
 
-const WHATSAPP_NUMBER = '+56954099576'
-const WHATSAPP_MSG = encodeURIComponent(
-  '¡Hola! Quiero hacer un pedido de Mora Protein 🍫💪',
-)
+const WHATSAPP_MSG = waLink('¡Hola! Quiero hacer un pedido de verduras 🥬')
 
 export default function CTASection() {
   return (
@@ -14,7 +12,7 @@ export default function CTASection() {
       className="relative py-20 sm:py-28 overflow-hidden"
       style={{
         background:
-          'linear-gradient(135deg, #1a0e0a 0%, #2d1a0e 50%, #1a1a1a 100%)',
+          'linear-gradient(135deg, #052e16 0%, #14532d 50%, #1a1a1a 100%)',
       }}
     >
       <div
@@ -28,7 +26,7 @@ export default function CTASection() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
         <span className="inline-block bg-white/10 text-white/60 text-xs font-heading font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5">
-          ¿Listo para probar?
+          ¿Listo para cocinar hoy?
         </span>
 
         <h2 className="font-heading font-black text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-5">
@@ -37,14 +35,16 @@ export default function CTASection() {
         </h2>
 
         <p className="font-body text-white/50 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-          Envíamos a todo Chile. Pedidos mínimos, respuesta inmediata.
-          Escríbenos y te asesoramos en segundos.
+          Entregamos en {DELIVERY_ZONE} el mismo día. Arma tu canasta, elige el
+          horario y te la llevamos a la puerta.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             as="a"
-            href={`whatsapp://send?text=${WHATSAPP_MSG}&phone=${WHATSAPP_NUMBER}`}
+            href={WHATSAPP_MSG}
+            target="_blank"
+            rel="noopener noreferrer"
             variant="whatsapp"
             size="lg"
           >
@@ -54,7 +54,7 @@ export default function CTASection() {
 
           <Button
             as="a"
-            href="https://www.instagram.com/mora.protein"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             variant="outline"
@@ -68,11 +68,14 @@ export default function CTASection() {
         </div>
 
         <div className="mt-12 flex flex-wrap justify-center gap-6 text-white/40 text-xs font-heading font-bold uppercase tracking-widest">
-          {['✓ Envío a todo Chile', '✓ Sin azúcar', '✓ Artesanal', '✓ Alta proteína'].map(
-            (badge) => (
-              <span key={badge}>{badge}</span>
-            ),
-          )}
+          {[
+            `✓ Envío en ${DELIVERY_ZONE}`,
+            '✓ Pedido en 30 segundos',
+            '✓ Pagas al recibir',
+            '✓ Frescura garantizada',
+          ].map((badge) => (
+            <span key={badge}>{badge}</span>
+          ))}
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Minus, Plus, Check } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
+import { UNIT_LABELS } from '../../config'
 import type { Product } from '../../types'
 
 interface QuickViewModalProps {
@@ -12,22 +13,14 @@ interface QuickViewModalProps {
 
 const EASE = [0.25, 1, 0.5, 1] as const
 
-const coverageLabel = (opt: string) => {
-  if (opt.toLowerCase().includes('negro')) return 'Negro'
-  if (opt.toLowerCase().includes('blanco')) return 'Blanco'
-  return opt
-}
-
 export default function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   const { addToCart } = useCart()
-  const [selectedCoverage, setSelectedCoverage] = useState<string | null>(null)
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
 
   // Reset state when product changes
   useEffect(() => {
     if (product) {
-      setSelectedCoverage(product.coverageOptions?.[0] ?? null)
       setQty(1)
       setAdded(false)
     }
@@ -49,22 +42,20 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
     } else {
       document.body.style.overflow = ''
     }
-    return () => { document.body.style.overflow = '' }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [product])
 
   const handleAdd = () => {
     if (!product) return
-    const options = selectedCoverage ? { coverage: selectedCoverage } : {}
-    for (let i = 0; i < qty; i++) addToCart(product, options)
+    for (let i = 0; i < qty; i++) addToCart(product)
     setAdded(true)
-    setTimeout(() => { setAdded(false); setQty(1) }, 1800)
+    setTimeout(() => {
+      setAdded(false)
+      setQty(1)
+    }, 1800)
   }
-
-  // Resolve the image to display based on selected coverage
-  const displayImage =
-    product && selectedCoverage && product.imageByCoverage?.[selectedCoverage]
-      ? product.imageByCoverage[selectedCoverage]
-      : product?.image ?? null
 
   return createPortal(
     <AnimatePresence>
@@ -95,7 +86,6 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
             transition={{ duration: 0.3, ease: EASE }}
           >
             <div className="relative bg-white rounded-2xl overflow-hidden shadow-2xl w-full max-w-lg lg:max-w-2xl max-h-[92vh] flex flex-col lg:flex-row">
-
               {/* Close button */}
               <button
                 type="button"
@@ -106,47 +96,28 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                 <X size={16} />
               </button>
 
-              {/* Image */}
+              {/* Visual */}
               <div
-                className="lg:w-[44%] flex-shrink-0 relative h-52 lg:h-auto overflow-hidden"
+                className="lg:w-[44%] flex-shrink-0 relative h-52 lg:h-auto overflow-hidden flex items-center justify-center"
                 // eslint-disable-next-line react/forbid-dom-props
-                style={!displayImage ? { background: `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)` } : undefined}
+                style={{
+                  background: `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)`,
+                }}
               >
-                {displayImage ? (
-                  <AnimatePresence mode="crossfade" initial={false}>
-                    <motion.img
-                      key={displayImage}
-                      src={displayImage}
-                      alt={product.name}
-                      className="absolute inset-0 w-full h-full object-cover object-center"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.38, ease: EASE }}
-                    />
-                  </AnimatePresence>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-white/20 font-heading font-black text-6xl select-none">MP</span>
-                  </div>
-                )}
+                <motion.span
+                  className="text-8xl select-none"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.38, ease: EASE }}
+                  aria-hidden="true"
+                >
+                  {product.emoji}
+                </motion.span>
 
                 {product.badge && (
                   <div className="absolute top-3 left-3 bg-cocoa text-sand text-[10px] font-heading font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide shadow-sm">
                     {product.badge}
                   </div>
-                )}
-
-                {/* Color stripe by coverage */}
-                {selectedCoverage && product.colorByCoverage?.[selectedCoverage] && (
-                  <motion.div
-                    key={selectedCoverage}
-                    className="absolute top-0 inset-x-0 h-[6px] z-10"
-                    style={{ backgroundColor: product.colorByCoverage[selectedCoverage] }}
-                    initial={{ scaleX: 0, opacity: 0 }}
-                    animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ duration: 0.35 }}
-                  />
                 )}
               </div>
 
@@ -163,58 +134,18 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                     {product.name}
                   </h2>
                   <p className="mt-1 font-heading font-black text-cocoa text-2xl">
-                    ${product.price.toLocaleString('es-CL')}
+                    ${product.price.toLocaleString('es-CL')}{' '}
+                    <span className="text-sm font-bold text-muted uppercase tracking-widest">
+                      {UNIT_LABELS[product.unit]}
+                    </span>
                   </p>
                 </div>
-
-                {/* Protein badge */}
-                <p className="text-xs font-heading font-bold text-muted uppercase tracking-widest">
-                  {product.protein} Proteína&nbsp;·&nbsp;Sin Azúcar
-                </p>
 
                 {/* Description */}
                 {product.description && (
                   <p className="text-sm font-body text-charcoal/70 leading-relaxed">
                     {product.description}
                   </p>
-                )}
-
-                {/* Coverage selector */}
-                {product.coverageOptions?.length > 0 && (
-                  <div>
-                    <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5">
-                      Cobertura:
-                    </p>
-                    <div className="flex gap-2">
-                      {product.coverageOptions.map((opt) => {
-                        const swatchColor = product.colorByCoverage?.[opt]
-                        return (
-                          <button
-                            key={opt}
-                            onClick={() => setSelectedCoverage(opt)}
-                            className={[
-                              'flex items-center gap-1.5 text-xs font-heading font-bold px-3 py-1.5 rounded-lg border-2 transition-all duration-150',
-                              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mora focus-visible:ring-offset-1',
-                              selectedCoverage === opt
-                                ? 'bg-charcoal border-charcoal text-white'
-                                : 'bg-white border-cream-border text-muted hover:border-charcoal',
-                            ].join(' ')}
-                            aria-pressed={selectedCoverage === opt ? 'true' : 'false'}
-                            aria-label={`Cobertura ${coverageLabel(opt)}`}
-                          >
-                            {swatchColor && (
-                              <span
-                                className="inline-block w-3 h-3 rounded-full border border-black/10 flex-shrink-0"
-                                style={{ backgroundColor: swatchColor }}
-                                aria-hidden="true"
-                              />
-                            )}
-                            {coverageLabel(opt)}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
                 )}
 
                 {/* Qty + Add */}

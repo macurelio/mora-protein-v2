@@ -2,28 +2,38 @@ import type { ReactNode } from 'react'
 
 // ─── Product ─────────────────────────────────────────────────────────────────
 
-export type ProductCategory = 'Barras Proteicas' | 'Galletones' | 'Bombones'
+export type Unit = 'kilo' | 'unidad' | 'atado' | 'bolsa' | 'docena' | 'pack'
+
+export type ProductCategory =
+  | 'Hojas Verdes'
+  | 'Raíces y Tubérculos'
+  | 'Frutas'
+  | 'Hierbas y Aromáticas'
+  | 'Packs'
 
 export interface Product {
   id: string
   name: string
-  flavor: string
   category: ProductCategory
   description: string
-  protein: string
+  /** Precio en CLP por la unidad de venta (kg, unidad, atado…) */
   price: number
+  unit: Unit
+  emoji: string
   badge: string | null
-  coverageOptions: string[]
-  image: string | null
-  /** Optional map: coverage option label → image URL for dynamic image switching */
-  imageByCoverage?: Record<string, string>
-  /** Optional map: coverage option label → packaging hex color for visual indicator */
-  colorByCoverage?: Record<string, string>
   gradientFrom: string
   gradientTo: string
 }
 
-// ─── Testimonial ──────────────────────────────────────────────────────────────
+// ─── Category ────────────────────────────────────────────────────────────────
+
+export interface CategoryMeta {
+  name: ProductCategory
+  emoji: string
+  blurb: string
+}
+
+// ─── Testimonial ─────────────────────────────────────────────────────────────
 
 export interface Testimonial {
   id: number
@@ -36,7 +46,7 @@ export interface Testimonial {
   product: string
 }
 
-// ─── Hero Slide ───────────────────────────────────────────────────────────────
+// ─── Hero Slide ──────────────────────────────────────────────────────────────
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'whatsapp'
 
@@ -51,11 +61,12 @@ export interface HeroSlide {
   bg: string
   accent: string
   subtitleColor: string
+  emoji?: string
   image?: string
   imageAlt?: string
 }
 
-// ─── Carousel hook ────────────────────────────────────────────────────────────
+// ─── Carousel hook ───────────────────────────────────────────────────────────
 
 export interface UseCarouselOptions {
   autoPlay?: boolean
@@ -71,19 +82,19 @@ export interface UseCarouselReturn {
   resume: () => void
 }
 
-// ─── ProductCard props ────────────────────────────────────────────────────────
+// ─── ProductCard props ───────────────────────────────────────────────────────
 
 export interface ProductCardProps {
   product: Product
 }
 
-// ─── ProductCarousel props ────────────────────────────────────────────────────
+// ─── ProductCarousel props ───────────────────────────────────────────────────
 
 export interface ProductCarouselProps {
   products: Product[]
 }
 
-// ─── Button ───────────────────────────────────────────────────────────────────
+// ─── Button ──────────────────────────────────────────────────────────────────
 
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
@@ -101,32 +112,19 @@ export interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
-// ─── Cart ─────────────────────────────────────────────────────────────────────
+// ─── Cart ────────────────────────────────────────────────────────────────────
 
 export interface CartItem extends Product {
   cartItemId: string
   quantity: number
-  coverage?: string
 }
 
 export interface CartContextType {
   cart: CartItem[]
-  addToCart: (product: Product, options?: { coverage?: string }) => void
+  addToCart: (product: Product) => void
   incrementQuantity: (cartItemId: string) => void
   decrementQuantity: (cartItemId: string) => void
   removeItem: (cartItemId: string) => void
   getCartCount: () => number
   getCartTotal: () => number
 }
-
-// ─── Payment ──────────────────────────────────────────────────────────────────
-
-export interface PaymentInitResponse {
-  token: string
-  url: string
-}
-
-export type PaymentResult =
-  | { status: 'success'; order: string }
-  | { status: 'failure'; reason: string }
-  | null

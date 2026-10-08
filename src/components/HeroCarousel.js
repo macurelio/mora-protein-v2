@@ -4,39 +4,39 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
-  useWindowDimensions,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { PRODUCT_CATEGORIES } from '../data/categories';
+import { BRAND_NAME } from '../config';
 
 const SLIDES = [
   {
     id: '1',
-    title: 'Proteína sin culpa',
-    subtitle: 'Barras artesanales con 15g de proteína.\nSin azúcar, 100% sabor.',
-    cta: 'Ver Barras',
-    ctaCategory: PRODUCT_CATEGORIES.BARS,
-    image: require('../../assets/barras-ilustacion.png'),
-    overlayColor: 'rgba(10, 8, 4, 0.62)',
+    title: 'Verduras del día',
+    subtitle: 'Hojas frescas cosechadas hoy.\nDirecto del campo a tu cocina.',
+    cta: 'Ver Hojas Verdes',
+    ctaCategory: PRODUCT_CATEGORIES.GREENS,
+    emoji: '🥬',
+    bg: '#14532d',
   },
   {
     id: '2',
-    title: 'Galletones que enamoran',
-    subtitle: 'Crujientes, saludables y sin ingredientes artificiales.\nEl snack perfecto.',
-    cta: 'Ver Galletones',
-    ctaCategory: PRODUCT_CATEGORIES.COOKIES,
-    image: require('../../assets/imagen-fondo.jpeg'),
-    overlayColor: 'rgba(10, 10, 10, 0.58)',
+    title: 'La base de tu cocina',
+    subtitle: 'Papas, cebolla, zanahoria y más.\nAl peso justo, sin intermediarios.',
+    cta: 'Ver Raíces',
+    ctaCategory: PRODUCT_CATEGORIES.ROOTS,
+    emoji: '🥕',
+    bg: '#422006',
   },
   {
     id: '3',
-    title: 'Bombones únicos',
-    subtitle: 'La nueva categoría que llegó para quedarse.\nLujo en cada bocado.',
-    cta: 'Ver Bombones',
-    ctaCategory: PRODUCT_CATEGORIES.BONBONS,
-    image: require('../../assets/bombones.jpg'),
-    overlayColor: 'rgba(10, 10, 10, 0.60)',
+    title: 'Fruta a tu puerta',
+    subtitle: 'Tomate, palta, limón y plátano.\nMaduros y listos para comer.',
+    cta: 'Ver Frutas',
+    ctaCategory: PRODUCT_CATEGORIES.FRUITS,
+    emoji: '🍅',
+    bg: '#7f1d1d',
   },
 ];
 
@@ -95,16 +95,11 @@ export default function HeroCarousel({ onCategoryPress }) {
         style={{ width }}
       >
         {SLIDES.map((slide) => (
-          <ImageBackground
-            key={slide.id}
-            source={slide.image}
-            style={[styles.slide, { width }]}
-            imageStyle={styles.slideImage}
-            resizeMode="cover"
-          >
-            <View style={[styles.overlay, { backgroundColor: slide.overlayColor }]}>
+          <View key={slide.id} style={[styles.slide, { width, backgroundColor: slide.bg }]}>
+            <Text style={styles.slideEmoji}>{slide.emoji}</Text>
+            <View style={styles.overlay}>
               <View style={styles.content}>
-                <Text style={styles.badge}>MORA PROTEIN</Text>
+                <Text style={styles.badge}>{BRAND_NAME.toUpperCase()}</Text>
                 <Text style={styles.title}>{slide.title}</Text>
                 <Text style={styles.subtitle}>{slide.subtitle}</Text>
                 <TouchableOpacity
@@ -116,11 +111,10 @@ export default function HeroCarousel({ onCategoryPress }) {
                 </TouchableOpacity>
               </View>
             </View>
-          </ImageBackground>
+          </View>
         ))}
       </ScrollView>
 
-      {/* Dot indicators */}
       <View style={styles.dotsContainer}>
         {SLIDES.map((_, i) => (
           <TouchableOpacity key={i} onPress={() => goToSlide(i)} style={styles.dotTouchable}>
@@ -138,9 +132,15 @@ const styles = StyleSheet.create({
   },
   slide: {
     height: 340,
+    position: 'relative',
+    overflow: 'hidden',
   },
-  slideImage: {
-    opacity: 0.85,
+  slideEmoji: {
+    position: 'absolute',
+    right: -20,
+    top: 20,
+    fontSize: 200,
+    opacity: 0.16,
   },
   overlay: {
     flex: 1,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     maxWidth: 360,
   },
   badge: {
-    color: '#C9A96E',
+    color: '#A5D6A7',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 3,
@@ -168,14 +168,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subtitle: {
-    color: 'rgba(255,255,255,0.72)',
+    color: 'rgba(255,255,255,0.78)',
     fontSize: 14,
     lineHeight: 22,
     marginBottom: 22,
     fontWeight: '400',
   },
   ctaButton: {
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
     paddingHorizontal: 24,
     paddingVertical: 13,
     borderRadius: 30,
@@ -205,6 +205,6 @@ const styles = StyleSheet.create({
   },
   dotActive: {
     width: 20,
-    backgroundColor: '#C9A96E',
+    backgroundColor: '#7CB342',
   },
 });

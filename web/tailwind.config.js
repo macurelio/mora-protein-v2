@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand accent — berry/mora plum
+        // Brand accent — verde huerta
         mora: {
-          DEFAULT: '#93326e',
-          light: '#f5c3e4',
-          dark: '#64264d',
+          DEFAULT: '#2F7A3F',
+          light: '#DCEFD8',
+          dark: '#1E5631',
         },
         // Neutral warmth palette
         cream: {

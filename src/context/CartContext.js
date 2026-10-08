@@ -5,8 +5,8 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product, options = {}) => {
-    const cartItemId = `${product.id}:${options.coverage || 'default'}`;
+  const addToCart = (product) => {
+    const cartItemId = product.id;
     setCart(currentCart => {
       const existing = currentCart.find(item => item.cartItemId === cartItemId);
       if (existing) {
@@ -14,7 +14,7 @@ export const CartProvider = ({ children }) => {
           item.cartItemId === cartItemId ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
-      return [...currentCart, { ...product, ...options, cartItemId, quantity: 1 }];
+      return [...currentCart, { ...product, cartItemId, quantity: 1 }];
     });
   };
 

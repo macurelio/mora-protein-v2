@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, Instagram, Menu, X } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
 import CartDrawer from '../ui/CartDrawer'
-
-const BASE = import.meta.env.BASE_URL
+import { INSTAGRAM_URL } from '../../config'
 
 const NAV_LINKS = [
   { label: 'Inicio', href: '#inicio' },
@@ -63,11 +62,12 @@ function AboutUsModal({ onClose }: { onClose: () => void }) {
             <X size={20} />
           </button>
 
-          <img
-            src={`${BASE}images/logo-cuadrado.png`}
-            alt="Mora Protein"
-            className="h-14 w-14 object-contain rounded-md"
-          />
+          <span
+            className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#14532d] to-[#052e16] flex items-center justify-center text-3xl shadow-lg"
+            aria-hidden="true"
+          >
+            🥬
+          </span>
 
           <h2
             id="about-modal-title"
@@ -77,10 +77,13 @@ function AboutUsModal({ onClose }: { onClose: () => void }) {
           </h2>
 
           <p className="text-sand/80 text-sm text-center leading-relaxed">
-            Mora Protein es una marca de snacks saludables hechos a mano, sin azúcar, altos en proteína y con opciones veganas.
+            Mora Verduras es una verdulería online que entrega fruta y verdura fresca
+            del día a domicilio en Gran Santiago.
           </p>
           <p className="text-sand/80 text-sm text-center leading-relaxed">
-            Desarrollamos productos artesanales, naturales y frescos, pensados para quienes buscan cuidarse sin dejar de disfrutar. Nuestra propuesta combina nutrición y sabor en formatos prácticos, accesibles y fáciles de integrar al día a día.
+            Trabajamos directo con productores de la Zona Central para que cocines con
+            producto recién cosechado, sin intermediarios y a precio justo. Pedir es
+            fácil: arma tu canasta, completa tus datos y envía tu pedido por WhatsApp.
           </p>
         </motion.div>
       </motion.div>
@@ -128,13 +131,18 @@ export default function Navbar() {
         <a
           href="#inicio"
           className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal rounded-lg"
-          aria-label="Mora Protein — volver al inicio"
+          aria-label="Mora Verduras — volver al inicio"
         >
-          <img
-            src={`${BASE}images/logo-cuadrado.png`}
-            alt="Mora Protein"
-            className="h-10 w-10 object-contain rounded-md"
-          />
+          <span
+            className="h-10 w-10 rounded-lg bg-gradient-to-br from-[#14532d] to-[#052e16] flex items-center justify-center text-xl flex-shrink-0"
+            aria-hidden="true"
+          >
+            🥬
+          </span>
+          <span className="hidden sm:flex items-baseline gap-1 leading-none">
+            <span className="font-heading font-black text-lg text-white">Mora</span>
+            <span className="font-heading font-black text-lg text-sand">Verduras</span>
+          </span>
         </a>
 
         {/* Desktop nav */}
@@ -169,10 +177,10 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://www.instagram.com/mora.protein"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Instagram de Mora Protein"
+            aria-label="Instagram de Mora Verduras"
             className="p-2 rounded-lg text-sand/80 hover:text-sand hover:bg-white/10 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sand"
           >
             <Instagram size={20} />

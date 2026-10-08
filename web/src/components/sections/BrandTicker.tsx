@@ -1,11 +1,11 @@
-import { Leaf, Zap, Wheat, Droplets, HandMetal } from 'lucide-react'
+import { Leaf, Truck, Sprout, Tag, Wallet } from 'lucide-react'
 
 const ATTRIBUTES = [
-  { label: 'Sin Gluten',    Icon: Wheat },
-  { label: 'Sin Azúcar',   Icon: Droplets },
-  { label: '100% Natural', Icon: Leaf },
-  { label: 'Hecho a Mano', Icon: HandMetal },
-  { label: 'Alta Proteína',Icon: Zap },
+  { label: 'Cosecha del día',          Icon: Sprout },
+  { label: 'Entrega en Gran Santiago', Icon: Truck },
+  { label: '100% Producto local',      Icon: Leaf },
+  { label: 'Precio directo del campo', Icon: Tag },
+  { label: 'Pagas al recibir',         Icon: Wallet },
 ]
 
 export default function BrandTicker() {

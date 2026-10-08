@@ -6,16 +6,15 @@ const CartContext = createContext<CartContextType | null>(null)
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
 
-  const addToCart = (product: Product, options: { coverage?: string } = {}) => {
-    const cartItemId = `${product.id}:${options.coverage ?? 'default'}`
+  const addToCart = (product: Product) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i.cartItemId === cartItemId)
+      const existing = prev.find((i) => i.cartItemId === product.id)
       if (existing) {
         return prev.map((i) =>
-          i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + 1 } : i,
+          i.cartItemId === product.id ? { ...i, quantity: i.quantity + 1 } : i,
         )
       }
-      return [...prev, { ...product, coverage: options.coverage, cartItemId, quantity: 1 } as CartItem]
+      return [...prev, { ...product, cartItemId: product.id, quantity: 1 } as CartItem]
     })
   }
 

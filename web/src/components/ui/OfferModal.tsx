@@ -2,36 +2,20 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Clock, Zap, ShoppingBag } from 'lucide-react'
-
-const WHATSAPP_NUMBER = '56954099576'
-const BASE = import.meta.env.BASE_URL
+import { waLink } from '../../config'
 
 const OFFER = {
-  title: 'Box Mixto Proteico',
+  title: 'Canasta Semanal',
   description:
-    'El kit perfecto para toda la semana: barras, galletones y bombones a precio especial.',
-  originalPrice: 15400,
-  promoPrice: 12900,
+    'La compra básica del hogar a precio especial: verduras frescas para toda la semana, entregadas a domicilio.',
+  originalPrice: 17490,
+  promoPrice: 14990,
   savings: 2500,
   products: [
-    {
-      name: '3× Barra Proteica (a elección)',
-      originalUnit: 5700,
-      promoUnit: 4800,
-      image: `${BASE}images/barras.jpg`,
-    },
-    {
-      name: '4× Galletón Surtido',
-      originalUnit: 3600,
-      promoUnit: 2900,
-      image: `${BASE}images/galletones.png`,
-    },
-    {
-      name: '2× Bombón Pistacho',
-      originalUnit: 6100,
-      promoUnit: 5200,
-      image: `${BASE}images/bombones.jpg`,
-    },
+    { name: '2× Papas (2 kg)', originalUnit: 2580, promoUnit: 2090, emoji: '🥔' },
+    { name: '1 kg Tomate + 1 kg Zanahoria', originalUnit: 4080, promoUnit: 3490, emoji: '🍅' },
+    { name: 'Lechuga + Rúcula', originalUnit: 3080, promoUnit: 2590, emoji: '🥬' },
+    { name: '2× Palta + 1 kg Limón', originalUnit: 4770, promoUnit: 4190, emoji: '🥑' },
   ],
 }
 
@@ -76,10 +60,9 @@ export default function OfferModal({ open, onClose }: OfferModalProps) {
     }
   }, [open, onClose])
 
-  const waMsg = encodeURIComponent(
-    `¡Hola! Quiero aprovechar la oferta Flash del Box Mixto Proteico a ${formatPrice(OFFER.promoPrice)} 🎉💪`,
+  const waUrl = waLink(
+    `¡Hola! Quiero aprovechar la oferta de la ${OFFER.title} a ${formatPrice(OFFER.promoPrice)} 🥬🎉`,
   )
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`
 
   return createPortal(
     <AnimatePresence>
@@ -110,7 +93,7 @@ export default function OfferModal({ open, onClose }: OfferModalProps) {
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
           >
             {/* ── Header ─────────────────────────────────── */}
-            <div className="relative bg-gradient-to-br from-[#3d2211] to-[#1a0a04] px-6 pt-6 pb-10 overflow-hidden">
+            <div className="relative bg-gradient-to-br from-[#14532d] to-[#052e16] px-6 pt-6 pb-10 overflow-hidden">
               {/* Decorative circles */}
               <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-white/5 pointer-events-none" />
               <div className="absolute top-6 right-14 w-16 h-16 rounded-full bg-white/5 pointer-events-none" />
@@ -163,13 +146,8 @@ export default function OfferModal({ open, onClose }: OfferModalProps) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.12 + i * 0.07 }}
                 >
-                  <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-white/10">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="w-full h-full object-cover opacity-70"
-                      loading="lazy"
-                    />
+                  <div className="w-10 h-10 rounded-lg flex-shrink-0 bg-white/10 flex items-center justify-center text-xl">
+                    <span aria-hidden="true">{p.emoji}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sand text-sm font-heading font-bold leading-tight truncate">
